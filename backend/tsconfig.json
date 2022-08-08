@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "baseUrl": "src",
+		"paths": {
+      "@controllers": ["controllers"],
+      "@controllers/*": ["controllers/*"],
+      "@entities": ["entities"],
+			"@entities/*": ["entities/*"],
+      "@repositories": ["repositories"],
+			"@repositories/*": ["repositories/*"],
+      "@use-cases": ["use-cases"],
+			"@use-cases/*": ["use-cases/*"],
+		}
+  }
+}
