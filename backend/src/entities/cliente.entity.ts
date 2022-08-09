@@ -1,3 +1,3 @@
-import { Cliente } from "../database/prismaClient";
+import { Cliente } from "@frameworks/database/prisma/client";
 
 export { Cliente };

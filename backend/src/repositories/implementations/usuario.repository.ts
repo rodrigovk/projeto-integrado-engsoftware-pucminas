@@ -1,4 +1,4 @@
-import { prismaClient } from "../../database/prismaClient";
+import { prismaClient } from "@frameworks/database/prisma/client";
 import { Usuario } from "@entities";
 import { IUsuarioRepository } from "../usuario.repository";
 

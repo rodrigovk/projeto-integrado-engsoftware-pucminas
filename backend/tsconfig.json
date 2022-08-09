@@ -11,8 +11,10 @@
       "@controllers/*": ["controllers/*"],
       "@entities": ["entities"],
 			"@entities/*": ["entities/*"],
+      "@frameworks/*": ["frameworks/*"],
       "@repositories": ["repositories"],
 			"@repositories/*": ["repositories/*"],
+      "@shared/*": ["shared/*"],
       "@use-cases": ["use-cases"],
 			"@use-cases/*": ["use-cases/*"],
 		}

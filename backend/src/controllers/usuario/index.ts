@@ -1,9 +1,7 @@
 import { PrismaUsuarioRepository } from "@repositories/implementations/usuario.repository";
 
-import { FindUsuarioByIdUsuarioUseCase } from "@use-cases/usuario/find-usuario.use-case";
+import { ValidateUsuarioUseCase, FindUsuarioByIdUsuarioUseCase, CreateUsuarioUseCase } from "@use-cases/usuario";
 import { FindUsuarioByIdUsuarioController } from "./find-usuario.controller";
-
-import { ValidateUsuarioUseCase, CreateUsuarioUseCase } from "@use-cases/usuario";
 import { CreateUsuarioController } from "./create-usuario.controller";
 
 const usuarioRepository = new PrismaUsuarioRepository();

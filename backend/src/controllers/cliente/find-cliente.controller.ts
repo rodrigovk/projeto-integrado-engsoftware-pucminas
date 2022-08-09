@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { FindClienteByIdClienteUseCase } from "@use-cases/cliente/find-cliente.use-case";
+import { FindClienteByIdClienteUseCase } from "@use-cases/cliente";
+import { BadRequestException } from "@shared/exceptions/http-exception";
 
 export class FindClienteByIdClienteController {
   constructor(
@@ -10,17 +11,11 @@ export class FindClienteByIdClienteController {
     const idCliente: number = Number(request.params.id);
 
     if (isNaN(idCliente)) { //?
-      throw new Error("ID inv·lida.");
+      throw new BadRequestException("ID inv√°lida.");
     }
+    
+    const cliente = await this.findClienteByIdClienteUseCase.execute(idCliente);
 
-    try {
-      const cliente = await this.findClienteByIdClienteUseCase.execute(idCliente);
-  
-      return response.status(201).json(cliente);
-    } catch (err) {
-      return response.status(400).json({
-        message: err instanceof Error ? err.message : '' || 'Erro inesperado.'
-      })
-    }
+    return response.status(201).json(cliente);
   }
 }
