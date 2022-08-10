@@ -7,6 +7,6 @@ export class CreateClienteUseCase {
   ) {}
 
   async execute(cliente: Cliente) : Promise<void> {
-    return this.clienteRepository.create(cliente);
+    return await this.clienteRepository.create(cliente);
   }
 }

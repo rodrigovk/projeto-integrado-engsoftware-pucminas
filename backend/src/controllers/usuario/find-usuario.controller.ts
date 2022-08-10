@@ -15,7 +15,10 @@ export class FindUsuarioByIdUsuarioController {
     }
 
     const usuario = await this.findUsuarioByIdUsuarioUseCase.execute(idUsuario);
+    if (!usuario) {
+      throw new BadRequestException("Usuário não encontrado.");
+    }
 
-    return response.status(201).json(usuario);
+    return response.status(200).json(usuario);
   }
 }

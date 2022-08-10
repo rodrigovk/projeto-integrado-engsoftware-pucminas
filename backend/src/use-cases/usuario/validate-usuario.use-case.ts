@@ -8,9 +8,9 @@ export class ValidateUsuarioUseCase {
   ) {}
 
   async execute(usuario: Usuario) : Promise<void> {
-    if (!usuario.idUsuario) {
-      throw new BadRequestException('ID não informada.'); 
-    }
+    // if (!usuario.idUsuario) {
+    //   throw new BadRequestException('ID não informada.'); 
+    // }
 
     if (!usuario.email) {
       throw new BadRequestException('E-mail não informado.');
@@ -23,8 +23,8 @@ export class ValidateUsuarioUseCase {
     //return this.usuarioRepository.create(usuario);
     return this.usuarioRepository
       .findByEmail(usuario.email)
-      .then((userWithEmail) => {
-        if (userWithEmail) {
+      .then((usuarioComEmail) => {
+        if (usuarioComEmail) {
           throw new BadRequestException(`Já existe um usuário com o e-mail ${usuario.email}.`);
         }
         //return userRepository.findByProperty({ email });

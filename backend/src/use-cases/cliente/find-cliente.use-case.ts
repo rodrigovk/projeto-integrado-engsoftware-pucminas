@@ -7,6 +7,6 @@ export class FindClienteByIdClienteUseCase {
   ) {}
 
   async execute(idCliente: number) : Promise<Cliente | null> {
-    return this.clienteRepository.findByIdCliente(idCliente);
+    return await this.clienteRepository.findByIdCliente(idCliente);
   }
 }

@@ -13,8 +13,10 @@ export class CreateUsuarioController {
 
     await this.validateUsuarioUseCase.execute(usuario);
 
-    await this.createUsuarioUseCase.execute(usuario);
+    const usuarioCriado = await this.createUsuarioUseCase.execute(usuario);
 
-    return response.status(204).send();
+    return response.status(200).json({
+      idUsuario: usuarioCriado.idUsuario
+    });
   }
 }

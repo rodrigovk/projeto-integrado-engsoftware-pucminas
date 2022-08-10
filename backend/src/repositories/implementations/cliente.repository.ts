@@ -11,7 +11,23 @@ export class PrismaClienteRepository implements IClienteRepository {
       },
     });
   }
+  
+  async findByIdUsuario(idUsuario: number): Promise<Cliente | null> {
+    return await prismaClient.cliente.findFirst({
+      where: {
+        idUsuario,
+      },
+    });
+  }
 
+  async findByCnpjCpf(cnpjCpf: string): Promise<Cliente | null> {
+    return await prismaClient.cliente.findFirst({
+      where: {
+        cnpjCpf,
+      },
+    });
+  }
+  
   async create(cliente: Cliente): Promise<void> {
     await prismaClient.cliente.create({ data: cliente });
   }

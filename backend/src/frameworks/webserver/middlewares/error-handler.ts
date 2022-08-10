@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpException } from "@shared/exceptions/http-exception";
 
-export default function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+export default function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
   let status = 500;
   let message = 'Ocorreu um erro inesperado.';
 

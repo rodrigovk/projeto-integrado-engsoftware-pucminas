@@ -11,31 +11,61 @@ model Usuario {
   idUsuario     Int            @id @default(autoincrement()) @map("id_usuario")
   email         String         @unique
   senha         String
-  Administrador Administrador?
-  Cliente       Cliente?
+  administrador Administrador?
+  cliente       Cliente?
 
   @@index([email])
   @@map("usuario")
 }
 
 model Administrador {
-  idAdministrador Int     @id @default(autoincrement()) @map("id_administrador")
-  idUsuario       Int     @unique @map("id_usuario")
-  usuario         Usuario @relation(fields: [idUsuario], references: [idUsuario])
+  idAdministrador Int              @id @default(autoincrement()) @map("id_administrador")
+  idUsuario       Int              @unique @map("id_usuario")
+  usuario         Usuario          @relation(fields: [idUsuario], references: [idUsuario])
   nome            String
   situacao        Int
+  respostasTicket TicketResposta[]
 
   @@map("administrador")
 }
 
 model Cliente {
-  idCliente Int     @id @default(autoincrement()) @map("id_cliente")
-  idUsuario Int     @unique @map("id_usuario")
-  usuario   Usuario @relation(fields: [idUsuario], references: [idUsuario])
-  nome      String
-  situacao  Int
-  tipo      Int
-  cnpjCpf   String  @map("cnpj_cpf")
+  idCliente       Int              @id @default(autoincrement()) @map("id_cliente")
+  idUsuario       Int              @unique @map("id_usuario")
+  usuario         Usuario          @relation(fields: [idUsuario], references: [idUsuario])
+  nome            String
+  situacao        Int
+  tipo            Int
+  cnpjCpf         String           @map("cnpj_cpf")
+  tickets         Ticket[]
+  respostasTicket TicketResposta[]
 
   @@map("cliente")
+}
+
+model Ticket {
+  idTicket    Int              @id @default(autoincrement()) @map("id_ticket")
+  idCliente   Int              @map("id_cliente")
+  cliente     Cliente          @relation(fields: [idCliente], references: [idCliente])
+  assunto     String
+  situacao    Int
+  descricao   String
+  dataCriacao DateTime         @default(now()) @map("data_criacao")
+  respostas   TicketResposta[]
+
+  @@map("ticket")
+}
+
+model TicketResposta {
+  idTicket        Int            @map("id_ticket")
+  idResposta      Int            @default(autoincrement()) @map("id_resposta")
+  ticket          Ticket         @relation(fields: [idTicket], references: [idTicket])
+  idAdministrador Int            @map("id_administrador")
+  administrador   Administrador? @relation(fields: [idAdministrador], references: [idAdministrador])
+  idCliente       Int            @map("id_cliente")
+  cliente         Cliente?       @relation(fields: [idCliente], references: [idCliente])
+  mensagem        String
+
+  @@id([idTicket, idResposta])
+  @@map("ticket_resposta")
 }

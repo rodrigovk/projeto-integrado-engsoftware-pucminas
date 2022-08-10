@@ -6,7 +6,7 @@ export class CreateUsuarioUseCase {
     private usuarioRepository: IUsuarioRepository,
   ) {}
 
-  async execute(usuario: Usuario) : Promise<void> {
-    return this.usuarioRepository.create(usuario);
+  async execute(usuario: Usuario) : Promise<Usuario> {
+    return await this.usuarioRepository.create(usuario);
   }
 }
