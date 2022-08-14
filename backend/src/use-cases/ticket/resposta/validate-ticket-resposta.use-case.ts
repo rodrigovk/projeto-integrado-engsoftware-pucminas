@@ -27,13 +27,13 @@ export class ValidateTicketRespostaUseCase {
       }
     }
 
-    if (resposta.idAdministrador !== null) {
+    if (resposta.idAdministrador != null) {
       const administrador = await this.administradorRepository.findByIdAdministrador(resposta.idAdministrador);
       if (!administrador) {
         throw new BadRequestException("Administrador não encontrado.");
       }
     } else 
-    if (resposta.idCliente !== null) {
+    if (resposta.idCliente != null) {
       const cliente = await this.clienteRepository.findByIdCliente(resposta.idCliente);
       if (!cliente) {
         throw new BadRequestException("Cliente não encontrado.");
@@ -50,7 +50,7 @@ export class ValidateTicketRespostaUseCase {
       throw new BadRequestException("Mensagem possui menos de 20 caracteres.");
     }
 
-    if (resposta.mensagem.length < 500) { //?
+    if (resposta.mensagem.length > 500) { //?
       throw new BadRequestException("Mensagem possui mais de 500 caracteres.");
     }
   }

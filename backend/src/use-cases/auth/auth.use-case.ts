@@ -11,7 +11,6 @@ export class AuthUseCase {
       throw new UnauthorizedException("E-mail não informado.");
     }
 
-    console.log(email)
     const usuario = await this.usuarioRepository.findByEmail(email);
     if (!usuario) {
       throw new UnauthorizedException("Usuário não encontrado.");

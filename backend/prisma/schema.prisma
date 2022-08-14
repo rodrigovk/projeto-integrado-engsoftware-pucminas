@@ -60,9 +60,9 @@ model TicketResposta {
   idTicket        Int            @map("id_ticket")
   idResposta      Int            @default(autoincrement()) @map("id_resposta")
   ticket          Ticket         @relation(fields: [idTicket], references: [idTicket])
-  idAdministrador Int            @map("id_administrador")
+  idAdministrador Int?           @map("id_administrador")
   administrador   Administrador? @relation(fields: [idAdministrador], references: [idAdministrador])
-  idCliente       Int            @map("id_cliente")
+  idCliente       Int?           @map("id_cliente")
   cliente         Cliente?       @relation(fields: [idCliente], references: [idCliente])
   mensagem        String
 
