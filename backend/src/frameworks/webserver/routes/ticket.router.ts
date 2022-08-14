@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { createTicketController, findTicketByIdTicketController, findManyTicketByIdTicketController } from "@controllers/ticket";
+import { createTicketController, findTicketByIdTicketController, findManyTicketByIdTicketController,
+  createTicketRespostaController } from "@controllers/ticket";
 
 const router = Router();
 
@@ -8,6 +9,6 @@ router.get("/tickets/:id", (request, response) => { return findTicketByIdTicketC
 router.post("/tickets", (request, response) => { return createTicketController.handle(request, response) });
 
 // resposta
-//?router.post("/tickets/:id/respostas", (request, response) => { return createTicketRespostaController.handle(request, response) });
+router.post("/tickets/:id/respostas", (request, response) => { return createTicketRespostaController.handle(request, response) });
 
 export default router;

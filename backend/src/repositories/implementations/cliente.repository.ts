@@ -27,8 +27,12 @@ export class PrismaClienteRepository implements IClienteRepository {
       },
     });
   }
+
+  async findMany(): Promise<Cliente[]> {
+    return await prismaClient.cliente.findMany({});
+  }
   
-  async create(cliente: Cliente): Promise<void> {
-    await prismaClient.cliente.create({ data: cliente });
+  async create(cliente: Cliente): Promise<Cliente> {
+    return await prismaClient.cliente.create({ data: cliente });
   }
 }

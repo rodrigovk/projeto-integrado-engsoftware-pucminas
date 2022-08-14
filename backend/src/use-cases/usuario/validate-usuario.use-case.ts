@@ -9,15 +9,15 @@ export class ValidateUsuarioUseCase {
 
   async execute(usuario: Usuario) : Promise<void> {
     // if (!usuario.idUsuario) {
-    //   throw new BadRequestException('ID não informada.'); 
+    //   throw new BadRequestException("ID não informada."); 
     // }
 
     if (!usuario.email) {
-      throw new BadRequestException('E-mail não informado.');
+      throw new BadRequestException("E-mail não informado.");
     }
 
     if (!usuario.senha) {
-      throw new BadRequestException('Senha não informada.');
+      throw new BadRequestException("Senha não informada.");
     }
 
     //return this.usuarioRepository.create(usuario);

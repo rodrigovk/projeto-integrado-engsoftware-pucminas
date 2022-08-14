@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Cliente, ClienteSituacao, ClienteTipo } from "@entities";
 import { CreateClienteUseCase, ValidateClienteUseCase } from "@use-cases/cliente";
+import validateRequestBodyJson from "@frameworks/webserver/validate-request-body-json";
 
 export class CreateClienteController {
   constructor(
@@ -9,6 +10,7 @@ export class CreateClienteController {
   ) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
+    validateRequestBodyJson(request);
     const cliente: Cliente = request.body;
 
     cliente.situacao = ClienteSituacao.ativo;
@@ -16,8 +18,8 @@ export class CreateClienteController {
 
     await this.validateClienteUseCase.execute(cliente);
 
-    await this.createClienteUseCase.execute(cliente);
+    const clienteCriado = await this.createClienteUseCase.execute(cliente);
 
-    return response.status(204).send();
+    return response.status(200).json(clienteCriado);
   }
 }

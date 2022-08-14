@@ -16,7 +16,7 @@ export class FindTicketByIdTicketController {
 
     const ticket = await this.findTicketByIdTicketUseCase.execute(idTicket);
     if (!ticket) {
-      throw new BadRequestException("Usuário não encontrado.");
+      throw new BadRequestException("Ticket não encontrado.");
     }
 
     return response.status(200).json(ticket);

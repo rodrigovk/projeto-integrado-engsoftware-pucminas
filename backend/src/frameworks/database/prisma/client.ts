@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient, 
   Usuario, 
-  Cliente, 
+  Administrador, Cliente, 
   Ticket, TicketResposta } from "@prisma/client";
 
 const prismaClient = new PrismaClient({
@@ -9,5 +9,5 @@ const prismaClient = new PrismaClient({
 
 export { Prisma, prismaClient, 
   Usuario, 
-  Cliente, 
+  Administrador, Cliente, 
   Ticket, TicketResposta };

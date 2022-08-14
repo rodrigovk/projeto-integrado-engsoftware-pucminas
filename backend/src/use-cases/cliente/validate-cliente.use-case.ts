@@ -12,7 +12,7 @@ export class ValidateClienteUseCase {
     //   throw new BadRequestException("ID não informada."); 
     // }
     
-    if (cliente.idUsuario === null) {
+    if (cliente.idUsuario == null) {
       throw new BadRequestException("Usuário não informado.");
     }
 
@@ -24,11 +24,11 @@ export class ValidateClienteUseCase {
       throw new BadRequestException("Nome não informado.");
     }
     
-    if (cliente.situacao === null) {
+    if (cliente.situacao == null) {
       throw new BadRequestException("Situação não informada.");
     }
     
-    if (cliente.tipo === null) {
+    if (cliente.tipo == null) {
       throw new BadRequestException("Tipo não informado.");
     }
 

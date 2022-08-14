@@ -1,12 +1,12 @@
 import { IClienteRepository } from "@repositories/cliente.repository";
 import { Cliente } from "@entities";
 
-export class CreateClienteUseCase {
+export class FindManyClienteUseCase {
   constructor(
     private clienteRepository: IClienteRepository,
   ) {}
 
-  async execute(cliente: Cliente) : Promise<Cliente> {
-    return await this.clienteRepository.create(cliente);
+  async execute() : Promise<Cliente[]> {
+    return await this.clienteRepository.findMany();
   }
 }

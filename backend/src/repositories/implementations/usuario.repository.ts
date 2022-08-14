@@ -38,7 +38,7 @@ export class PrismaUsuarioRepository implements IUsuarioRepository {
       });
     } catch (err) {
       if (err instanceof Prisma.PrismaClientKnownRequestError) {
-        if (err.code === 'P2025') {
+        if (err.code === "P2025") {
           throw new BadRequestException("Usuário não encontrado.");
         }
       }

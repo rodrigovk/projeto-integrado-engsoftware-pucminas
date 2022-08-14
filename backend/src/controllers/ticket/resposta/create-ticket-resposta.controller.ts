@@ -1,19 +1,23 @@
 import { Request, Response } from "express";
 import { TicketResposta } from "@entities";
-import { CreateTicketRespostaUseCase } from "@use-cases/ticket";
+import { CreateTicketRespostaUseCase, ValidateTicketRespostaUseCase } from "@use-cases/ticket";
+import validateRequestBodyJson from "@frameworks/webserver/validate-request-body-json";
 
 export class CreateTicketRespostaController {
   constructor(
     private createTicketRespostaUseCase: CreateTicketRespostaUseCase,
+    private validateTicketRespostaUseCase: ValidateTicketRespostaUseCase,
   ) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
+    console.log("1234")
+    validateRequestBodyJson(request);
     const ticketResposta: TicketResposta = request.body;
+
+    await this.validateTicketRespostaUseCase.execute(ticketResposta);
 
     const ticketRespostaCriado = await this.createTicketRespostaUseCase.execute(ticketResposta);
 
-    return response.status(200).json({
-      idTicket: ticketRespostaCriado.idTicket
-    });
+    return response.status(200).json(ticketRespostaCriado);
   }
 }

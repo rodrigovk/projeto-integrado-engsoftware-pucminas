@@ -1,9 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 import { HttpException } from "@shared/exceptions/http-exception";
 
 export default function errorHandler(err: Error, _req: Request, res: Response, _next: NextFunction) {
   let status = 500;
-  let message = 'Ocorreu um erro inesperado.';
+  let message = "Ocorreu um erro inesperado.";
 
   if (err instanceof HttpException) {
     status = err.status || status;

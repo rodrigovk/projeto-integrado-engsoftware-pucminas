@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Ticket, TicketSituacao } from "@entities";
 import { ValidateTicketUseCase, CreateTicketUseCase } from "@use-cases/ticket";
+import validateRequestBodyJson from "@frameworks/webserver/validate-request-body-json";
 
 export class CreateTicketController {
   constructor(
@@ -9,6 +10,7 @@ export class CreateTicketController {
   ) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
+    validateRequestBodyJson(request);
     const ticket: Ticket = request.body;
 
     ticket.situacao = TicketSituacao.aberto;
@@ -17,8 +19,6 @@ export class CreateTicketController {
 
     const ticketCriado = await this.createTicketUseCase.execute(ticket);
 
-    return response.status(200).json({
-      idTicket: ticketCriado.idTicket
-    });
+    return response.status(200).json(ticketCriado);
   }
 }
