@@ -10,7 +10,6 @@ export class CreateTicketRespostaController {
   ) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    console.log("1234")
     validateRequestBodyJson(request);
     const ticketResposta: TicketResposta = request.body;
 

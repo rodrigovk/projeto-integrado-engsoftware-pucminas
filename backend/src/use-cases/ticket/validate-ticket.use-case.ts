@@ -34,5 +34,21 @@ export class ValidateTicketUseCase {
     if (ticket.situacao == null) {
       throw new BadRequestException("Situação não informada.");
     }
+
+    if (ticket.assunto.length < 10) { //?
+      throw new BadRequestException("Assunto possui menos de 10 caracteres.");
+    }
+
+    if (ticket.assunto.length > 100) { //?
+      throw new BadRequestException("Assunto possui mais de 100 caracteres.");
+    }
+
+    if (ticket.descricao.length < 20) { //?
+      throw new BadRequestException("Descrição possui menos de 20 caracteres.");
+    }
+
+    if (ticket.descricao.length > 500) { //?
+      throw new BadRequestException("Descrição possui mais de 500 caracteres.");
+    }
   }
 }

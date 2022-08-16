@@ -1,12 +1,13 @@
 import { IUsuarioRepository } from "@repositories/usuario.repository";
 import { UnauthorizedException } from "@shared/exceptions/http-exception";
+import { Usuario } from "@prisma/client";
 
 export class AuthUseCase {
   constructor(
     private usuarioRepository: IUsuarioRepository,
   ) {}
 
-  async execute(email: string, senha: string) : Promise<void> {
+  async execute(email: string, senha: string) : Promise<Usuario> {
     if (!email) {
       throw new UnauthorizedException("E-mail não informado.");
     }
@@ -21,5 +22,6 @@ export class AuthUseCase {
     }
 
     //return ((await this.usuarioRepository.findByEmail(email)) != null);
+    return usuario;
   }
 }

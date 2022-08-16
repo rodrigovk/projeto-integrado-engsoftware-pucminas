@@ -13,7 +13,21 @@ export class PrismaTicketRepository implements ITicketRepository {
       include: {
         respostas: {
           include: {
-            ticket: true,
+            ticket: false,
+            administrador: {
+              select: {
+                idAdministrador: true,
+                situacao: true,
+                nome: true,
+              }
+            },
+            cliente: {
+              select: {
+                idCliente: true,
+                situacao: true,
+                nome: true,
+              }
+            }
           }
         }
       }
@@ -24,16 +38,34 @@ export class PrismaTicketRepository implements ITicketRepository {
     return await prismaClient.ticket.findMany({
       where: {
         idCliente
+      },
+      orderBy: {
+        dataCriacao: 'desc',
       }
     });
   }
 
   async findMany(): Promise<Ticket[]> {
-    return await prismaClient.ticket.findMany({});
+    return await prismaClient.ticket.findMany({
+      orderBy: {
+        dataCriacao: 'desc',
+      }
+    });
   }
 
   async create(ticket: Ticket): Promise<Ticket> {
     return await prismaClient.ticket.create({ data: ticket });
+  }
+
+  async alterSituacao(idTicket: number, situacao: number): Promise<void> {
+    await prismaClient.ticket.update({
+      where: {
+        idTicket: idTicket,
+      },
+      data: {
+        situacao: situacao,
+      }
+    });
   }
 
   async delete(idTicket: number): Promise<void> {

@@ -1,4 +1,4 @@
-import { TicketResposta } from "@entities";
+import { TicketResposta, TicketSituacao } from "@entities";
 import { IAdministradorRepository } from "@repositories/administrador.repository";
 import { IClienteRepository } from "@repositories/cliente.repository";
 import { ITicketRepository } from "@repositories/ticket.repository";
@@ -40,6 +40,10 @@ export class ValidateTicketRespostaUseCase {
       }
     } else {
       throw new BadRequestException("Cliente e Administrador não informado.");
+    }
+
+    if (ticket.situacao !== TicketSituacao.aberto) {
+      throw new BadRequestException("Ticket não encontra-se aberto.");
     }
 
     if (!resposta.mensagem) {

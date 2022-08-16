@@ -7,7 +7,7 @@ export default function basicAuth(): RequestHandler {
     authorizeAsync: true,
     authorizer: async (username: any, password: any, callback: any) => {
       try {
-        await authController.handle(username, password);
+        await authController.executeUseCase(username, password);
         return callback(null, true);
       } catch (err) {
         throw err; //return callback(null, false);
