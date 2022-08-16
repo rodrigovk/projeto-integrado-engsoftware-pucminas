@@ -1,3 +1,5 @@
 import { app } from "@frameworks/webserver/app";
 
-app.listen(4003, () => console.log("Server is running on PORT 4003"));
+const port = process.env.PORT || 4003;
+
+app.listen(port, () => console.log(`Server is running on PORT ${port}`));
