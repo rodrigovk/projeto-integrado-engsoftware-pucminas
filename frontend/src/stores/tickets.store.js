@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia';
-//?import { fetchWrapper } from '@/helpers';
-import { requestWrapper } from '@/helpers';
+import { requestData } from '@/helpers';
 import { useAuthStore } from '@/stores/auth.store';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export const useTicketsStore = defineStore('ticketsStore', {
   state: () => {
-    return { 
+    return {
       tickets: [
         // {
         //   idTicket: 1,
@@ -29,44 +28,51 @@ export const useTicketsStore = defineStore('ticketsStore', {
     init() {
       this.getTickets();
     },
+
     async getTickets() {
       this.ticketsLoaded = false;
 
       const authStore = useAuthStore();
+      const url = baseUrl + (authStore.user.isAdministrador ? '/tickets' : `/clientes/${authStore.user.idCliente}/tickets`);
 
-      const url = baseUrl + (authStore.user.isAdministrador ? '/tickets' : `/clientes/${authStore.user.idCliente}/tickets`); //`${baseUrl}/tickets`
-      requestWrapper.get(url).then((dados) => { 
-        this.tickets = dados;
-        this.ticketsLoaded = true;
-      }).catch(err => {
-        console.log('error.message: ', err);
-      });
+      requestData.get(url)
+        .then(res => {
+          this.tickets = res.data;
+          this.ticketsLoaded = true;
+        })
+        .catch(err => {
+          console.log('error.message: ', err);
+        });
     },
+
     clearTickets() {
       this.tickets = [];
     },
+
     async getTicket(idTicket) {
-      return requestWrapper.get(`${baseUrl}/tickets/${idTicket}`).then((dados) => {
-        return dados;
-      }).catch(err => {
-        console.log('error.message: ', err);
-      });
-    },
-    async postTicket(dados) {
-      await requestWrapper.post(`${baseUrl}/tickets`, dados)
-        .catch((err) => {
+      return requestData.get(`${baseUrl}/tickets/${idTicket}`)
+        .catch(err => {
           console.log('error.message: ', err);
         });
     },
+
+    async postTicket(data) {
+      return requestData.post(`${baseUrl}/tickets`, data)
+        .catch(err => {
+          console.log('error.message: ', err);
+        });
+    },
+
     async putTicketSituacao(idTicket, situacao) {
-      await requestWrapper.put(`${baseUrl}/tickets/${idTicket}/situacao`, { situacao })
-        .catch((err) => {
+      return requestData.put(`${baseUrl}/tickets/${idTicket}/situacao`, { situacao })
+        .catch(err => {
           console.log('error.message: ', err);
         });
     },
-    async postResposta(dados) {
-      await requestWrapper.post(`${baseUrl}/tickets/${dados.idTicket}/respostas`, dados)
-        .catch((err) => {
+
+    async postResposta(data) {
+      return requestData.post(`${baseUrl}/tickets/${data.idTicket}/respostas`, data)
+        .catch(err => {
           console.log('error.message: ', err);
         });
     },
@@ -74,18 +80,12 @@ export const useTicketsStore = defineStore('ticketsStore', {
   getters: {
     getTicketContent: (state) => {
       return (id) => {
-        return state.tickets.filter(ticket => ticket.id === id )[0].content;
+        return state.tickets.filter(ticket => ticket.id === id)[0].content;
       }
     },
+
     totalTicketsCount: (state) => {
       return state.tickets.length
     },
-    // totalCharactersCount: (state) => {
-    //   let count = 0
-    //   state.tickets.forEach(note => {
-    //     count += note.content.length
-    //   })
-    //   return count
-    // }
   }
 })

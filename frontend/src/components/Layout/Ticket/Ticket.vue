@@ -20,7 +20,7 @@ const dataCriacaoFormatada = computed(() => {
 
 const encerrar = () => {
   store.putTicketSituacao(props.ticket.idTicket, 1)
-    .then(router.go())
+    .then(data => router.go())
     .catch(error => setErrors({ apiError: error }));
 }
 </script>

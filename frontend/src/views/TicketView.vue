@@ -19,13 +19,14 @@
   const ticket = ref({}); 
 
   onMounted(async () => {
-    store.getTicket(route.params.id).then((dados) => {
-      ticket.value = dados;
-    })
+    store.getTicket(route.params.id)
+      .then(res => {
+        ticket.value = res.data;
+      });
   })
 
   const dataCriacaoFormatada = computed(() => {
-    let formattedDate = useDateFormat(ticket.dataCriacao, 'DD-MM-YYYY HH:mm')
+    let formattedDate = useDateFormat(ticket.value.dataCriacao, 'DD-MM-YYYY HH:mm')
     return formattedDate.value
   });
 
@@ -35,7 +36,7 @@
 </script>
 
 <template>
-  <div class="block p-6 mb-3" v-if="ticket">
+  <div class="block p-6 mb-3" v-if="ticket.idTicket">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
       {{ ticket.assunto }}
       <button type="button"

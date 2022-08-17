@@ -1,30 +1,6 @@
 import axios from 'axios';
 import { useAuthStore } from '@/stores';
 
-export const requestWrapper = {
-  get: request('get'),
-  post: request('post'),
-  put: request('put'),
-  delete: request('delete')
-};
-
-function request(method) {
-  return (url, body) => {
-    const config = {
-      url,
-      method,
-      auth: authBasic(url),
-      headers: {}
-    };
-    if (body) {
-      config.headers['Content-Type'] = 'application/json';
-      config.data = JSON.stringify(body);
-    }
-
-    return axios.request(config).then(handleResponse);
-  }
-}
-
 function authBasic(url) {
   const { user } = useAuthStore();
   const isLoggedIn = !!user?.idUsuario;
@@ -52,4 +28,134 @@ function handleResponse(response) {
   }
 
   return response.data;
-}    
+}
+
+const base = async (method, url, data) => {
+  const CancelToken = axios.CancelToken;
+  let source = CancelToken.source();
+  setTimeout(() => {
+    source.cancel();
+  }, 10000);
+
+  const config = {
+    url,
+    method,
+    auth: authBasic(url),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+    cancelToken: source.token,
+  };
+
+  if (data) {
+    config.data = JSON.stringify(data);
+  }
+
+  return await axios(config)
+    .then(res => {
+      return Promise.resolve(res);
+    })
+    .catch(err => {
+      if (err.response) {
+        if (err.response.data) {
+          if (err.response.data.message) {
+            return Promise.reject(err.response.data.message);
+          }
+        }
+
+        return Promise.reject(err.response);
+      } else {
+        return Promise.reject('TIMEOUT');
+      }
+    });
+};
+
+const requestBase = (method) => {
+  return async (url) => {
+    return await base(method, url)
+      .then(res => Promise.resolve(res))
+      .catch(err => Promise.reject(err));
+  }
+};
+
+const requestDataBase = (method) => {
+  return async (url, data) => {
+    return await base(method, url, data)
+      .then(res => Promise.resolve(res))
+      .catch(err => Promise.reject(err));
+  }
+};
+
+export const request = {
+  get: requestBase('get'),
+  post: requestBase('post'),
+  put: requestBase('put'),
+  delete: requestBase('delete')
+};
+
+export const requestData = {
+  get: requestDataBase('get'),
+  post: requestDataBase('post'),
+  put: requestDataBase('put'),
+  delete: requestDataBase('delete')
+};
+
+//////////////////////////
+
+// export default {
+//   request,
+//   requestData,
+// };
+
+/*const base = async (method, url, data) => {
+  const CancelToken = axios.CancelToken;
+  let source = CancelToken.source();
+  setTimeout(() => {
+    source.cancel();
+  }, 10000);
+
+  const config = {
+    url,
+    method,
+    auth: authBasic(url),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+    cancelToken: source.token,
+  };
+
+  if (data) {
+    config.data = JSON.stringify(data);
+  }
+
+  return await axios(config)
+    .then(res => {
+      return Promise.resolve(res);
+    })
+    .catch(err => {
+      if (err.response) {
+        return Promise.reject(err.response);
+      } else {
+        return Promise.reject('TIMEOUT');
+      }
+    });
+};
+
+// const request = async (method, url) => {
+//   return await base({method, url})
+//     .then(res => Promise.resolve(res))
+//     .catch(err => Promise.reject(err));
+// };
+
+export const requestData = async (method, url, data) => {
+  return await base(method, url, data)
+    .then(res => Promise.resolve(res))
+    .catch(err => Promise.reject(err));
+};
+
+// export default {
+//   request,
+//   requestData,
+// };*/

@@ -52,7 +52,7 @@
     }
 
     store.postResposta(dados)
-      .then(router.go())
+      .then((data) => router.go())
       .catch(error => setErrors({ apiError: error }));
   }
 

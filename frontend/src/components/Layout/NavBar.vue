@@ -25,10 +25,9 @@ const logout = () => {
 </script>
 
 <template>
-  <nav class="navbar bg-teal-500" aria-label="main navigation" role="navigation" v-if="authStore.user.idUsuario">
-    <div class="container flex flex-wrap justify-between items-center mx-auto py-2 text-gray-100">
+  <nav class="navbar bg-teal-500 drop-shadow-md" aria-label="main navigation" role="navigation" v-if="authStore.user.idUsuario">
+    <div class="flex flex-wrap justify-between items-center py-2 text-gray-100">
       <div>
-
       </div>
 
       <router-link to="/">

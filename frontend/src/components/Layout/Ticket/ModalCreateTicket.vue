@@ -37,7 +37,7 @@
     document.removeEventListener('keyup', handleKeyboard)
   })
 
-  function onSubmit(values, { setErrors }) {
+  async function onSubmit(values, { setErrors }) {
     const authStore = useAuthStore();
     const store = useTicketsStore();
     
@@ -52,8 +52,33 @@
       dados.idCliente = authStore.user.idCliente;
     }
 
-    store.postTicket(dados)
-      .then(router.go())
+    // function p() {
+    //   return new Promise((resolve, reject) => {
+    //     setTimeout(() => {
+    //         resolve(10);
+    //     }, 1000);
+    //   });};
+
+    // store.p().then((result) => {
+    //     console.log(result);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve(result * 2);
+    //         }, 2000);
+    //     });
+    // }).then((result) => {
+    //     console.log(result);
+    //     return new Promise((resolve, reject) => {
+    //         setTimeout(() => {
+    //             resolve(result * 3);
+    //         }, 2000);
+    //     });
+    // }).then(result => console.log(result));
+
+    await store.postTicket(dados)
+      .then(_res => {
+        router.go();
+      })
       .catch(error => setErrors({ apiError: error }));
   }
 
