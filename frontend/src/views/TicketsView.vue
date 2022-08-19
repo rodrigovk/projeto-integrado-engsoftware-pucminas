@@ -1,43 +1,37 @@
 <script setup>
-  import { onMounted } from 'vue';
-  import { useAuthStore } from '@/stores';
-  import { useTicketsStore } from '@/stores';
-  import Ticket from '@/components/Ticket/Ticket.vue';
-  import ModalCreateTicket from '@/components/Ticket/ModalCreateTicket.vue';
+import { onMounted } from 'vue';
+import { useAuthStore } from '@/stores';
+import { useTicketsStore } from '@/stores';
+import SpinLoading from '@/components/layout/SpinLoading.vue';
+import Ticket from '@/components/Ticket/Ticket.vue';
+import ModalCreateTicket from '@/components/Ticket/ModalCreateTicket.vue';
 
-  const authStore = useAuthStore();
-  const ticketsStore = useTicketsStore();
+const authStore = useAuthStore();
+const ticketsStore = useTicketsStore();
 
-  onMounted(() => {
-    ticketsStore.init();
-  })
+onMounted(() => {
+  ticketsStore.init();
+})
 
-  const modals = reactive({
-    createTicket: true
-  });
+const modals = reactive({
+  createTicket: true
+});
 </script>
 
 <template>
-  <div class="">
-    <div v-if="!ticketsStore.ticketsLoaded" class="my-3 mx-3">
-      <div class="ml-3 inline-flex rounded-md shadow">
-        <button 
-          class="inline-flex items-center justify-center rounded-md border border-transparent bg-teal-500 px-5 py-3 text-base font-medium leading-6 text-white"
-          disabled>
-          <div
-            class="h-6 w-6 border-4 border-l-teal-300 border-r-teal-300 border-b-teal-300 border-t-white animate-spin ease-linear rounded-full mr-2">
-          </div>
+  <div class="h-full">
+    <div v-if="!ticketsStore.ticketsLoaded" class="h-full flex flex-row justify-center items-center">
+      <div class="flex items-center">
+        <SpinLoading class="h-8 w-8 text-teal-600" />
+        <p class="text-lg text-teal-600">
           Carregando...
-        </button>
+        </p>
       </div>
     </div>
 
     <template v-else>
       <div class="mb-0" v-if="!authStore.user.isAdministrador">
-        <ModalCreateTicket
-          v-if="modals.createTicket"
-          v-model="modals.createTicket"
-        />
+        <ModalCreateTicket v-if="modals.createTicket" v-model="modals.createTicket" />
       </div>
 
       <div class="flex flex-col justify-center p-6">

@@ -50,6 +50,7 @@ const getPaddingX = computed(() => { //? implementar
     'xs': 'px-3',
     'sm': 'px-3',
     'base': 'px-4',
+    'md': 'px-4',
     'lg': 'px-5',
   }
   return paddingX[props.customTextSize];
