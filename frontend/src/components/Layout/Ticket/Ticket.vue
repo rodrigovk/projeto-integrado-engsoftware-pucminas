@@ -2,6 +2,8 @@
 import { useRouter } from 'vue-router'
 import { useDateFormat } from '@vueuse/core';
 import { useTicketsStore } from '@/stores';
+import Button from '@/components/layout/Button.vue';
+import Tag from '@/components/layout/Tag.vue';
 
 const props = defineProps({
   ticket: {
@@ -20,8 +22,14 @@ const dataCriacaoFormatada = computed(() => {
 
 const encerrar = () => {
   store.putTicketSituacao(props.ticket.idTicket, 1)
-    .then(data => router.go())
+    .then(data => props.ticket.situacao = 1)
     .catch(error => setErrors({ apiError: error }));
+}
+
+const reabrir = () => {
+  store.putTicketSituacao(props.ticket.idTicket, 0)
+    .then(data => props.ticket.situacao = 0) 
+    .catch(error => setErrors({ apiError: error })); //? setErrors não funcionando pq não existe
 }
 </script>
 
@@ -29,12 +37,12 @@ const encerrar = () => {
   <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
       {{ ticket.assunto }}
-      <button type="button"
-        class="inline-block px-6 py-1.5 ml-2 bg-green-600 text-white font-medium text-xs leading-tight rounded-full ease-in-out"
-        disabled v-if="ticket.situacao === 1">Encerrado</button>
-      <button type="button"
-        class="inline-block px-6 py-1.5 ml-2 bg-blue-600 text-white font-medium text-xs leading-tight rounded-full ease-in-out"
-        disabled v-if="ticket.situacao === 0">Em aberto</button>
+      <Tag customColor="green" v-if="ticket.situacao === 1">
+        Encerrado
+      </Tag>
+      <Tag customColor="blue" v-if="ticket.situacao === 0">
+        Em aberto
+      </Tag>
     </h5>
 
     <p class="text-sm">
@@ -45,21 +53,24 @@ const encerrar = () => {
       {{ ticket.descricao }}
     </p>
 
-    <RouterLink :to="`/ticket/${ticket.idTicket}`" class="card-footer-item" href="#">
-      <button type="button"
-        class=" inline-block px-6 py-2.5 mr-2 bg-teal-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-teal-700 hover:shadow-lg focus:bg-teal-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-teal-800 active:shadow-lg transition duration-150 ease-in-out">
-        Abrir
-      </button>
+    <RouterLink 
+      :to="{
+        name: 'ticket',
+        params: {
+          id: ticket.idTicket
+        }
+      }" class="card-footer-item">
+      <Button class="mr-2">
+        Visualizar
+      </Button>
     </RouterLink>
 
-    <!-- <button type="button"
-      class=" inline-block px-6 py-2.5 mr-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
-      Excluir
-    </button> -->
+    <Button customColor="green" v-if="ticket.situacao === 0" @click="encerrar">
+      ENCERRAR
+    </Button>
 
-    <button type="button" v-if="ticket.situacao === 0" @click="encerrar"
-      class=" inline-block px-6 py-2.5 mr-2 bg-green-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out">
-      Encerrar
-    </button>
+    <Button v-if="ticket.situacao === 1" customColor="blue" @click="reabrir">
+      Reabrir
+    </Button>
   </div>
 </template>

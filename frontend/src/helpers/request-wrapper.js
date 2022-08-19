@@ -15,27 +15,27 @@ function authBasic(url) {
   }
 }
 
-function handleResponse(response) {
-  if (!(response.status >= 200 && response.status < 300)) {
-    const { user, logout } = useAuthStore();
-      if ([401, 403].includes(response.status) && user) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        logout();
-      }
+// function handleResponse(response) {
+//   if (!(response.status >= 200 && response.status < 300)) {
+//     const { user, logout } = useAuthStore();
+//       if ([401, 403].includes(response.status) && user) {
+//         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+//         logout();
+//       }
 
-      const error = response.data || response.statusText;
-      return Promise.reject(error);
-  }
+//       const error = response.data || response.statusText;
+//       return Promise.reject(error);
+//   }
 
-  return response.data;
-}
+//   return response.data;
+// }
 
 const base = async (method, url, data) => {
   const CancelToken = axios.CancelToken;
   let source = CancelToken.source();
   setTimeout(() => {
     source.cancel();
-  }, 10000);
+  }, 15000);
 
   const config = {
     url,

@@ -12,9 +12,9 @@
 </script>
 
 <template>
-  <div class="bg-gray-50 text-gray-800">
+  <div class="flex flex-col bg-gray-50 text-gray-800 h-screen">
     <NavBar class="" />
-    <div class="flex flex-row">
+    <div class="flex-1 flex flex-row">
       <Menu class="w-3/12 min-w-fit max-w-xs" />
   
       <main class="w-full">

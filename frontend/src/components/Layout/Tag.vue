@@ -10,23 +10,14 @@ const props = defineProps({
     type: String,
     default: 'xs',
   },
-  disabled: {
+  uppercase: {
     type: Boolean,
     default: false,
   },
-  uppercase: {
-    type: Boolean,
-    default: true,
-  },
-  paddingY: {
-    type: Number,
-    default: 3,
-  }
 });
 
 const getCores = computed(() => {
-  // let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-500`;
-  let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-700 focus:bg-${props.customColor}-700 active:bg-${props.customColor}-800`;
+  let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-700`;
   return cores;
 });
 
@@ -35,34 +26,23 @@ const getTextSize = computed(() => {
   return textSize;
 });
 
-const getPaddingX = computed(() => { //? implementar
-  const paddingX = {
-    'xs': '3',
-    'sm': '3',
-    'base': '4',
-    'lg': '5'
-  }
-  return `px-${paddingX[props.customTextSize] ?? '3'}`
-});
-
-const getPaddingY = computed(() => {
-  // const paddingY = {
-  //   'xs': '0.5',
-  //   'sm': '0.5',
-  //   'base': '1',
-  //   'lg': '1.5'
-  // }
-  // return `py-${paddingY[props.customTextSize] ?? '2'}`
-  return `py-${props.paddingY}`
-});
-
 const getUppercase = computed(() => {
   return props.uppercase ? 'uppercase' : '';
 });
 </script>
 
 <template>
-  <div class="inline-flex rounded-md shadow">
+  <button disabled 
+    class="inline-block px-3 py-1.5 ml-2 text-white font-medium text-xs leading-tight rounded-full ease-in-out"
+    :class="[
+        getCores,
+        getTextSize,
+        getUppercase,
+      ]">
+    <slot />
+  </button>
+
+  <!-- <div class="inline-flex rounded-md shadow">
     <button :disabled="props.disabled === true"
       class="inline-block rounded font-medium leading-tight text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0"
       :class="[
@@ -74,5 +54,5 @@ const getUppercase = computed(() => {
       ]">
       <slot />
     </button>
-  </div>
+  </div> -->
 </template>

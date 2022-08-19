@@ -7,9 +7,9 @@ const authStore = useAuthStore();
 
 <template>
   <div class="bg-slate-500 text-gray-100" v-if="authStore.user.idUsuario">
-    <MenuItem caption="Assinaturas" to="/assinaturas" v-if="authStore.user.isAdministrador" />
-    <MenuItem caption="Clientes" to="/clientes" v-if="authStore.user.isAdministrador" />
-    <MenuItem caption="Administradores" to="/administradores" v-if="authStore.user.isAdministrador" />
-    <MenuItem caption="Tickets de suporte" to="/tickets" />
+    <MenuItem caption="Assinaturas" :to="{ name: 'assinaturas' }" v-if="authStore.user.isAdministrador" />
+    <MenuItem caption="Clientes" :to="{ name: 'clientes' }" v-if="authStore.user.isAdministrador" />
+    <MenuItem caption="Administradores" :to="{ name: 'administradores' }" v-if="authStore.user.isAdministrador" />
+    <MenuItem caption="Tickets de suporte" :to="{ name: 'tickets' }" />
   </div>
 </template>

@@ -32,7 +32,7 @@ const logout = () => {
 
       <router-link to="/">
         <div class="navbar-brand flex flex-row items-center content-between">
-          <img class="w-16 h-16 mr-2 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
+          <img class="w-14 h-14 mr-2 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
           <div class="flex flex-col items-center">
             <div class="text-4xl font-normal tracking-wide">
               Global Soft

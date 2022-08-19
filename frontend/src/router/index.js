@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory, RouterView } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
 import HomeView from '@/views/HomeView.vue';
 import AuthView from '@/views/AuthView.vue';
@@ -34,20 +34,27 @@ const routes = [
     name: 'administradores',
     component: AdministradoresView
   },
+  // para que a propriedade isActive do RouterLink/router-link funcione corretamente, preciso declarar as rotas desta forma (children de uma routa "vazia")
   {
     path: '/tickets',
-    name: 'tickets',
-    component: TicketsView
-  },
-  {
-    path: '/ticket/:id',
-    name: 'ticket',
-    component: TicketView
+    component: { render: () => h(RouterView) },
+    children: [
+      { 
+        path: '',
+        name: 'tickets',
+        component: () => import('@/views/TicketsView.vue') //TicketsView,
+      },
+      { 
+        path: '/:id',
+        name: 'ticket',
+        component: () => import('@/views/TicketView.vue') //TicketView
+      }
+    ]
   },
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory(), //createWebHistory(), 
   routes
 })
 
