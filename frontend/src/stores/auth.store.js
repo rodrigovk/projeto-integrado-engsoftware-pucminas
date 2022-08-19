@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
-// import { fetchWrapper } from '@/helpers'; //?
 import { requestData } from '@/helpers';
-// import axios from 'axios'; //?
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -16,9 +14,6 @@ export const useAuthStore = defineStore({
 
     },
     async login(email, senha) {
-      // console.log(axios.post(`${baseUrl}/auth`, { email, senha }));
-      // console.log(await axios.post(`${baseUrl}/auth`, { email, senha }));
-      // return;
       await requestData.post(`${baseUrl}/auth`, { email, senha })
         .then(res => {
           const dados = res.data;

@@ -1,9 +1,3 @@
-<route lang="json">{
-  "meta": {
-    "title": "Home"
-  }
-}</route>
-
 <script setup>
 import { useAuthStore } from '@/stores';
 import HomeInfo from '@/components/layout/HomeInfo.vue';

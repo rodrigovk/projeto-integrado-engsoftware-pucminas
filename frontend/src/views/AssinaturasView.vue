@@ -1,9 +1,3 @@
-<route lang="json">{
-  "meta": {
-    "title": "Assinturas"
-  }
-}</route>
-
 <script setup>
 
 </script>

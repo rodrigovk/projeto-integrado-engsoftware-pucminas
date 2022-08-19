@@ -1,9 +1,3 @@
-<route lang="json">{
-  "meta": {
-    "title": "Ticket"
-  }
-}</route>
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
@@ -11,8 +5,8 @@ import { useDateFormat } from '@vueuse/core';
 import { useTicketsStore } from '@/stores';
 import Button from '@/components/Layout/Button.vue';
 import Tag from '@/components/Layout/Tag.vue';
-import TicketResposta from '@/components/Layout/Ticket/TicketResposta.vue';
-import ModalCreateResposta from '@/components/Layout/Ticket/ModalCreateResposta.vue';
+import TicketResposta from '@/components/Ticket/TicketResposta.vue';
+import ModalCreateResposta from '@/components/Ticket/ModalCreateResposta.vue';
 
 const store = useTicketsStore();
 const route = useRoute()

@@ -17,8 +17,13 @@ const props = defineProps({
 });
 
 const getCores = computed(() => {
-  let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-700`;
-  return cores;
+  const cores = {
+    'amber': 'bg-amber-600 hover:bg-amber-700',
+    'blue': 'bg-blue-600 hover:bg-blue-700',
+    'green': 'bg-green-600 hover:bg-green-700',
+    'purple': 'bg-purple-600 hover:bg-purple-700',
+  }
+  return cores[props.customColor];
 });
 
 const getTextSize = computed(() => {
@@ -41,18 +46,4 @@ const getUppercase = computed(() => {
       ]">
     <slot />
   </button>
-
-  <!-- <div class="inline-flex rounded-md shadow">
-    <button :disabled="props.disabled === true"
-      class="inline-block rounded font-medium leading-tight text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0"
-      :class="[
-        getCores,
-        getTextSize,
-        getPaddingX,
-        getPaddingY,
-        getUppercase,
-      ]">
-      <slot />
-    </button>
-  </div> -->
 </template>

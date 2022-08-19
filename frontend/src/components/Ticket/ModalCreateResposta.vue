@@ -1,11 +1,11 @@
 <script setup>
-
-  import { ref, onMounted, onUnmounted } from 'vue';
-  import { useTicketsStore } from '@/stores/tickets.store';
-  import { useAuthStore } from '@/stores';
-  import { Form, Field } from 'vee-validate';
-  import * as Yup from 'yup';
+  import { onMounted, onUnmounted } from 'vue';
   import { useRouter } from 'vue-router'
+  import { useAuthStore } from '@/stores';
+  import { useTicketsStore } from '@/stores/tickets.store';
+  import { Form } from 'vee-validate';
+  import * as Yup from 'yup';
+  import { TextAreaInput } from '@/components/layout/TextAreaInput.vue';
 
   const schema = Yup.object().shape({
     mensagem: Yup.string().required('Mensagem não informada').min(20, 'Mensagem deve ter pelo menos 20 caracteres').max(500, 'Mensagem deve ter no máximo 500 caracteres.'),
@@ -59,11 +59,8 @@
 </script>
 
 <template>
-  <div class="modal is-active p-2">
-    <div class="modal-background"></div>
-    <div
-      class="modal-card"
-    >
+  <div class="p-2">
+    <div class="">
       <!-- <header class="modal-card-head">
         <p class="modal-card-title">Delete Note?</p>
         <button
@@ -74,11 +71,7 @@
         </button>
       </header> -->
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
-        <div class="form-group flex flex-col mb-2">
-          <label>Mensagem</label>
-          <Field name="mensagem" type="text" class="form-control" :class="{ 'border-2 border-rose-500': errors.mensagem }" />
-          <div class="text-red-500">{{ errors.mensagem }}</div>
-        </div>
+        <TextAreaInput name="mensagem" type="text" label="Mensagem" placeholder="Mensagem" rows="3" class="mb-4" />
 
         <Button :disabled="isSubmitting">
           <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>

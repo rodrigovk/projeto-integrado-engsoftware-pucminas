@@ -13,7 +13,8 @@
 
 <template>
   <div class="flex flex-col bg-gray-50 text-gray-800 h-screen">
-    <NavBar class="" />
+    <NavBar class="sticky top-0 z-50" />
+    
     <div class="flex-1 flex flex-row">
       <Menu class="w-3/12 min-w-fit max-w-xs" />
   

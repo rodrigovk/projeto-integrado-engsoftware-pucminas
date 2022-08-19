@@ -1,3 +1,10 @@
+<!-- <script>
+// declare additional options
+export default {
+  inheritAttrs: false, // para que a tag base (no caso a div) não receba a class
+}
+</script> -->
+
 <script setup>
 import { computed } from '@vue/reactivity';
 
@@ -25,9 +32,12 @@ const props = defineProps({
 });
 
 const getCores = computed(() => {
-  // let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-500`;
-  let cores = `bg-${props.customColor}-600 hover:bg-${props.customColor}-700 focus:bg-${props.customColor}-700 active:bg-${props.customColor}-800`;
-  return cores;
+  const cores ={
+    'blue': 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800',
+    'green': 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800',
+    'teal': 'bg-teal-600 hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-800',
+  }
+  return cores[props.customColor];
 });
 
 const getTextSize = computed(() => {
@@ -37,23 +47,24 @@ const getTextSize = computed(() => {
 
 const getPaddingX = computed(() => { //? implementar
   const paddingX = {
-    'xs': '3',
-    'sm': '3',
-    'base': '4',
-    'lg': '5'
+    'xs': 'px-3',
+    'sm': 'px-3',
+    'base': 'px-4',
+    'lg': 'px-5',
   }
-  return `px-${paddingX[props.customTextSize] ?? '3'}`
+  return paddingX[props.customTextSize];
 });
 
 const getPaddingY = computed(() => {
-  // const paddingY = {
-  //   'xs': '0.5',
-  //   'sm': '0.5',
-  //   'base': '1',
-  //   'lg': '1.5'
-  // }
-  // return `py-${paddingY[props.customTextSize] ?? '2'}`
-  return `py-${props.paddingY}`
+  const paddingY = {
+    '0.5': 'py-0.5',
+    '1': 'py-1',
+    '1.5': 'py-1.5',
+    '2': 'py-2',
+    '2.5': 'py-2.5',
+    '3': 'py-3',
+  }
+  return paddingY[props.paddingY];
 });
 
 const getUppercase = computed(() => {
@@ -64,7 +75,7 @@ const getUppercase = computed(() => {
 <template>
   <div class="inline-flex rounded-md shadow">
     <button :disabled="props.disabled === true"
-      class="inline-block rounded font-medium leading-tight text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0"
+      class="inline-block rounded-md font-medium leading-tight text-white transition duration-150 ease-in-out focus:outline-none focus:ring-0"
       :class="[
         getCores,
         getTextSize,

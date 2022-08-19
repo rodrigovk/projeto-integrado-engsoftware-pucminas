@@ -1,16 +1,12 @@
 <script setup>
-  import { useDateFormat } from '@vueuse/core';
-  import { useTicketsStore } from '@/stores';
-  import Tag from '@/components/layout/Tag.vue';
+import Tag from '@/components/layout/Tag.vue';
 
-  const props = defineProps({
-    resposta: {
-      type: Object,
-      required: true
-    }
-  })
-
-  const store = useTicketsStore();
+const props = defineProps({
+  resposta: {
+    type: Object,
+    required: true
+  }
+})
 </script>
 
 <template>

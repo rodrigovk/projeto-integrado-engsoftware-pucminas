@@ -29,12 +29,10 @@
       <!-- <span>
         {{ authStore.user.email }}
       </span> -->
-      <Button :disabled="isSubmitting" :uppercase="false" :paddingY="1.5" @click="logout" customTextSize="sm">
+      <!-- :disabled="isSubmitting" -->
+      <Button :uppercase="false" :paddingY="1.5" @click="logout" customTextSize="sm">
         Logout
       </Button>
-      <!-- <button @click="logout">
-        Logout
-      </button> -->
     </div>
   </div>
 </template>

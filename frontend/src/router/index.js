@@ -1,38 +1,31 @@
-import { createRouter, createWebHistory, createWebHashHistory, RouterView } from 'vue-router';
+import { createRouter, createWebHashHistory, RouterView } from 'vue-router';
 import { useAuthStore } from '@/stores/auth.store';
-import HomeView from '@/views/HomeView.vue';
-import AuthView from '@/views/AuthView.vue';
-import TicketsView from '@/views/TicketsView.vue';
-import ClientesView from '@/views/ClientesView.vue';
-import AdministradoresView from '@/views/AdministradoresView.vue';
-import AssinaturasView from '@/views/AssinaturasView.vue';
-import TicketView from '@/views/TicketView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import('@/views/HomeView.vue')
   },
   {
     path: '/auth',
     name: 'auth',
-    component: AuthView
+    component: () => import('@/views/AuthView.vue')
   },
   {
     path: '/assinaturas',
     name: 'assinaturas',
-    component: AssinaturasView
+    component: () => import('@/views/AssinaturasView.vue')
   },
   {
     path: '/clientes',
     name: 'clientes',
-    component: ClientesView
+    component: () => import('@/views/ClientesView.vue')
   },
   {
     path: '/administradores',
     name: 'administradores',
-    component: AdministradoresView
+    component: () => import('@/views/AdministradoresView.vue')
   },
   // para que a propriedade isActive do RouterLink/router-link funcione corretamente, preciso declarar as rotas desta forma (children de uma routa "vazia")
   {
@@ -42,12 +35,12 @@ const routes = [
       { 
         path: '',
         name: 'tickets',
-        component: () => import('@/views/TicketsView.vue') //TicketsView,
+        component: () => import('@/views/TicketsView.vue') 
       },
       { 
         path: '/:id',
         name: 'ticket',
-        component: () => import('@/views/TicketView.vue') //TicketView
+        component: () => import('@/views/TicketView.vue')
       }
     ]
   },

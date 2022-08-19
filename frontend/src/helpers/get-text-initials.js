@@ -1,4 +1,5 @@
 export function getTextInitials (text) {
+// export const getTextInitials = (text) => {
   let rgx = new RegExp(/(\p{L}{1})\p{L}+/, 'gu');
 
   let initials = [...text.matchAll(rgx)] || [];

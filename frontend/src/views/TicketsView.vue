@@ -1,15 +1,9 @@
-<route lang="json">{
-  "meta": {
-    "title": "Tickets"
-  }
-}</route>
-
 <script setup>
-  import { ref, onMounted } from 'vue';
+  import { onMounted } from 'vue';
   import { useAuthStore } from '@/stores';
   import { useTicketsStore } from '@/stores';
-  import Ticket from '@/components/Layout/Ticket/Ticket.vue';
-  import ModalCreateTicket from '@/components/Layout/Ticket/ModalCreateTicket.vue';
+  import Ticket from '@/components/Ticket/Ticket.vue';
+  import ModalCreateTicket from '@/components/Ticket/ModalCreateTicket.vue';
 
   const authStore = useAuthStore();
   const ticketsStore = useTicketsStore();
@@ -27,7 +21,7 @@
   <div class="">
     <div v-if="!ticketsStore.ticketsLoaded" class="my-3 mx-3">
       <div class="ml-3 inline-flex rounded-md shadow">
-        <button type="button"
+        <button 
           class="inline-flex items-center justify-center rounded-md border border-transparent bg-teal-500 px-5 py-3 text-base font-medium leading-6 text-white"
           disabled>
           <div
@@ -39,7 +33,7 @@
     </div>
 
     <template v-else>
-      <div class="mb-3" v-if="!authStore.user.isAdministrador">
+      <div class="mb-0" v-if="!authStore.user.isAdministrador">
         <ModalCreateTicket
           v-if="modals.createTicket"
           v-model="modals.createTicket"
