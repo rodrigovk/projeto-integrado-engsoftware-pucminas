@@ -20,7 +20,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
 const emit = defineEmits(['update:modelValue'])
 const router = useRouter();
@@ -81,7 +81,7 @@ async function onSubmit(values, { resetForm, setErrors }) {
 
         <Button :disabled="isSubmitting">
           <div class="flex items-center">
-            <SpinLoading v-show="isSubmitting" />
+            <SpinLoading v-show="isSubmitting" class="mr-3" />
             Criar ticket
           </div>
         </Button>

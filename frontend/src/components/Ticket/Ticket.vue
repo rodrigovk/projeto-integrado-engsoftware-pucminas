@@ -1,9 +1,11 @@
 <script setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { useDateFormat } from '@vueuse/core';
 import { useTicketsStore } from '@/stores';
 import Button from '@/components/layout/Button.vue';
 import Tag from '@/components/layout/Tag.vue';
+import SpinLoading from '../Layout/SpinLoading.vue';
 
 const props = defineProps({
   ticket: {
@@ -15,21 +17,28 @@ const props = defineProps({
 const router = useRouter();
 const store = useTicketsStore();
 
+let isEncerrando = ref(false);
+let isReabrindo = ref(false);
+
 const dataCriacaoFormatada = computed(() => {
   let formattedDate = useDateFormat(props.ticket.dataCriacao, 'DD-MM-YYYY HH:mm')
   return formattedDate.value
 })
 
 const encerrar = () => {
+  isEncerrando.value = true;
   store.putTicketSituacao(props.ticket.idTicket, 1)
     .then(data => props.ticket.situacao = 1)
-    .catch(error => setErrors({ apiError: error }));
+    .catch(error => setErrors({ apiError: error }))
+    .finally(() => isEncerrando.value = false);
 }
 
 const reabrir = () => {
+  isReabrindo.value = true;
   store.putTicketSituacao(props.ticket.idTicket, 0)
-    .then(data => props.ticket.situacao = 0) 
-    .catch(error => setErrors({ apiError: error })); //? setErrors não funcionando pq não existe
+    .then(data => props.ticket.situacao = 0)
+    .catch(error => setErrors({ apiError: error })) //? setErrors não funcionando pq não existe
+    .finally(() => isReabrindo.value = false);
 }
 </script>
 
@@ -53,24 +62,31 @@ const reabrir = () => {
       {{ ticket.descricao }}
     </p>
 
-    <RouterLink 
-      :to="{
+    <div class="flex">
+      <RouterLink :to="{
         name: 'ticket',
         params: {
           id: ticket.idTicket
         }
       }" class="card-footer-item">
-      <Button class="mr-2">
-        Visualizar
+        <Button class="mr-2">
+          Visualizar
+        </Button>
+      </RouterLink>
+
+      <Button customColor="green" v-if="ticket.situacao === 0" @click="encerrar">
+        <div class="flex items-center">
+          <SpinLoading v-show="isEncerrando" class="mr-3" />
+          Encerrar
+        </div>
       </Button>
-    </RouterLink>
 
-    <Button customColor="green" v-if="ticket.situacao === 0" @click="encerrar">
-      ENCERRAR
-    </Button>
-
-    <Button v-if="ticket.situacao === 1" customColor="blue" @click="reabrir">
-      Reabrir
-    </Button>
+      <Button v-if="ticket.situacao === 1" customColor="blue" @click="reabrir">
+        <div class="flex items-center">
+          <SpinLoading v-show="isReabrindo" class="mr-3" />
+          Reabrir
+        </div>
+      </Button>
+    </div>
   </div>
 </template>

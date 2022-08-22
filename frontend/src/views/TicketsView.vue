@@ -22,8 +22,8 @@ const modals = reactive({
   <div class="h-full">
     <div v-if="!ticketsStore.ticketsLoaded" class="h-full flex flex-row justify-center items-center">
       <div class="flex items-center">
-        <SpinLoading class="h-8 w-8 text-teal-600" />
-        <p class="text-lg text-teal-600">
+        <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
+        <p class="text-xl text-teal-600">
           Carregando...
         </p>
       </div>

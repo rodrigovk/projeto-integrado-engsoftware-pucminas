@@ -32,7 +32,7 @@ const props = defineProps({
 });
 
 const getCores = computed(() => {
-  const cores ={
+  const cores = {
     'blue': 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800',
     'green': 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800',
     'teal': 'bg-teal-600 hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-800',
@@ -45,7 +45,7 @@ const getTextSize = computed(() => {
   return textSize;
 });
 
-const getPaddingX = computed(() => { //? implementar
+const getPaddingX = computed(() => {
   const paddingX = {
     'xs': 'px-3',
     'sm': 'px-3',

@@ -9,10 +9,10 @@ import TicketResposta from '@/components/Ticket/TicketResposta.vue';
 import ModalCreateResposta from '@/components/Ticket/ModalCreateResposta.vue';
 
 const store = useTicketsStore();
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
 
 const ticket = ref({});
+const respostaRefs = ref([]);
 
 onMounted(async () => {
   store.getTicket(route.params.id)
@@ -21,9 +21,22 @@ onMounted(async () => {
     });
 })
 
+// function scrollToResposta(idResposta) {
+//   console.log(respostaRefs.value.map(i => i));
+//   console.log(respostaRefs.value.map(i => i.key));
+  
+//   const el = respostaRefs.value[10];
+//   if (el)
+//     el.scrollIntoView({behavior: 'smooth'});
+// }
+
 const dataCriacaoFormatada = computed(() => {
+  if (!ticket.value.dataCriacao) {
+    return '';
+  }
+
   let formattedDate = useDateFormat(ticket.value.dataCriacao, 'DD-MM-YYYY HH:mm')
-  return formattedDate.value
+  return formattedDate.value;
 });
 
 const modals = reactive({
@@ -32,7 +45,7 @@ const modals = reactive({
 </script>
 
 <template>
-  <div class="block p-6 mb-3" v-if="ticket.idTicket">
+  <div class="block p-6 shadow-lg bg-white">
     <RouterLink to="/tickets">
       <Button class="mb-5">
         &lt; Voltar
@@ -57,18 +70,18 @@ const modals = reactive({
       {{ ticket.descricao }}
     </p>
 
-    <Button v-if="ticket.situacao === 0" @click.prevent="modals.createResposta = true"
-      class="mb-2">
+    <Button v-if="ticket.situacao === 0" @click.prevent="modals.createResposta = true" class="mb-2">
       Responder
     </Button>
 
-    <ModalCreateResposta v-if="modals.createResposta" v-model="modals.createResposta" :idTicket="ticket.idTicket" />
+  </div>
 
-    <!-- <template> -->
-    <div class="flex flex-col justify-center p-2">
-      <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta" />
-    </div>
+  <div v-if="modals.createResposta" class="flex flex-col justify-center p-6 pb-0">
+    <ModalCreateResposta v-model="modals.createResposta" @scrollToResposta="scrollToResposta" :ticket="ticket"
+      :idTicket="ticket.idTicket" />
+  </div>
 
-    <!-- </template> -->
+  <div class="flex flex-col justify-center p-6">
+    <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta" ref="respostaRefs" />
   </div>
 </template>
