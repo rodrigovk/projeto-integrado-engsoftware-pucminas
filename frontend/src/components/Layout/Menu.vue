@@ -11,14 +11,18 @@ const authStore = useAuthStore();
 
 const emit = defineEmits(['closeMenu']);
 
+const logout = () => {
+  doCloseMenu();
+  authStore.logout();
+}
+
 const doCloseMenu = () => {
-  console.log('2')
   emit('closeMenu');
 }
 </script>
 
 <template>
-  <div class="bg-slate-500 text-slate-100" v-if="authStore.user.idUsuario">
+  <div class="flex flex-col bg-slate-500 text-slate-100" v-if="authStore.user.idUsuario">
     <MenuItem :to="{ name: 'home' }" @closeMenu="doCloseMenu">
       <HomeIcon class="w-8 h-8 fill-slate-100 mr-1" />
       Início
@@ -39,5 +43,10 @@ const doCloseMenu = () => {
       <TicketIcon class="w-8 h-8 fill-slate-100 mr-1" />
       Tickets de suporte
     </MenuItem>
+    <div class="flex content-center justify-center mt-6">
+      <Button :uppercase="false" :paddingY="2.5" @click="logout" customTextSize="lg" class="flex md:hidden">
+        Logout
+      </Button>
+    </div>
   </div>
 </template>

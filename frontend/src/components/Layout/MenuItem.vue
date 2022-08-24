@@ -9,7 +9,6 @@ const props = defineProps({
 const emit = defineEmits(['closeMenu']);
 
 const doCloseMenu = () => {
-  console.log('1')
   emit('closeMenu');
 }
 </script>

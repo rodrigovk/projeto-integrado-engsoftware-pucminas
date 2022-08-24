@@ -29,14 +29,14 @@ function onSubmit(values, { setErrors }) {
 
 <template>
   <div class="flex flex-col items-center content-center align-middle place-content-center h-screen bg-slate-600 text-gray-700">
-    <div class="bg-slate-50 p-8 drop-shadow-md">
+    <div class="bg-slate-50 p-6 md:p-8 drop-shadow-md">
       <div class="flex flex-row items-center content-between text-gray-500 mb-8">
-        <img class="w-20 h-20 mr-4 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
+        <img class="w-16 h-16 md:w-20 md:h-20 mr-4 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
         <div class="flex flex-col items-center">
-          <div class="text-6xl leading-none font-normal tracking-wide">
+          <div class="text-5xl md:text-6xl leading-none font-normal md:tracking-wide">
             Global Soft
           </div>
-          <div class="text-xl font-light leading-tight">
+          <div class="text-md md:text-xl font-light leading-tight">
             SISTEMAS E CONSULTORIA
           </div>
         </div>

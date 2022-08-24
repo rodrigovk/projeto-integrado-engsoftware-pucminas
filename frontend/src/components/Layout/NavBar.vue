@@ -1,6 +1,4 @@
 <script setup>
-//import { defineEmits } from 'vue';
-// import { onClickOutside } from '@vueuse/core'
 import { useAuthStore } from '@/stores/auth.store'
 import logoSVG from '@/assets/images/logo.svg';
 import UserPanel from '@/components/Layout/UserPanel.vue'
@@ -12,17 +10,6 @@ const changeShowMenu = () => {
 }
 
 const authStore = useAuthStore();
-
-// const showMobileNav = ref(false);
-
-// const navbarMenuRef = ref(null);
-// const navbarBurgerRef = ref(null);
-
-// onClickOutside(navbarMenuRef, () => {
-//   showMobileNav.value = false;
-// }, {
-//   ignore: [navbarBurgerRef]
-// })
 </script>
 
 <template>
@@ -30,11 +17,6 @@ const authStore = useAuthStore();
     v-if="authStore.user.idUsuario">
     <div class="flex flex-wrap justify-between items-center py-2 text-gray-100">
       <div class="flex p-3 md:invisible">
-        <!-- <div class="space-y-1.5">
-          <div class="w-6 h-0.5 bg-gray-100"></div>
-          <div class="w-6 h-0.5 bg-gray-100"></div>
-          <div class="w-6 h-0.5 bg-gray-100"></div>
-        </div> -->
         <button @click="changeShowMenu">
           <svg viewBox="0 0 24 24" class="w-8 h-8 fill-current">
             <path fill-rule="evenodd"

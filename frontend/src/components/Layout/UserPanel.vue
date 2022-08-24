@@ -1,18 +1,17 @@
 <script setup>
-  import { useAuthStore } from '@/stores/auth.store'
-  import { getTextInitials } from '@/helpers';
-  import Button from '@/components/layout/Button.vue';
+import { useAuthStore } from '@/stores/auth.store'
+import { getTextInitials } from '@/helpers';
+import Button from '@/components/layout/Button.vue';
 
-  const authStore = useAuthStore();
+const authStore = useAuthStore();
 
-  const logout = () => {
-    //showMobileNav.value = false;
-    authStore.logout();
-  }
+const logout = () => {
+  authStore.logout();
+}
 
-  const getUserInitials = () => {
-    return getTextInitials(authStore.user.nome);
-  }
+const getUserInitials = () => {
+  return getTextInitials(authStore.user.nome);
+}
 </script>
 
 <template>
@@ -26,11 +25,8 @@
       <span class="mb-1 hidden md:flex">
         {{ authStore.user.nome }}
       </span>
-      <!-- <span>
-        {{ authStore.user.email }}
-      </span> -->
-      <!-- :disabled="isSubmitting" -->
-      <Button :uppercase="false" :paddingY="1.5" @click="logout" customTextSize="sm">
+
+      <Button :uppercase="false" :paddingY="1.5" @click="logout" customTextSize="sm" class="hidden md:flex">
         Logout
       </Button>
     </div>
