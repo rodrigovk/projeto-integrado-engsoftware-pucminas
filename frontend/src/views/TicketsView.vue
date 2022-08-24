@@ -30,6 +30,11 @@ const modals = reactive({
     </div>
 
     <template v-else>
+      <div class="text-2xl pt-6 pl-6"
+        :class="{'bg-white': !authStore.user.isAdministrador}">
+        Tickets de suporte
+      </div>
+
       <div class="mb-0" v-if="!authStore.user.isAdministrador">
         <ModalCreateTicket v-if="modals.createTicket" v-model="modals.createTicket" />
       </div>

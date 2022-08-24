@@ -1,24 +1,25 @@
 <script setup>
-//? import { UserIcon } from '@heroicons/vue/solid'
-
 const props = defineProps({
-  caption: {
-    type: String,
-    required: true
-  },
   to: {
     type: Object,
     required: true
-  }
+  },
 });
+
+const emit = defineEmits(['closeMenu']);
+
+const doCloseMenu = () => {
+  console.log('1')
+  emit('closeMenu');
+}
 </script>
 
 <template>
-  <RouterLink :to="to" v-slot="{ href, route, navigate, isActive, isExactActive }">
-    <div class="mx-0 my-0 hover:bg-slate-600" :class="{ 'bg-teal-500 hover:bg-teal-600': isActive }">
-      <!-- <UserIcon class="h-5 w-5 text-blue-500"/> -->
-      <div class="px-3 py-4">
-        {{ caption }}
+  <RouterLink :to="to" v-slot="{ href, route, navigate, isActive, isExactActive }" @click="doCloseMenu">
+    <div class="flex content-center mx-0 my-0 hover:bg-slate-600"
+      :class="{ 'bg-teal-500 hover:bg-teal-600 focus:bg-teal-600 active:bg-teal-700': isActive }">
+      <div class="flex flex-row items-center px-3 py-4">
+        <slot />
       </div>
     </div>
   </RouterLink>

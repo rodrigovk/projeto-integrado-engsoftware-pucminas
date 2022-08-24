@@ -23,7 +23,7 @@
     </div>
 
     <div class="flex flex-col items-end content-around">
-      <span class="mb-1">
+      <span class="mb-1 hidden md:flex">
         {{ authStore.user.nome }}
       </span>
       <!-- <span>
