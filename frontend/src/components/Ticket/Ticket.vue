@@ -44,7 +44,7 @@ const reabrir = () => {
 
 <template>
   <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
-    <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
+    <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium break-words mb-2">
       {{ ticket.assunto }}
       <Tag customColor="green" v-if="ticket.situacao === 1">
         Encerrado
@@ -58,7 +58,7 @@ const reabrir = () => {
       {{ dataCriacaoFormatada }}
     </p>
 
-    <p class="text-gray-700 text-base mb-4">
+    <p class="text-gray-700 text-base break-words mb-4">
       {{ ticket.descricao }}
     </p>
 

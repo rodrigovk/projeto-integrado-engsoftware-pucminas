@@ -20,7 +20,7 @@ const props = defineProps({
         Cliente
       </Tag>
     </h5>
-    <p class="text-gray-700 text-base">
+    <p class="text-gray-700 text-base break-words">
       {{ resposta.mensagem }}
     </p>
   </div>
