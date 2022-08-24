@@ -28,12 +28,12 @@ const authStore = useAuthStore();
 
       <router-link to="/">
         <div class="navbar-brand flex flex-row items-center content-between">
-          <img class="w-14 h-14 mr-2 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
+          <img class="w-10 h-10 md:w-14 md:h-14 mr-2 drop-shadow-sm" :src="logoSVG" alt="my-logo" />
           <div class="flex flex-col items-center">
-            <div class="text-4xl md:text-5xl leading-none font-normal tracking-wide">
+            <div class="text-[1.7rem] md:text-5xl leading-none font-normal tracking-wide">
               Global Soft
             </div>
-            <div class="text-sm md:text-base font-light tracking-wide leading-tight">
+            <div class="text-xs md:text-base font-light tracking-tight md:tracking-wide leading-tight">
               SISTEMAS E CONSULTORIA
             </div>
           </div>
