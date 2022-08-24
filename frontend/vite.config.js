@@ -8,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import { HeadlessUiResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
+  base: '/projeto-integrado-engsoftware-pucminas-frontend-dist/',
   plugins: [
     vue(),
     VueRouter(),
@@ -25,4 +26,7 @@ export default defineConfig({
   server: {
     // open: true,
   },
+  build: {
+    outDir: 'D:/Dev/projeto-integrado-engsoftware-pucminas-frontend-dist',
+  }
 })
