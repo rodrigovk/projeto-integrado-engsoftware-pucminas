@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
 import { useDateFormat } from '@vueuse/core';
-import { useTicketsStore } from '@/stores';
+import { useAuthStore, useTicketsStore } from '@/stores';
 import Button from '@/components/layout/Button.vue';
 import Tag from '@/components/layout/Tag.vue';
 import SpinLoading from '../Layout/SpinLoading.vue';
@@ -14,8 +13,8 @@ const props = defineProps({
   }
 })
 
-const router = useRouter();
-const store = useTicketsStore();
+const authStore = useAuthStore();
+const ticketsStore = useTicketsStore();
 
 let isEncerrando = ref(false);
 let isReabrindo = ref(false);
@@ -27,7 +26,7 @@ const dataCriacaoFormatada = computed(() => {
 
 const encerrar = () => {
   isEncerrando.value = true;
-  store.putTicketSituacao(props.ticket.idTicket, 1)
+  ticketsStore.putTicketSituacao(props.ticket.idTicket, 1)
     .then(data => props.ticket.situacao = 1)
     .catch(error => setErrors({ apiError: error }))
     .finally(() => isEncerrando.value = false);
@@ -35,7 +34,7 @@ const encerrar = () => {
 
 const reabrir = () => {
   isReabrindo.value = true;
-  store.putTicketSituacao(props.ticket.idTicket, 0)
+  ticketsStore.putTicketSituacao(props.ticket.idTicket, 0)
     .then(data => props.ticket.situacao = 0)
     .catch(error => setErrors({ apiError: error })) //? setErrors não funcionando pq não existe
     .finally(() => isReabrindo.value = false);
@@ -74,7 +73,7 @@ const reabrir = () => {
         </Button>
       </RouterLink>
 
-      <Button customColor="green" v-if="ticket.situacao === 0" @click="encerrar">
+      <Button customColor="green" v-if="ticket.situacao === 0 && authStore.user.isAdministrador" @click="encerrar">
         <div class="flex items-center">
           <SpinLoading v-show="isEncerrando" class="mr-3" />
           Encerrar

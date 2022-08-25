@@ -15,7 +15,7 @@ export const useUsuariosStore = defineStore('usuariosStore', {
 
       return requestData.get(`${baseUrl}/usuarios/${authStore.user.idUsuario}/dash-info`)
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
   },

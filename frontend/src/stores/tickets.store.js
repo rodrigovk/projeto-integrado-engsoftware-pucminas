@@ -41,7 +41,7 @@ export const useTicketsStore = defineStore('ticketsStore', {
           this.ticketsLoaded = true;
         })
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
 
@@ -52,28 +52,28 @@ export const useTicketsStore = defineStore('ticketsStore', {
     async getTicket(idTicket) {
       return requestData.get(`${baseUrl}/tickets/${idTicket}`)
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
 
     async postTicket(data) {
       return requestData.post(`${baseUrl}/tickets`, data)
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
 
     async putTicketSituacao(idTicket, situacao) {
       return requestData.put(`${baseUrl}/tickets/${idTicket}/situacao`, { situacao })
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
 
     async postResposta(data) {
       return requestData.post(`${baseUrl}/tickets/${data.idTicket}/respostas`, data)
         .catch(err => {
-          console.log('error.message: ', err);
+          throw err;
         });
     },
   },
