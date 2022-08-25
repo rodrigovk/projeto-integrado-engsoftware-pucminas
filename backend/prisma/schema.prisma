@@ -39,6 +39,8 @@ model Cliente {
   cnpjCpf         String           @map("cnpj_cpf")
   tickets         Ticket[]
   respostasTicket TicketResposta[]
+  assinaturas     Assinatura[]
+  contas          Conta[]
 
   @@map("cliente")
 }
@@ -68,4 +70,29 @@ model TicketResposta {
 
   @@id([idTicket, idResposta])
   @@map("ticket_resposta")
+}
+
+model Assinatura {
+  idAssinatura          Int      @id @default(autoincrement()) @map("id_assinatura")
+  idCliente             Int      @map("id_cliente")
+  cliente               Cliente  @relation(fields: [idCliente], references: [idCliente])
+  situacao              Int
+  descricao             String
+  dataVencimento        DateTime @map("data_vencimento")
+  dataProximoVencimento DateTime @map("data_proximo_vencimento")
+  valor                 Decimal
+
+  @@map("assinatura")
+}
+
+model Conta {
+  idConta        Int      @id @default(autoincrement()) @map("id_conta")
+  idCliente      Int      @map("id_cliente")
+  cliente        Cliente  @relation(fields: [idCliente], references: [idCliente])
+  situacao       Int
+  dataVencimento DateTime @map("data_vencimento")
+  dataPagamento  DateTime @map("data_pagamento")
+  valor          Decimal
+
+  @@map("conta")
 }

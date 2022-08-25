@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createTicketController, alterTicketSituacaoController, findTicketByIdTicketController, findManyTicketController, findManyTicketByIdClienteController,
+import { findTicketByIdTicketController, findManyTicketController, findManyTicketByIdClienteController, createTicketController, alterTicketSituacaoController,
   createTicketRespostaController, } from "@controllers/ticket";
 
 const router = Router();

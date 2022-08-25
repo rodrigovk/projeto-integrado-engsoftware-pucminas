@@ -7,6 +7,8 @@ export class CreateTicketRespostaUseCase {
   ) {}
 
   async execute(ticketResposta: TicketResposta) : Promise<TicketResposta> {
-    return await this.ticketRepository.createResposta(ticketResposta);
+    const ticketCriado = await this.ticketRepository.createResposta(ticketResposta);
+
+    return await this.ticketRepository.findRespostaByIdTicketIdResposta(ticketCriado.idTicket, ticketCriado.idResposta);
   }
 }
