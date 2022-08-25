@@ -80,7 +80,7 @@ const reabrir = () => {
         </div>
       </Button>
 
-      <Button v-if="ticket.situacao === 1" customColor="blue" @click="reabrir">
+      <Button v-if="ticket.situacao === 1 && authStore.user.isAdministrador" customColor="blue" @click="reabrir">
         <div class="flex items-center">
           <SpinLoading v-show="isReabrindo" class="mr-3" />
           Reabrir
