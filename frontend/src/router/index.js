@@ -24,8 +24,24 @@ const routes = [
   },
   {
     path: '/administradores',
-    name: 'administradores',
-    component: () => import('@/views/AdministradoresView.vue')
+    component: { render: () => h(RouterView) },
+    children: [
+      {
+        path: '',
+        name: 'administradores',
+        component: () => import('@/views/AdministradoresView.vue')
+      },
+      {
+        path: '/administradores/novo',
+        name: 'administrador_novo',
+        component: () => import('@/views/AdministradorView.vue')
+      },
+      {
+        path: '/administradores/:id',
+        name: 'administrador',
+        component: () => import('@/views/AdministradorView.vue')
+      },
+    ]
   },
   // para que a propriedade isActive do RouterLink/router-link funcione corretamente, preciso declarar as rotas desta forma (children de uma routa "vazia")
   {
@@ -38,7 +54,7 @@ const routes = [
         component: () => import('@/views/TicketsView.vue') 
       },
       { 
-        path: '/:id',
+        path: '/tickets/:id',
         name: 'ticket',
         component: () => import('@/views/TicketView.vue')
       }
