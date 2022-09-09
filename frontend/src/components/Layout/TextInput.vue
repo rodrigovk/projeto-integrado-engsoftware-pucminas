@@ -27,6 +27,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  autocomplete: {
+    type: String,
+    default: '',
+  },
 });
 
 const name = toRef(props, 'name');
@@ -48,7 +52,7 @@ const {
     :class="{ 'has-error': !!errorMessage, success: meta.valid }"
   >
     <label :for="name">{{ label }}</label>
-    <input 
+    <input
       :name="name"
       :id="name"
       :type="type"
@@ -62,6 +66,7 @@ const {
         'bg-red-200 focus:border-red-500 text-red-700 placeholder:text-red-500': !!errorMessage, 
         // 'bg-green-200 focus:border-green-500': !!meta.valid,
       }"
+      :autocomplete="autocomplete"
     />
 
     <p v-show="errorMessage" class="text-red-500">
