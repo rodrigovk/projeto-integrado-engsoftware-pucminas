@@ -45,10 +45,10 @@ const reabrir = () => {
   <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium break-words mb-2">
       {{ ticket.assunto }}
-      <Tag customColor="green" v-if="ticket.situacao === 1">
+      <Tag customColor="green" v-if="ticket.situacao === 1" class="ml-2">
         Encerrado
       </Tag>
-      <Tag customColor="blue" v-if="ticket.situacao === 0">
+      <Tag customColor="blue" v-if="ticket.situacao === 0" class="ml-2">
         Em aberto
       </Tag>
     </h5>

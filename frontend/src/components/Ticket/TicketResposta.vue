@@ -13,10 +13,10 @@ const props = defineProps({
   <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
       {{ resposta.administrador ? resposta.administrador.nome : resposta.cliente.nome }}
-      <Tag v-if="resposta.administrador" customColor="amber">
+      <Tag v-if="resposta.administrador" customColor="amber" class="ml-2">
         Administrador
       </Tag>
-      <Tag v-if="resposta.cliente" customColor="purple">
+      <Tag v-if="resposta.cliente" customColor="purple" class="ml-2">
         Cliente
       </Tag>
     </h5>

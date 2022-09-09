@@ -40,7 +40,7 @@ const getUppercase = computed(() => {
 
 <template>
   <button disabled 
-    class="inline-block px-3 py-1.5 ml-2 text-white font-medium text-xs leading-tight rounded-full ease-in-out"
+    class="inline-block px-3 py-1.5 text-white font-medium text-xs leading-tight rounded-full ease-in-out"
     :class="[
         getCores,
         getTextSize,

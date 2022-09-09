@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useDateFormat } from '@vueuse/core';
 import { useTicketsStore } from '@/stores';
 import Button from '@/components/Layout/Button.vue';
@@ -13,6 +13,8 @@ const route = useRoute();
 
 const ticket = ref({});
 const respostaRefs = ref([]);
+
+defineEmits(['closeMenu']);
 
 onMounted(async () => {
   store.getTicket(route.params.id)
@@ -54,10 +56,10 @@ const modals = reactive({
 
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
       {{ ticket.assunto }}
-      <Tag customColor="green" v-if="ticket.situacao === 1">
+      <Tag customColor="green" v-if="ticket.situacao === 1" class="ml-2">
         Encerrado
       </Tag>
-      <Tag customColor="blue" v-if="ticket.situacao === 0">
+      <Tag customColor="blue" v-if="ticket.situacao === 0" class="ml-2">
         Em aberto
       </Tag>
     </h5>
