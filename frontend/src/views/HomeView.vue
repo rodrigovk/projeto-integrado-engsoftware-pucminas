@@ -6,6 +6,7 @@ import AssinaturaIcon from '@/Components/Icons/AssinaturaIcon.vue';
 import ContaReceberIcon from '@/Components/Icons/ContaReceberIcon.vue';
 import TicketIcon from '@/Components/Icons/TicketIcon.vue';
 
+const emit = defineEmits(['closeMenu']);
 const authStore = useAuthStore();
 const usuariosStore = useUsuariosStore();
 
@@ -19,6 +20,10 @@ onMounted(() => {
       isLoading.value = false;
     });
 });
+
+const doCloseMenu = () => {
+  emit('closeMenu');
+}
 </script>
 
 <template>
@@ -37,20 +42,20 @@ onMounted(() => {
         Olá, {{ authStore.user.nome }}.</h2>
 
       <div v-if="authStore.user.idAdministrador">
-        <HomeInfo :to="{ name: 'assinaturas' }">
+        <HomeInfo :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu">
           <div class="flex items-center">
             <AssinaturaIcon class="fill-slate-700 mr-2" />
             {{ dashInfo.assinaturas.quantidade }} assinaturas aguardam geração da mensalidade.
           </div>
         </HomeInfo>
-        <HomeInfo to="/">
+        <!-- <HomeInfo to="/" @closeMenu="doCloseMenu">
           <div class="flex items-center">
             <ContaReceberIcon class="fill-slate-700 mr-2" />
             {{ dashInfo.contas.quantidade }} contas a receber vencidas ({{ vueNumberFormat(dashInfo.contas.valor, {})
             }}).
           </div>
-        </HomeInfo>
-        <HomeInfo :to="{ name: 'tickets' }">
+        </HomeInfo> -->
+        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
           <div class="flex items-center">
             <TicketIcon class="fill-slate-700 mr-2" />
             {{ dashInfo.tickets.quantidade }} tickets de suporte aguardam resposta.
@@ -58,7 +63,7 @@ onMounted(() => {
         </HomeInfo>
       </div>
       <div v-else>
-        <HomeInfo :to="{ name: 'tickets' }">
+        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
           <div class="flex items-center">
             <TicketIcon class="fill-slate-700 mr-2" />
             {{ dashInfo.tickets.quantidade }} tickets de suporte foram respondidos.

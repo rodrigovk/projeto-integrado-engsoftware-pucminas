@@ -7,9 +7,8 @@ import AdministradorIcon from '@/Components/Icons/AdministradorIcon.vue';
 import TicketIcon from '@/Components/Icons/TicketIcon.vue';
 import MenuItem from './MenuItem.vue';
 
-const authStore = useAuthStore();
-
 const emit = defineEmits(['closeMenu']);
+const authStore = useAuthStore();
 
 const logout = () => {
   doCloseMenu();

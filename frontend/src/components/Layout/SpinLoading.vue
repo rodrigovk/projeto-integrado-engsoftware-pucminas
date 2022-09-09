@@ -21,10 +21,10 @@ const props = defineProps({
     type: String,
     default: 'text-white'
   },
-  });
+});
 
 const getHeight = computed(() => {
-  const height ={
+  const height = {
     '4': 'h-4',
     '5': 'h-5',
     '6': 'h-6',
@@ -37,7 +37,7 @@ const getHeight = computed(() => {
 });
 
 const getWidth = computed(() => {
-  const width ={
+  const width = {
     '4': 'w-4',
     '5': 'w-5',
     '6': 'w-6',

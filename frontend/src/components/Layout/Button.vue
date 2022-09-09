@@ -35,6 +35,8 @@ const getCores = computed(() => {
   const cores = {
     'blue': 'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700 active:bg-blue-800',
     'green': 'bg-green-600 hover:bg-green-700 focus:bg-green-700 active:bg-green-800',
+    'orange': 'bg-orange-600 hover:bg-orange-700 focus:bg-orange-700 active:bg-orange-800',
+    'red': 'bg-red-600 hover:bg-red-700 focus:bg-red-700 active:bg-red-800',
     'teal': 'bg-teal-600 hover:bg-teal-700 focus:bg-teal-700 active:bg-teal-800',
   }
   return cores[props.customColor];

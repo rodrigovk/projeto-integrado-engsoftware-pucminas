@@ -1,10 +1,16 @@
 <script setup>
 const props = defineProps({
   to: {
-    type: String,
+    type: Object, //String,
     required: true
   }
 });
+
+const emit = defineEmits(['closeMenu']);
+
+const doCloseMenu = () => {
+  emit('closeMenu');
+}
 </script>
 
 <template>

@@ -21,7 +21,9 @@ const getCores = computed(() => {
     'amber': 'bg-amber-600 hover:bg-amber-700',
     'blue': 'bg-blue-600 hover:bg-blue-700',
     'green': 'bg-green-600 hover:bg-green-700',
+    'orange': 'bg-orange-600 hover:bg-orange-700',
     'purple': 'bg-purple-600 hover:bg-purple-700',
+    'red': 'bg-red-600 hover:bg-red-700',
   }
   return cores[props.customColor];
 });

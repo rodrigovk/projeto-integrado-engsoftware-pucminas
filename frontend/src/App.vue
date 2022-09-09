@@ -50,7 +50,7 @@ function closeMenu() {
   </NotificationGroup>
 
   <div class="flex flex-col bg-gray-50 text-slate-700 h-screen">
-    <NavBar @changeShowMenu="changeShowMenu" class="z-50" />
+    <NavBar @changeShowMenu="changeShowMenu" class="z-40" />
 
     <div class="flex-1 overflow-y-hidden flex flex-row">
       <Menu @closeMenu="closeMenu"
@@ -58,7 +58,7 @@ function closeMenu() {
         :class="showMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" />
 
       <main class="w-full overflow-y-auto">
-        <router-view />
+        <router-view @closeMenu="closeMenu" />
       </main>
     </div>
   </div>

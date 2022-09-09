@@ -30,7 +30,7 @@ function authBasic(url) {
 //   return response.data;
 // }
 
-const base = async (method, url, data) => {
+const base = async (method, url, data, params) => {
   const CancelToken = axios.CancelToken;
   let source = CancelToken.source();
   setTimeout(() => {
@@ -46,6 +46,7 @@ const base = async (method, url, data) => {
       'Content-Type': 'application/json',
     },
     cancelToken: source.token,
+    params: params,
   };
 
   if (data) {
@@ -80,8 +81,8 @@ const requestBase = (method) => {
 };
 
 const requestDataBase = (method) => {
-  return async (url, data) => {
-    return await base(method, url, data)
+  return async (url, data, params) => {
+    return await base(method, url, data, params)
       .then(res => Promise.resolve(res))
       .catch(err => Promise.reject(err));
   }

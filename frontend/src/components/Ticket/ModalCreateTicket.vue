@@ -1,7 +1,6 @@
 <script setup>
 
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores';
 import { useTicketsStore } from '@/stores/tickets.store';
 import { Form, Field } from 'vee-validate';
@@ -23,7 +22,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue'])
-const router = useRouter();
 
 const closeModal = () => {
   //emit('update:modelValue', false)
@@ -48,18 +46,18 @@ async function onSubmit(values, { resetForm, setErrors }) {
   try {
     const authStore = useAuthStore();
     const ticketsStore = useTicketsStore();
-  
+
     const dados = {
       assunto: values.assunto,
       descricao: values.descricao,
     }
-  
+
     if (authStore.user.isAdministrador) {
       dados.idAdministrador = authStore.user.idAdministrador;
     } else {
       dados.idCliente = authStore.user.idCliente;
     }
-  
+
     await ticketsStore.postTicket(dados)
       .then(res => {
         ticketsStore.tickets.unshift(res.data);
