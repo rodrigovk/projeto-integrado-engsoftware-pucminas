@@ -93,7 +93,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
     errors++;
   }
 
-  if (isCreating) {
+  if (isCreating.value) {
     if (senha.length === 0) {
       setFieldError('senha', 'Senha não informada.');
       errors++;
@@ -164,7 +164,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 
       <TextInput name="email" type="email" label="E-mail" placeholder="Endereço de e-mail" class="mb-2" />
 
-      <TextInput value="" name="senha" type="password"
+      <TextInput name="senha" type="password"
         :label="isCreating ? 'Senha' : 'Senha (preencher apenas caso deseje trocar a senha)'"
         autocomplete="new-password" placeholder="Senha" class="mb-4" />
 
