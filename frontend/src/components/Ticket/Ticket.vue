@@ -20,7 +20,7 @@ let isEncerrando = ref(false);
 let isReabrindo = ref(false);
 
 const dataCriacaoFormatada = computed(() => {
-  let formattedDate = useDateFormat(props.ticket.dataCriacao, 'DD-MM-YYYY HH:mm')
+  let formattedDate = useDateFormat(props.ticket.dataCriacao, 'DD/MM/YYYY HH:mm')
   return formattedDate.value
 })
 

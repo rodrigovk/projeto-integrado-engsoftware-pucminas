@@ -37,7 +37,7 @@ const dataCriacaoFormatada = computed(() => {
     return '';
   }
 
-  let formattedDate = useDateFormat(ticket.value.dataCriacao, 'DD-MM-YYYY HH:mm')
+  let formattedDate = useDateFormat(ticket.value.dataCriacao, 'DD/MM/YYYY HH:mm')
   return formattedDate.value;
 });
 
