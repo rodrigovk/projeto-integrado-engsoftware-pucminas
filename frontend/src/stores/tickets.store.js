@@ -33,7 +33,7 @@ export const useTicketsStore = defineStore('ticketsStore', {
       this.ticketsLoaded = false;
 
       const authStore = useAuthStore();
-      const url = baseUrl + (authStore.user.isAdministrador ? '/tickets' : `/clientes/${authStore.user.idCliente}/tickets`);
+      const url = baseUrl + '/tickets';
 
       requestData.get(url, null, { situacao })
         .then(res => {

@@ -16,8 +16,6 @@ onMounted(() => {
 })
 
 async function onChangeFiltroSituacao(event) {
-  console.log(event.target.value);
-
   let situacao = null;
   switch (event.target.value) {
     case 'abertos':
@@ -42,7 +40,7 @@ const modals = reactive({
   <div class="h-full">
     
     <div class="flex pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
-      <div class="text-2xl">
+      <div class="text-2xl font-semibold">
         Tickets de suporte
       </div>
       <div class="ml-auto">

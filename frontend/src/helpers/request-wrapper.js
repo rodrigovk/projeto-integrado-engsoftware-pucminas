@@ -84,7 +84,11 @@ const requestDataBase = (method) => {
   return async (url, data, params) => {
     return await base(method, url, data, params)
       .then(res => Promise.resolve(res))
-      .catch(err => Promise.reject(err));
+      .catch(error => {
+        if (typeof error === 'object')
+          return Promise.reject('Não foi possível acessar o servidor.');
+        return Promise.reject(error);
+      });
   }
 };
 

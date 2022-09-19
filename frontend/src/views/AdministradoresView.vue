@@ -1,10 +1,9 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useAuthStore, useAdministradoresStore } from '@/stores';
+import { useAdministradoresStore } from '@/stores';
 import SpinLoading from '@/components/layout/SpinLoading.vue';
 import Administrador from '@/components/Administrador/Administrador.vue';
 
-const authStore = useAuthStore();
 const administradoresStore = useAdministradoresStore();
 
 onMounted(() => {
@@ -21,6 +20,10 @@ function removerAdministrador(idAdministrador) {
 
 <template>
   <div class="h-full">
+    <div class="text-2xl font-semibold pt-6 pl-6">
+      Administradores
+    </div>
+
     <div v-if="!administradoresStore.administradoresLoaded" class="h-full flex flex-row justify-center items-center">
       <div class="flex items-center">
         <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
@@ -31,10 +34,6 @@ function removerAdministrador(idAdministrador) {
     </div>
 
     <template v-else>
-      <div class="text-2xl pt-6 pl-6" :class="{'bg-white': !authStore.user.isAdministrador}">
-        Administradores
-      </div>
-
       <RouterLink :to="{ name: 'administrador_novo' }">
         <Button class="mt-2 ml-6">
           Criar administrador

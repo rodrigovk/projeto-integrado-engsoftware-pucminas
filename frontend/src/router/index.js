@@ -19,8 +19,24 @@ const routes = [
   },
   {
     path: '/clientes',
-    name: 'clientes',
-    component: () => import('@/views/ClientesView.vue')
+    component: { render: () => h(RouterView) },
+    children: [
+      {
+        path: '',
+        name: 'clientes',
+        component: () => import('@/views/ClientesView.vue')
+      },
+      {
+        path: '/clientes/novo',
+        name: 'cliente_novo',
+        component: () => import('@/views/ClienteView.vue')
+      },
+      {
+        path: '/clientes/:id',
+        name: 'cliente',
+        component: () => import('@/views/ClienteView.vue')
+      },
+    ]
   },
   {
     path: '/administradores',

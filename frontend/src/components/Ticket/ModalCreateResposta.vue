@@ -45,6 +45,8 @@ onUnmounted(() => {
 let isSubmitting = ref(false);
 
 async function onSubmit(values, { resetForm, setErrors }) {
+  setErrors({});
+  
   isSubmitting.value = true;
 
   const authStore = useAuthStore();

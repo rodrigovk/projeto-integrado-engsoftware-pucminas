@@ -28,7 +28,10 @@ const encerrar = () => {
   isEncerrando.value = true;
   ticketsStore.putTicketSituacao(props.ticket.idTicket, 1)
     .then(data => props.ticket.situacao = 1)
-    .catch(error => setErrors({ apiError: error }))
+    .catch(error => notify({
+      group: 'error',
+      title: error.message || error,
+    }))
     .finally(() => isEncerrando.value = false);
 }
 
@@ -36,7 +39,10 @@ const reabrir = () => {
   isReabrindo.value = true;
   ticketsStore.putTicketSituacao(props.ticket.idTicket, 0)
     .then(data => props.ticket.situacao = 0)
-    .catch(error => setErrors({ apiError: error })) //? setErrors não funcionando pq não existe
+    .catch(error => notify({
+      group: 'error',
+      title: error.message || error,
+    }))
     .finally(() => isReabrindo.value = false);
 }
 </script>

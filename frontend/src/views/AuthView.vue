@@ -16,6 +16,8 @@ const schema = Yup.object().shape({
 let isSubmitting = ref(false);
 
 function onSubmit(values, { setErrors }) {
+  setErrors({});
+  
   isSubmitting.value = true;
 
   const authStore = useAuthStore();

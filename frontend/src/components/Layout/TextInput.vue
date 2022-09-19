@@ -7,6 +7,10 @@ const props = defineProps({
     type: String,
     default: 'text',
   },
+  step: {
+    type: String,
+    default: '',
+  },
   value: {
     type: String,
     default: '',
@@ -56,6 +60,7 @@ const {
       :name="name"
       :id="name"
       :type="type"
+      :step="step"
       :value="inputValue"
       :placeholder="placeholder"
       @input="handleChange"

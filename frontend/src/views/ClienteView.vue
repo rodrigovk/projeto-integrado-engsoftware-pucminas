@@ -2,19 +2,19 @@
 import { ref, nextTick, onMounted } from 'vue';
 import { computed } from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router'
-import { useAdministradoresStore } from '@/stores';
-// import * as Yup from 'yup';
+import { useClientesStore } from '@/stores';
 import { notify } from 'notiwind';
 import { Form } from 'vee-validate';
 import Button from '@/components/Layout/Button.vue';
 import Tag from '@/components/Layout/Tag.vue';
 import TextInput from '@/components/layout/TextInput.vue';
+import SelectInput from '@/components/layout/SelectInput.vue';
 
-const store = useAdministradoresStore();
+const store = useClientesStore();
 const route = useRoute();
 const router = useRouter();
 
-const administrador = ref({});
+const cliente = ref({});
 const form = ref(null);
 
 const isLoading = ref(true);
@@ -39,51 +39,33 @@ watch(
 async function load() {
   isLoading.value = true;
   if (route.params.id) {
-    store.getAdministrador(route.params.id)
+    store.getCliente(route.params.id)
       .then(res => {
         const dados = res.data;
-        administrador.value = { idAdministrador: dados.idAdministrador, nome: dados.nome, email: dados.usuario.email, senha: '' };
+        cliente.value = { idCliente: dados.idCliente, nome: dados.nome, tipo: dados.tipo, cnpjCpf: dados.cnpjCpf, email: dados.usuario.email, senha: '' };
         isLoading.value = false;
       });
   } else {
-    administrador.value = { usuario: {} };
+    cliente.value = { tipo: 1, usuario: {} };
     nextTick(() => {
       if (form.value) {
-        //form.value.handleReset();
         form.value.resetForm();
-        //form.value.setFieldError('nome', '');
-        //form.value.setErrors([]);
       }
     });
     isLoading.value = false;
   }
 }
 
-// const schemaCreate = Yup.object().shape({
-//   nome: Yup.string().required('Nome não informado'),
-//   email: Yup.string().required('E-mail não informado'),
-//   senha: Yup.string().required('Senha não informada').min(8, 'Senha deve ter pelo menos 8 caracteres.'),
-// });
-
-// const schemaAlter = Yup.object().shape({
-//   nome: Yup.string().required('Nome não informado'),
-//   email: Yup.string().required('E-mail não informado'),
-//   senha: Yup.string().test("senha-alter-check", "Senha deve ter pelo menos 8 caractéres", (value) => {
-//     if (value === '')
-//       return true;
-//     return (value.length >= 8);
-//   }),
-// });
-
 let isSubmitting = ref(false);
 
 function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   setErrors({});
   
-  const store = useAdministradoresStore();
+  const store = useClientesStore();
 
-  const { nome, email, senha } = values;
-  
+  const { nome, tipo, cnpjCpf, email, senha } = values;
+  const cnpjCpfLimpo = cnpjCpf.replaceAll('.', '').replaceAll('-', '').replaceAll('/', '');
+
   let errors = 0;
   if (nome.length === 0) {
     setFieldError('nome', 'Nome não informado.');
@@ -112,22 +94,22 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 
   isSubmitting.value = true;
   if (isCreating.value) {
-    return store.postAdministrador(nome, email, senha)
+    return store.postCliente(nome, tipo, cnpjCpfLimpo, email, senha)
       .then(response => {
         notify({
           group: 'ok',
-          title: 'Administrador criado com sucesso.',
+          title: 'Cliente criado com sucesso.',
         });
-        router.push(`/administradores/${response.data.idAdministrador}`);
+        router.push(`/clientes/${response.data.idCliente}`);
       })
       .catch(error => setErrors({ apiError: error }))
       .finally(() => isSubmitting.value = false);
   } else {
-    return store.putAdministrador(administrador.value.idAdministrador, nome, email, senha)
+    return store.putCliente(cliente.value.idCliente, nome, tipo, cnpjCpfLimpo, email, senha)
       .then(data => {
         notify({
           group: 'ok',
-          title: 'Administrador alterado com sucesso.',
+          title: 'Cliente alterado com sucesso.',
         })
       })
       .catch(error => setErrors({ apiError: error }))
@@ -135,37 +117,44 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   }
 }
 </script>
-
+  
 <template>
   <div v-if="!isLoading" class="block p-6 shadow-lg bg-white">
     <div class="mb-5">
-      <RouterLink to="/administradores">
+      <RouterLink to="/clientes">
         <Button class="mr-2">
           &lt; Voltar
         </Button>
       </RouterLink>
 
-      <RouterLink :to="{ name: 'administrador_novo' }" v-show="!isCreating">
+      <RouterLink :to="{ name: 'cliente_novo' }" v-show="!isCreating">
         <Button class="">
-          Criar administrador
+          Criar cliente
         </Button>
       </RouterLink>
     </div>
 
     <!-- :validation-schema="isCreating ? schemaCreate : schemaAlter" -->
-    <Form @submit="onSubmit" v-slot="{ errors }" :initial-values="administrador" ref="form">
+    <Form @submit="onSubmit" v-slot="{ errors }" :initial-values="cliente" ref="form">
       <TextInput name="nome" type="text" label="Nome" placeholder="Nome" class="mb-2" />
 
       <div class="mb-2" v-show="!isCreating">
-        <Tag customColor="green" v-if="administrador.situacao === 1">
+        <Tag customColor="green" v-if="cliente.situacao === 1">
           Ativo
         </Tag>
-        <Tag customColor="orange" v-if="administrador.situacao === 0">
+        <Tag customColor="orange" v-if="cliente.situacao === 0">
           Inativo
         </Tag>
       </div>
 
       <TextInput name="email" type="email" label="E-mail" placeholder="Endereço de e-mail" class="mb-2" />
+      
+      <SelectInput name="tipo" label="Tipo" class="mb-2">
+        <option value="0">Físico</option>
+        <option value="1">Jurídico</option>
+      </SelectInput>
+      
+      <TextInput name="cnpjCpf" type="text" label="CNPJ/CPF" placeholder="CNPJ/CPF" v-mask="['###.###.###-##', '##.###.###/####-##']" class="mb-2" />
 
       <TextInput name="senha" type="password"
         :label="isCreating ? 'Senha' : 'Senha (preencher apenas caso deseje trocar a senha)'"
