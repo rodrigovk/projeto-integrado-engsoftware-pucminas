@@ -8,6 +8,10 @@ defineProps({
   closeButtonVisible: {
     type: Boolean,
     default: true,
+  },
+  classPanel: {
+    type: String,
+    default: '',
   }
 });
 </script>
@@ -16,10 +20,10 @@ defineProps({
   <Teleport to="body">
     <Transition name="modal-outer">
       <div v-show="modalActive"
-        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 z-50 flex justify-center px-8">
+        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 z-45 flex justify-center px-8">
         <Transition name="modal-inner">
           <!-- mt-32 -->
-          <div v-if="modalActive" class="p-4 bg-white self-center max-w-screen-md">
+          <div v-if="modalActive" class="p-4 bg-white self-center max-w-screen-md rounded-lg" :class="classPanel">
             <slot />
             <Button customColor="teal" class="mt-2" @click="$emit('close-modal')" v-show="closeButtonVisible">
               Close
