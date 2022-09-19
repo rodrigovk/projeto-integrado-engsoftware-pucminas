@@ -26,7 +26,7 @@ const doCloseMenu = () => {
       <HomeIcon class="w-8 h-8 fill-slate-100 mr-1" />
       Início
     </MenuItem>
-    <MenuItem :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu" v-if="authStore.user.isAdministrador">
+    <MenuItem :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu" v-if="authStore.user.idUsuario">
       <AssinaturaIcon class="w-8 h-8 fill-slate-100 mr-1" />
       Assinaturas
     </MenuItem>

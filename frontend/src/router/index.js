@@ -14,8 +14,24 @@ const routes = [
   },
   {
     path: '/assinaturas',
-    name: 'assinaturas',
-    component: () => import('@/views/AssinaturasView.vue')
+    component: { render: () => h(RouterView) },
+    children: [
+      {
+        path: '',
+        name: 'assinaturas',
+        component: () => import('@/views/AssinaturasView.vue')
+      },
+      {
+        path: '/assinaturas/novo',
+        name: 'assinatura_novo',
+        component: () => import('@/views/AssinaturasView.vue')
+      },
+      {
+        path: '/assinaturas/:id',
+        name: 'assinatura',
+        component: () => import('@/views/AssinaturasView.vue')
+      },
+    ]
   },
   {
     path: '/clientes',
