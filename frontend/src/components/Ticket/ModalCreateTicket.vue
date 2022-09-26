@@ -62,7 +62,7 @@ async function onSubmit(values, { resetForm, setErrors }) {
 
     await ticketsStore.postTicket(dados)
       .then(res => {
-        ticketsStore.tickets.unshift(res.data);
+        ticketsStore.tickets.unshift({ ...res.data, novo: true });
         resetForm();
       })
       .catch(error => setErrors({ apiError: error }));

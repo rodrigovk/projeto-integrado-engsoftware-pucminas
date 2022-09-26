@@ -13,28 +13,28 @@ onMounted(() => {
   ticketsStore.init();
 })
 
-let situacao = null;
-let assunto = null;
+let filtroSituacao = null;
+let filtroAssunto = null;
 
 async function onChangeFiltroAssunto(event) {
-  assunto = event.target.value;
+  filtroAssunto = event.target.value;
 
   nextTick(() => {
-    ticketsStore.getTickets(situacao, assunto);
+    ticketsStore.getTickets(filtroSituacao, filtroAssunto);
   });
 }
 async function onChangeFiltroSituacao(event) {
   switch (event.target.value) {
     case 'abertos':
-      situacao = 0;
+      filtroSituacao = 0;
       break;
     case 'encerrados':
-      situacao = 1;
+      filtroSituacao = 1;
       break;
   }
 
   nextTick(() => {
-    ticketsStore.getTickets(situacao, assunto);
+    ticketsStore.getTickets(filtroSituacao, filtroAssunto);
   });
 }
 
@@ -50,16 +50,17 @@ const modals = reactive({
         Tickets de suporte
       </div>
       <div class="flex sm:ml-auto">
-        <TextInput name="filtroAssunto" label="Assunto" @change="onChangeFiltroAssunto" class="mr-4" />
+        <TextInput name="filtroAssunto" label="Filtrar por assunto" @change="onChangeFiltroAssunto" class="mr-4" />
 
-        <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos" @change="onChangeFiltroSituacao">
+        <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos"
+          @change="onChangeFiltroSituacao">
           <option value="todos">Todos</option>
           <option value="abertos">Abertos</option>
           <option value="encerrados">Encerrados</option>
         </SelectInput>
       </div>
     </div>
-    
+
     <div v-if="!ticketsStore.ticketsLoaded" class="h-full flex flex-row justify-center items-center">
       <div class="flex items-center">
         <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
@@ -68,18 +69,18 @@ const modals = reactive({
         </p>
       </div>
     </div>
-    
+
     <template v-else>
       <div class="mb-0" v-if="!authStore.user.isAdministrador">
         <ModalCreateTicket v-if="modals.createTicket" v-model="modals.createTicket" />
       </div>
-      
+
       <div class="flex flex-col justify-center p-6">
         <TransitionGroup name="ticket">
           <Ticket v-for="ticket in ticketsStore.tickets" :key="ticket.idTicket" :ticket="ticket" />
         </TransitionGroup>
       </div>
-      
+
       <div v-if="!ticketsStore.tickets.length" class="text-xl px-6 py-6">
         Não há nenhum ticket de suporte.
       </div>
@@ -88,19 +89,19 @@ const modals = reactive({
 </template>
 
 <style scoped>
-  .ticket-enter-active,
-  .ticket-leave-active {
-    transition: opacity 0.7s ease, transform 0.7s ease, background-color 3s ease-in;
-  }
-  
-  .ticket-enter-from,
-  .ticket-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  
-  .ticket-enter-from.novo,
-  .ticket-leave-to.novo {
-    background-color: theme('colors.yellow.500');
-  }
-  </style>
+.ticket-enter-active,
+.ticket-leave-active {
+  transition: opacity 0.7s ease, transform 0.7s ease, background-color 3s ease-in;
+}
+
+.ticket-enter-from,
+.ticket-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.ticket-enter-from.novo,
+.ticket-leave-to.novo {
+  background-color: theme('colors.yellow.500');
+}
+</style>
