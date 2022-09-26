@@ -9,14 +9,22 @@ import ModalCreateTicket from '@/components/Ticket/ModalCreateTicket.vue';
 const authStore = useAuthStore();
 const ticketsStore = useTicketsStore();
 
-//const filtroSituacao = ref('todos');
-
 onMounted(() => {
   ticketsStore.init();
 })
 
+let situacao = null;
+let assunto = null;
+
+async function onChangeFiltroAssunto(event) {
+
+  assunto = event.target.value;
+
+  nextTick(() => {
+    ticketsStore.getTickets(situacao, assunto);
+  });
+}
 async function onChangeFiltroSituacao(event) {
-  let situacao = null;
   switch (event.target.value) {
     case 'abertos':
       situacao = 0;
@@ -27,7 +35,7 @@ async function onChangeFiltroSituacao(event) {
   }
 
   nextTick(() => {
-    ticketsStore.getTickets(situacao);
+    ticketsStore.getTickets(situacao, assunto);
   });
 }
 
@@ -39,11 +47,13 @@ const modals = reactive({
 <template>
   <div class="h-full">
     
-    <div class="flex pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
+    <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
       <div class="text-2xl font-semibold">
         Tickets de suporte
       </div>
-      <div class="ml-auto">
+      <div class="flex sm:ml-auto">
+        <TextInput name="filtroAssunto" label="Assunto" @change="onChangeFiltroAssunto" class="mr-4" />
+
         <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos" @change="onChangeFiltroSituacao">
           <option value="todos">Todos</option>
           <option value="abertos">Abertos</option>

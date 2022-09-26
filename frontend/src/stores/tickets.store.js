@@ -25,17 +25,17 @@ export const useTicketsStore = defineStore('ticketsStore', {
     }
   },
   actions: {
-    init(situacao) {
-      this.getTickets(situacao);
+    init(situacao, assunto) {
+      this.getTickets(situacao, assunto);
     },
 
-    async getTickets(situacao) {
+    async getTickets(situacao, assunto) {
       this.ticketsLoaded = false;
 
       const authStore = useAuthStore();
       const url = baseUrl + '/tickets';
 
-      requestData.get(url, null, { situacao })
+      requestData.get(url, null, { situacao, assunto })
         .then(res => {
           this.tickets = res.data;
           this.ticketsLoaded = true;
