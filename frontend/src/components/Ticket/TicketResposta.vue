@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
+  <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white" :class="{ nova: resposta.nova }">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
       {{ resposta.administrador ? resposta.administrador.nome : resposta.cliente.nome }}
       <Tag v-if="resposta.administrador" customColor="amber" class="ml-2">

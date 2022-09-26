@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { useAuthStore } from '@/stores';
 import { useTicketsStore } from '@/stores/tickets.store';
 import { Form } from 'vee-validate';
@@ -46,7 +46,7 @@ let isSubmitting = ref(false);
 
 async function onSubmit(values, { resetForm, setErrors }) {
   setErrors({});
-  
+
   isSubmitting.value = true;
 
   const authStore = useAuthStore();
@@ -59,15 +59,15 @@ async function onSubmit(values, { resetForm, setErrors }) {
     mensagem: values.mensagem
   }
 
-  // const idResposta = 13;
-  // emit('scrollToResposta', idResposta);
-  // return;
-
   store.postResposta(dados)
     .then(res => {
-        props.ticket.respostas.push(res.data);
-        resetForm();
-      })
+      const resposta = { ...res.data, nova: true };
+      props.ticket.respostas.push(resposta);
+      resetForm();
+      nextTick(() => {
+        emit('scrollToResposta', res.data.idResposta);
+      });
+    })
     .catch(error => setErrors({ apiError: error }))
     .finally(() => isSubmitting.value = false);
 }

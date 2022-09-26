@@ -46,7 +46,6 @@ const modals = reactive({
 
 <template>
   <div class="h-full">
-    
     <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
       <div class="text-2xl font-semibold">
         Tickets de suporte

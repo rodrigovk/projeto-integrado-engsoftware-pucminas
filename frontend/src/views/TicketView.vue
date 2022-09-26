@@ -12,7 +12,6 @@ const store = useTicketsStore();
 const route = useRoute();
 
 const ticket = ref({});
-const respostaRefs = ref([]);
 
 defineEmits(['closeMenu']);
 
@@ -23,14 +22,9 @@ onMounted(async () => {
     });
 })
 
-// function scrollToResposta(idResposta) {
-//   console.log(respostaRefs.value.map(i => i));
-//   console.log(respostaRefs.value.map(i => i.key));
-  
-//   const el = respostaRefs.value[10];
-//   if (el)
-//     el.scrollIntoView({behavior: 'smooth'});
-// }
+function scrollToResposta(idResposta) {
+  document.getElementById('ticket-resposta-' + idResposta).scrollIntoView({ behavior: "smooth" });
+}
 
 const dataCriacaoFormatada = computed(() => {
   if (!ticket.value.dataCriacao) {
@@ -84,6 +78,27 @@ const modals = reactive({
   </div>
 
   <div class="flex flex-col justify-center p-6">
-    <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta" ref="respostaRefs" />
+    <TransitionGroup name="resposta">
+      <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta"
+        :id="'ticket-resposta-'+resposta.idResposta"/>
+    </TransitionGroup>
   </div>
 </template>
+
+<style scoped>
+.resposta-enter-active,
+.resposta-leave-active {
+  transition: opacity 0.7s ease, transform 0.7s ease, background-color 3s ease-in;
+}
+
+.resposta-enter-from,
+.resposta-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.resposta-enter-from.nova,
+.resposta-leave-to.nova {
+  background-color: theme('colors.yellow.500');
+}
+</style>
