@@ -41,47 +41,49 @@ const modals = reactive({
 </script>
 
 <template>
-  <div class="block p-6 shadow-lg bg-white">
-    <RouterLink to="/tickets">
-      <Button class="mb-5">
-        &lt; Voltar
+  <div>
+    <div class="block p-6 shadow-lg bg-white">
+      <RouterLink to="/tickets">
+        <Button class="mb-5">
+          &lt; Voltar
+        </Button>
+      </RouterLink>
+
+      <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
+        {{ ticket.assunto }}
+        <Tag customColor="green" v-if="ticket.situacao === 1" class="ml-2">
+          Encerrado
+        </Tag>
+        <Tag customColor="blue" v-if="ticket.situacao === 0" class="ml-2">
+          Em aberto
+        </Tag>
+      </h5>
+
+      <p class="text-sm">
+        {{ dataCriacaoFormatada }}
+      </p>
+
+      <p class="text-gray-700 text-base mb-4">
+        {{ ticket.descricao }}
+      </p>
+
+      <Button v-if="ticket.situacao === 0" @click.prevent="modals.createResposta = true" class="mb-2">
+        Responder
       </Button>
-    </RouterLink>
 
-    <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium mb-2">
-      {{ ticket.assunto }}
-      <Tag customColor="green" v-if="ticket.situacao === 1" class="ml-2">
-        Encerrado
-      </Tag>
-      <Tag customColor="blue" v-if="ticket.situacao === 0" class="ml-2">
-        Em aberto
-      </Tag>
-    </h5>
+    </div>
 
-    <p class="text-sm">
-      {{ dataCriacaoFormatada }}
-    </p>
+    <div v-if="modals.createResposta" class="flex flex-col justify-center p-6 pb-0">
+      <ModalCreateResposta v-model="modals.createResposta" @scrollToResposta="scrollToResposta" :ticket="ticket"
+        :idTicket="ticket.idTicket" />
+    </div>
 
-    <p class="text-gray-700 text-base mb-4">
-      {{ ticket.descricao }}
-    </p>
-
-    <Button v-if="ticket.situacao === 0" @click.prevent="modals.createResposta = true" class="mb-2">
-      Responder
-    </Button>
-
-  </div>
-
-  <div v-if="modals.createResposta" class="flex flex-col justify-center p-6 pb-0">
-    <ModalCreateResposta v-model="modals.createResposta" @scrollToResposta="scrollToResposta" :ticket="ticket"
-      :idTicket="ticket.idTicket" />
-  </div>
-
-  <div class="flex flex-col justify-center p-6">
-    <TransitionGroup name="resposta">
-      <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta"
-        :id="'ticket-resposta-'+resposta.idResposta"/>
-    </TransitionGroup>
+    <div class="flex flex-col justify-center p-6">
+      <TransitionGroup name="resposta">
+        <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta"
+          :id="'ticket-resposta-'+resposta.idResposta" />
+      </TransitionGroup>
+    </div>
   </div>
 </template>
 

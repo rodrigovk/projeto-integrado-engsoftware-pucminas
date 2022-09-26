@@ -48,7 +48,7 @@ const reabrir = () => {
 </script>
 
 <template>
-  <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white">
+  <div class="block p-6 mb-3 rounded-lg shadow-lg bg-white" :class="{ novo: ticket.novo }">
     <h5 class="flex flex-row items-center text-gray-900 text-xl leading-tight font-medium break-words mb-2">
       {{ ticket.assunto }}
       <Tag customColor="green" v-if="ticket.situacao === 1" class="ml-2">

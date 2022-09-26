@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, onMounted } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 import { useAuthStore } from '@/stores';
 import { useTicketsStore } from '@/stores';
 import SpinLoading from '@/components/layout/SpinLoading.vue';
@@ -17,7 +17,6 @@ let situacao = null;
 let assunto = null;
 
 async function onChangeFiltroAssunto(event) {
-
   assunto = event.target.value;
 
   nextTick(() => {
@@ -47,7 +46,7 @@ const modals = reactive({
 <template>
   <div class="h-full">
     <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
-      <div class="text-2xl font-semibold">
+      <div class="mr-4 text-2xl font-semibold">
         Tickets de suporte
       </div>
       <div class="flex sm:ml-auto">
@@ -76,7 +75,9 @@ const modals = reactive({
       </div>
       
       <div class="flex flex-col justify-center p-6">
-        <Ticket v-for="ticket in ticketsStore.tickets" :key="ticket.idTicket" :ticket="ticket" />
+        <TransitionGroup name="ticket">
+          <Ticket v-for="ticket in ticketsStore.tickets" :key="ticket.idTicket" :ticket="ticket" />
+        </TransitionGroup>
       </div>
       
       <div v-if="!ticketsStore.tickets.length" class="text-xl px-6 py-6">
@@ -85,3 +86,21 @@ const modals = reactive({
     </template>
   </div>
 </template>
+
+<style scoped>
+  .ticket-enter-active,
+  .ticket-leave-active {
+    transition: opacity 0.7s ease, transform 0.7s ease, background-color 3s ease-in;
+  }
+  
+  .ticket-enter-from,
+  .ticket-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  
+  .ticket-enter-from.novo,
+  .ticket-leave-to.novo {
+    background-color: theme('colors.yellow.500');
+  }
+  </style>
