@@ -96,9 +96,26 @@ onClickOutside(menuRef, () => {
         class="h-full fixed md:relative overflow-y-auto w-1/2 min-w-fit max-w-full md:w-3/12 md:min-w-fit md:max-w-xs transition duration-300 ease-out"
         :class="showMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" ref="menuRef" />
 
-      <main class="w-full overflow-y-auto">
-        <router-view @closeMenu="closeMenu" />
+      <main class="w-full overflow-y-auto" id="main">
+        <router-view v-slot="{ Component }" @closeMenu="closeMenu">
+          <Transition name="fade">
+            <component :is="Component" />
+          </Transition>
+        </router-view>
       </main>
     </div>
   </div>
 </template>
+
+<style scroped>
+.fade-enter-active
+{
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-enter-from
+{
+  opacity: 0;
+  transform: translateY(20px);
+}
+</style>

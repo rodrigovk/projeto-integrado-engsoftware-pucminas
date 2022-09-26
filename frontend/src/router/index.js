@@ -80,12 +80,12 @@ const routes = [
     path: '/tickets',
     component: { render: () => h(RouterView) },
     children: [
-      { 
+      {
         path: '',
         name: 'tickets',
-        component: () => import('@/views/TicketsView.vue') 
+        component: () => import('@/views/TicketsView.vue')
       },
-      { 
+      {
         path: '/tickets/:id',
         name: 'ticket',
         component: () => import('@/views/TicketView.vue')
@@ -96,7 +96,10 @@ const routes = [
 
 const router = createRouter({
   history: createWebHashHistory(), //createWebHistory(), 
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    document.getElementById('main').scrollTop = 0;
+  },
 })
 
 // navigation guards
