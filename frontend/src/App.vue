@@ -9,6 +9,7 @@ import { extractIdentifiers } from '@vue/compiler-core';
 const authStore = useAuthStore();
 
 const showMenu = ref(false);
+const navBarRef = ref(null);
 const menuRef = ref(null);
 
 onMounted(() => {
@@ -25,7 +26,7 @@ onClickOutside(menuRef, () => {
   if (!showMenu.value) return;
   closeMenu();
 }, {
-  ignore: []
+  ignore: [navBarRef]
 })
 </script>
 
@@ -89,7 +90,7 @@ onClickOutside(menuRef, () => {
   </NotificationGroup>
 
   <div class="flex flex-col bg-gray-50 text-slate-700 h-screen">
-    <NavBar @changeShowMenu="changeShowMenu" class="z-40" />
+    <NavBar @changeShowMenu="changeShowMenu" class="z-40" ref="navBarRef" />
 
     <div class="flex-1 overflow-y-hidden flex flex-row">
       <Menu @closeMenu="closeMenu"
