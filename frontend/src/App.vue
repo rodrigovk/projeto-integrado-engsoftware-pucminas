@@ -1,12 +1,15 @@
 <script setup>
 import { onMounted } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 import { useAuthStore } from './stores';
 import NavBar from '@/components/Layout/NavBar.vue';
 import Menu from '@/components/Layout/Menu.vue';
+import { extractIdentifiers } from '@vue/compiler-core';
 
 const authStore = useAuthStore();
 
-let showMenu = ref(false);
+const showMenu = ref(false);
+const menuRef = ref(null);
 
 onMounted(() => {
   authStore.init()
@@ -18,6 +21,12 @@ function changeShowMenu() {
 function closeMenu() {
   showMenu.value = false;
 }
+onClickOutside(menuRef, () => {
+  if (!showMenu.value) return;
+  closeMenu();
+}, {
+  ignore: []
+})
 </script>
 
 <template>
@@ -85,7 +94,7 @@ function closeMenu() {
     <div class="flex-1 overflow-y-hidden flex flex-row">
       <Menu @closeMenu="closeMenu"
         class="h-full fixed md:relative overflow-y-auto w-1/2 min-w-fit max-w-full md:w-3/12 md:min-w-fit md:max-w-xs transition duration-300 ease-out"
-        :class="showMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" />
+        :class="showMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'" ref="menuRef" />
 
       <main class="w-full overflow-y-auto">
         <router-view @closeMenu="closeMenu" />

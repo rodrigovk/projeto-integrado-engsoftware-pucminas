@@ -23,24 +23,24 @@ const doCloseMenu = () => {
 <template>
   <div class="flex flex-col bg-slate-500 text-slate-100" v-if="authStore.user.idUsuario">
     <MenuItem :to="{ name: 'home' }" @closeMenu="doCloseMenu">
-      <HomeIcon class="w-8 h-8 fill-slate-100 mr-1" />
-      Início
+    <HomeIcon class="w-8 h-8 fill-slate-100 mr-1" />
+    Início
     </MenuItem>
     <MenuItem :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu" v-if="authStore.user.idUsuario">
-      <AssinaturaIcon class="w-8 h-8 fill-slate-100 mr-1" />
-      Assinaturas
+    <AssinaturaIcon class="w-8 h-8 fill-slate-100 mr-1" />
+    Assinaturas
     </MenuItem>
     <MenuItem :to="{ name: 'clientes' }" @closeMenu="doCloseMenu" v-if="authStore.user.isAdministrador">
-      <ClienteIcon class="w-8 h-8 fill-slate-100 mr-1" />
-      Clientes
+    <ClienteIcon class="w-8 h-8 fill-slate-100 mr-1" />
+    Clientes
     </MenuItem>
     <MenuItem :to="{ name: 'administradores' }" @closeMenu="doCloseMenu" v-if="authStore.user.isAdministrador">
-      <AdministradorIcon class="w-8 h-8 fill-slate-100 mr-1" />
-      Administradores
+    <AdministradorIcon class="w-8 h-8 fill-slate-100 mr-1" />
+    Administradores
     </MenuItem>
     <MenuItem :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
-      <TicketIcon class="w-8 h-8 fill-slate-100 mr-1" />
-      Tickets de suporte
+    <TicketIcon class="w-8 h-8 fill-slate-100 mr-1" />
+    Tickets de suporte
     </MenuItem>
     <div class="flex content-center justify-center mt-6">
       <Button :uppercase="false" :paddingY="2.5" @click="logout" customTextSize="lg" class="flex md:hidden">
