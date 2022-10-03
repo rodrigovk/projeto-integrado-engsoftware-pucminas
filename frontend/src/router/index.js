@@ -34,6 +34,11 @@ const routes = [
     ]
   },
   {
+    path: '/contas',
+    name: 'contas',
+    component: () => import('@/views/ContasView.vue')
+  },
+  {
     path: '/clientes',
     component: { render: () => h(RouterView) },
     children: [

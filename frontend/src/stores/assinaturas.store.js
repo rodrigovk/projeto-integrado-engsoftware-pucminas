@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { requestData } from '@/helpers';
+import { requestData, convertDateToUTC } from '@/helpers';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -65,7 +65,7 @@ export const useAssinaturasStore = defineStore('assinaturasStore', {
 
     async putAssinatura(idAssinatura, descricao, valor, dataVencimento, dataProximoVencimento) {
       const data = {
-        descricao, valor, dataVencimento, dataProximoVencimento
+        descricao, valor, dataVencimento: convertDateToUTC(dataVencimento), dataProximoVencimento: convertDateToUTC(dataProximoVencimento)
       }
 
       return requestData.put(`${baseUrl}/assinaturas/${idAssinatura}`, data)
@@ -87,6 +87,20 @@ export const useAssinaturasStore = defineStore('assinaturasStore', {
           throw err;
         });
     },
+
+    async generateContaAssinatura(idAssinatura) {
+      return requestData.post(`${baseUrl}/assinaturas/${idAssinatura}/conta`)
+        .catch(err => {
+          throw err;
+        });
+    },
+
+    async generateContasAssinaturaProximoVencimento() {
+      return requestData.post(`${baseUrl}/assinaturas/conta`)
+        .catch(err => {
+          throw err;
+        });
+    }
   },
   getters: {}
 })

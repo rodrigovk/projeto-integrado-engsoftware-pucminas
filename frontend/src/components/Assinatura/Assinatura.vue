@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useAuthStore, useAssinaturasStore } from '@/stores';
 import { useDateFormat } from '@vueuse/core';
+import { notify } from 'notiwind';
 import Button from '@/components/layout/Button.vue';
 import Tag from '@/components/layout/Tag.vue';
 import SpinLoading from '../Layout/SpinLoading.vue';
@@ -18,13 +19,6 @@ const authStore = useAuthStore();
 const assinaturasStore = useAssinaturasStore();
 
 const isAtivando = ref(false);
-const isInativando = ref(false);
-
-const deleteModalActive = ref(null);
-const toggleDeleteModal = () => {
-  deleteModalActive.value = !deleteModalActive.value;
-};
-
 const ativar = () => {
   isAtivando.value = true;
   assinaturasStore.putAssinaturaSituacao(props.assinatura.idAssinatura, 1)
@@ -36,6 +30,7 @@ const ativar = () => {
     .finally(() => isAtivando.value = false);
 }
 
+const isInativando = ref(false);
 const inativar = () => {
   isInativando.value = true;
   assinaturasStore.putAssinaturaSituacao(props.assinatura.idAssinatura, 0)
@@ -47,8 +42,11 @@ const inativar = () => {
     .finally(() => isInativando.value = false);
 }
 
+const excluirModalActive = ref(null);
+const toggleExcluirModal = () => {
+  excluirModalActive.value = !excluirModalActive.value;
+};
 const isExcluindo = ref(false);
-
 const excluir = () => {
   isExcluindo.value = true;
   assinaturasStore.deleteAssinatura(props.assinatura.idAssinatura)
@@ -59,13 +57,44 @@ const excluir = () => {
     }))
     .finally(() => {
       isExcluindo.value = false;
-      if (toggleDeleteModal.value)
-        toggleDeleteModal.value = false;
+      if (toggleExcluirModal.value)
+        toggleExcluirModal.value = false;
+    });
+}
+
+const gerarContaModalActive = ref(null);
+const toggleGerarContaModal = () => {
+  gerarContaModalActive.value = !gerarContaModalActive.value;
+}
+const isGerandoConta = ref(false);
+const gerarConta = () => {
+  isGerandoConta.value = true;
+  assinaturasStore.generateContaAssinatura(props.assinatura.idAssinatura)
+    .then(response => {
+      notify({
+        group: 'ok',
+        title: 'Conta gerada com sucesso.',
+      });
+      assinaturasStore.init();
+    })
+    .catch(error => notify({
+      group: 'error',
+      title: error.message || error,
+    }))
+    .finally(() => {
+      isGerandoConta.value = false;
+      if (gerarContaModalActive.value)
+        gerarContaModalActive.value = false;
     });
 }
 
 const dataVencimentoFormatada = computed(() => {
-  let formattedDate = useDateFormat(props.assinatura.dataVencimento, 'DD/MM/YYYY')
+  const formattedDate = useDateFormat(props.assinatura.dataVencimento, 'DD/MM/YYYY')
+  return formattedDate.value
+})
+
+const dataProximoVencimentoFormatada = computed(() => {
+  const formattedDate = useDateFormat(props.assinatura.dataProximoVencimento, 'DD/MM/YYYY')
   return formattedDate.value
 })
 </script>
@@ -91,12 +120,17 @@ const dataVencimentoFormatada = computed(() => {
         Valor: {{ vueNumberFormat(assinatura.valor, {}) }}
       </p>
 
-      <p class="text-base break-words mb-2">
-        Data vencimento: {{ dataVencimentoFormatada }}
-      </p>
+      <div class="flex-row md:flex gap-4">
+        <p class="text-base break-words mb-2">
+          Data vencimento: {{ dataVencimentoFormatada }}
+        </p>
+        <p class="text-base break-words mb-2">
+          Próximo vencimento: {{ dataProximoVencimentoFormatada }}
+        </p>
+      </div>
     </div>
 
-    <div v-show="authStore.user.isAdministrador" class="flex">
+    <div v-show="authStore.user.isAdministrador" class="flex flex-wrap">
       <RouterLink :to="{
         name: 'assinatura',
         params: {
@@ -104,9 +138,16 @@ const dataVencimentoFormatada = computed(() => {
         }
       }" class="mr-2">
         <Button>
-          Visualizar
+          Editar
         </Button>
       </RouterLink>
+
+      <Button v-if="assinatura.situacao === 1" customColor="teal" @click="toggleGerarContaModal" class="mr-2">
+        <div class="flex items-center">
+          <SpinLoading v-show="isGerandoConta" class="mr-3" />
+          Gerar conta
+        </div>
+      </Button>
 
       <Button customColor="green" v-if="assinatura.situacao === 0" @click="ativar" class="mr-2">
         <div class="flex items-center">
@@ -122,8 +163,7 @@ const dataVencimentoFormatada = computed(() => {
         </div>
       </Button>
 
-      <!-- @click="excluir" -->
-      <Button customColor="red" @click="toggleDeleteModal" class="ml-auto">
+      <Button customColor="red" @click="toggleExcluirModal" class="sm:ml-auto">
         <div class="flex items-center">
           <SpinLoading v-show="isExcluindo" class="mr-3" />
           Excluir
@@ -132,9 +172,26 @@ const dataVencimentoFormatada = computed(() => {
     </div>
   </div>
 
-  <BaseModal :modalActive="deleteModalActive" :closeButtonVisible="false" @close-modal="toggleDeleteModal">
+  <BaseModal :modalActive="gerarContaModalActive" :closeButtonVisible="false" @close-modal="toggleGerarContaModal">
     <div>
-      <h2 class="text-2xl mb-1">Exclusão do assinatura</h2>
+      <h2 class="text-2xl mb-1">Geração de conta da assinatura</h2>
+      <p class="mb-4">
+        Confirma a geração de conta da assinatura de <b>{{ assinatura.cliente.nome }}</b>?
+      </p>
+    </div>
+    <div class="mt-4">
+      <Button @click="gerarConta" class="mr-2">
+        Gerar conta
+      </Button>
+      <Button @click="toggleGerarContaModal">
+        Não
+      </Button>
+    </div>
+  </BaseModal>
+
+  <BaseModal :modalActive="excluirModalActive" :closeButtonVisible="false" @close-modal="toggleExcluirModal">
+    <div>
+      <h2 class="text-2xl mb-1">Exclusão da assinatura</h2>
       <p class="mb-4">
         Confirma a exclusão desta assinatura de <b>{{ assinatura.cliente.nome }}</b>?
       </p>
@@ -143,7 +200,7 @@ const dataVencimentoFormatada = computed(() => {
       <Button @click="excluir" customColor="red" class="mr-2">
         Excluir
       </Button>
-      <Button @click="toggleDeleteModal">
+      <Button @click="toggleExcluirModal">
         Não
       </Button>
     </div>

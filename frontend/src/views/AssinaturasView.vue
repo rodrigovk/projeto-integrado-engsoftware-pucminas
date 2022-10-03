@@ -4,9 +4,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore, useAssinaturasStore, useClientesStore } from '@/stores';
 import { notify } from 'notiwind';
 import { Form } from 'vee-validate';
+import { formatDateToISOString } from '@/helpers';
 import SpinLoading from '@/components/layout/SpinLoading.vue';
 import Assinatura from '@/components/Assinatura/Assinatura.vue';
-import { formatDateToISOString } from '@/helpers/dateUtils';
 
 defineEmits(['closeMenu']);
 
@@ -16,18 +16,6 @@ const router = useRouter();
 const authStore = useAuthStore();
 const assinaturasStore = useAssinaturasStore();
 const clientesStore = useClientesStore();
-
-const clientes = ref([]);
-const clientesLoaded = ref(false);
-
-const record = ref({});
-const recordModalActive = ref(null);
-const toggleRecordModal = () => {
-  recordModalActive.value = !recordModalActive.value;
-};
-const isCreatingRecord = computed(() => {
-  return (route.params.id === undefined);
-});
 
 onMounted(() => {
   assinaturasStore.init();
@@ -58,6 +46,8 @@ watch(
   }
 );
 
+const clientes = ref([]);
+const clientesLoaded = ref(false);
 function carregarClientes() {
   clientesLoaded.value = false;
   clientesStore.getClientesSimples()
@@ -67,6 +57,14 @@ function carregarClientes() {
     .finally(clientesLoaded.value = true)
 }
 
+const record = ref({});
+const recordModalActive = ref(null);
+const toggleRecordModal = () => {
+  recordModalActive.value = !recordModalActive.value;
+};
+const isCreatingRecord = computed(() => {
+  return (route.params.id === undefined);
+});
 function visualizarAssinatura(idAssinatura) {
   if (idAssinatura > 0) {
     assinaturasStore.getAssinatura(idAssinatura)
@@ -92,9 +90,8 @@ function removerAssinatura(idAssinatura) {
   assinaturasStore.assinaturas.splice(index, 1);
 }
 
-let isSubmitting = ref(false);
-
-function onSubmit(values, { setFieldError, setErrors, resetForm }) {
+const isGravandoAssinatura = ref(false);
+function gravarAssinatura(values, { setFieldError, setErrors, resetForm }) {
   setErrors({});
 
   const store = useAssinaturasStore();
@@ -134,7 +131,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   const _dataVencimento = new Date(dataVencimento);
   const _dataProximoVencimento = new Date(dataProximoVencimento);
 
-  isSubmitting.value = true;
+  isGravandoAssinatura.value = true;
   if (isCreatingRecord.value) {
     return store.postAssinatura(_idCliente, descricao, _valor, _dataVencimento, _dataProximoVencimento)
       .then(response => {
@@ -146,7 +143,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
         router.push(`/assinaturas/${response.data.idAssinatura}`);
       })
       .catch(error => setErrors({ apiError: error }))
-      .finally(() => isSubmitting.value = false);
+      .finally(() => isGravandoAssinatura.value = false);
   } else {
     return store.putAssinatura(record.value.idAssinatura, descricao, _valor, _dataVencimento, _dataProximoVencimento)
       .then(data => {
@@ -157,8 +154,41 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
         assinaturasStore.init();
       })
       .catch(error => setErrors({ apiError: error }))
-      .finally(() => isSubmitting.value = false);
+      .finally(() => isGravandoAssinatura.value = false);
   }
+}
+
+const gerarContasModalActive = ref(null);
+const toggleGerarContasModal = () => {
+  gerarContasModalActive.value = !gerarContasModalActive.value;
+}
+const isGerandoContas = ref(false);
+function gerarContasAssinatura() {
+  isGerandoContas.value = true;
+  assinaturasStore.generateContasAssinaturaProximoVencimento()
+    .then(response => {
+      if (response.data.length > 0) {
+        notify({
+          group: 'ok',
+          title: 'Contas geradas com sucesso.',
+        });
+        assinaturasStore.init();
+      } else {
+        notify({
+          group: 'info',
+          title: 'Nenhuma assinatura está próxima do vencimento.',
+        });
+      }
+    })
+    .catch(error => notify({
+      group: 'error',
+      title: error.message || error,
+    }))
+    .finally(() => {
+      isGerandoContas.value = false;
+      if (gerarContasModalActive.value)
+        gerarContasModalActive.value = false;
+    });
 }
 </script>
   
@@ -179,11 +209,18 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       </div>
 
       <template v-else>
-        <RouterLink :to="{ name: 'assinatura_novo' }" v-show="authStore.user.isAdministrador">
-          <Button class="mt-2 ml-6">
-            Criar assinatura
+        <div class="mt-2 ml-6">
+          <RouterLink :to="{ name: 'assinatura_novo' }" v-show="authStore.user.isAdministrador">
+            <Button class="mr-2">
+              Criar assinatura
+            </Button>
+          </RouterLink>
+
+          <Button @click="toggleGerarContasModal">
+            <SpinLoading v-show="isGerandoContas" class="mr-3" />
+            Gerar contas
           </Button>
-        </RouterLink>
+        </div>
 
         <div class="flex flex-col justify-center p-6">
           <Assinatura v-for="assinatura in assinaturasStore.assinaturas" :key="assinatura.idAssinatura"
@@ -211,7 +248,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
           </div>
         </div>
 
-        <Form @submit="onSubmit" v-slot="{ errors }" :initial-values="record" ref="form">
+        <Form @submit="gravarAssinatura" v-slot="{ errors }" :initial-values="record" ref="form">
           <SelectInput name="idCliente" label="Cliente" v-show="clientes.length > 0" :disabled="!isCreatingRecord"
             class="mb-2">
             <option v-for="cliente in clientes" :value="cliente.idCliente">{{ cliente.nome }}</option>
@@ -228,21 +265,21 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
             placeholder="Data de vencimento" class="mb-2" />
 
           <div class="mt-4">
-            <Button :disabled="isSubmitting" class="mr-2">
-              <div v-show="isSubmitting" class="flex">
+            <Button :disabled="isGravandoAssinatura" class="mr-2">
+              <div v-show="isGravandoAssinatura" class="flex">
                 <div class="flex items-center">
                   <SpinLoading class="mr-2" />
                   Gravando...
                 </div>
               </div>
-              <div v-show="!isSubmitting">
+              <div v-show="!isGravandoAssinatura">
                 Gravar
               </div>
             </Button>
 
             <RouterLink :to="{
               name: 'assinaturas',
-            }" @click.prevent="toggleRecordModal" :disable="isSubmitting" class="mr-2">
+            }" @click.prevent="toggleRecordModal" :disable="isGravandoAssinatura" class="mr-2">
               <Button customColor="red">
                 Descartar
               </Button>
@@ -251,6 +288,23 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 
           <div v-if="errors.apiError" class="text-red-700 mt-3 mb-0">{{ errors.apiError }}</div>
         </Form>
+      </div>
+    </BaseModal>
+
+    <BaseModal :modalActive="gerarContasModalActive" :closeButtonVisible="false" @close-modal="toggleGerarContasModal">
+      <div>
+        <h2 class="text-2xl mb-1">Geração de contas das assinaturas</h2>
+        <p class="mb-4">
+          Confirma a geração de contas das assinaturas com vencimento próximo?
+        </p>
+      </div>
+      <div class="mt-4">
+        <Button @click="gerarContasAssinatura" class="mr-2">
+          Gerar contas
+        </Button>
+        <Button @click="toggleGerarContasModal">
+          Não
+        </Button>
       </div>
     </BaseModal>
   </div>

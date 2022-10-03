@@ -37,36 +37,41 @@ const doCloseMenu = () => {
   </div>
 
   <div v-else class="">
-    <div class="mx-auto max-w-screen-xl px-4 py-4 sm:px-6 sm:py-6 flex flex-col divide-y-4">
-      <h2 class="text-2xl font-extrabold leading-9 tracking-tight">
-        Olá, {{ authStore.user.nome }}.</h2>
+    <!--  divide-y-4 -->
+    <div class="mx-auto max-w-screen-xl px-4 py-4 sm:px-6 sm:py-6 flex flex-col">
+      <h2 class="text-2xl font-extrabold leading-9 tracking-tight mb-4">
+        Olá, {{ authStore.user.nome }}.
+      </h2>
 
       <div v-if="authStore.user.idAdministrador">
-        <HomeInfo :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu">
+        <HomeInfo :to="{ name: 'assinaturas' }" @closeMenu="doCloseMenu"
+          :customColor="dashInfo.assinaturas.quantidade > 0 ? 'amber' : 'teal'">
           <div class="flex items-center">
-            <AssinaturaIcon class="fill-slate-700 mr-2" />
-            {{ dashInfo.assinaturas.quantidade }} assinaturas aguardam geração da mensalidade.
+            <AssinaturaIcon class="fill-slate-100 mr-2" />
+            {{ dashInfo.assinaturas.quantidade }} assinaturas aguardam geração da mensalidade
           </div>
         </HomeInfo>
-        <!-- <HomeInfo to="/" @closeMenu="doCloseMenu">
+        <HomeInfo :to="{ name: 'contas' }" @closeMenu="doCloseMenu"
+          :customColor="dashInfo.contas.quantidade > 0 ? 'amber' : 'teal'">
           <div class="flex items-center">
-            <ContaReceberIcon class="fill-slate-700 mr-2" />
+            <ContaReceberIcon class="fill-slate-100 mr-2" />
             {{ dashInfo.contas.quantidade }} contas a receber vencidas ({{ vueNumberFormat(dashInfo.contas.valor, {})
-            }}).
+            }})
           </div>
-        </HomeInfo> -->
-        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
+        </HomeInfo>
+        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu"
+          :customColor="dashInfo.tickets.quantidade > 0 ? 'amber' : 'teal'">
           <div class="flex items-center">
-            <TicketIcon class="fill-slate-700 mr-2" />
-            {{ dashInfo.tickets.quantidade }} tickets de suporte aguardam resposta.
+            <TicketIcon class="fill-slate-100 mr-2" />
+            {{ dashInfo.tickets.quantidade }} tickets de suporte aguardam resposta
           </div>
         </HomeInfo>
       </div>
       <div v-else>
         <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
           <div class="flex items-center">
-            <TicketIcon class="fill-slate-700 mr-2" />
-            {{ dashInfo.tickets.quantidade }} tickets de suporte foram respondidos.
+            <TicketIcon class="fill-slate-100 mr-2" />
+            {{ dashInfo.tickets.quantidade }} tickets de suporte foram respondidos
           </div>
         </HomeInfo>
       </div>

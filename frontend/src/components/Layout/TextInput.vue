@@ -35,6 +35,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const name = toRef(props, 'name');
@@ -72,6 +76,7 @@ const {
         // 'bg-green-200 focus:border-green-500': !!meta.valid,
       }"
       :autocomplete="autocomplete"
+      :disabled="disabled"
     />
 
     <p v-show="errorMessage" class="text-red-500">

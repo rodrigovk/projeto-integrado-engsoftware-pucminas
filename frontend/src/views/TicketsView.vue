@@ -31,6 +31,8 @@ async function onChangeFiltroSituacao(event) {
     case 'encerrados':
       filtroSituacao = 1;
       break;
+    default:
+      filtroSituacao = null;
   }
 
   nextTick(() => {
@@ -50,7 +52,8 @@ const modals = reactive({
         Tickets de suporte
       </div>
       <div class="flex sm:ml-auto">
-        <TextInput name="filtroAssunto" label="Filtrar por assunto" @change="onChangeFiltroAssunto" class="mr-4" />
+        <TextInput :disabled="!ticketsStore.ticketsLoaded" name="filtroAssunto" label="Filtrar por assunto"
+          @change="onChangeFiltroAssunto" class="mr-4" />
 
         <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos"
           @change="onChangeFiltroSituacao">

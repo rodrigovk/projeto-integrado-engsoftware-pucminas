@@ -14,12 +14,16 @@ export const useUsuariosStore = defineStore('usuariosStore', {
       const authStore = useAuthStore();
 
       return requestData.get(`${baseUrl}/usuarios/${authStore.user.idUsuario}/dash-info`)
+        .then(response => {
+          response.data.contas.valor = parseFloat(response.data.contas.valor);
+          return response;
+        })
         .catch(err => {
           throw err;
         });
     },
   },
   getters: {
-    
+
   }
 })
