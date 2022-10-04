@@ -6,7 +6,7 @@ const props = defineProps({
   },
   customColor: {
     type: String,
-    default: 'slate',
+    default: 'teal',
   },
 });
 

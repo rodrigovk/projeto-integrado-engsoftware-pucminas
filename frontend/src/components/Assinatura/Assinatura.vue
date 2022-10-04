@@ -120,17 +120,17 @@ const dataProximoVencimentoFormatada = computed(() => {
         Valor: {{ vueNumberFormat(assinatura.valor, {}) }}
       </p>
 
-      <div class="flex-row md:flex gap-4">
-        <p class="text-base break-words mb-2">
+      <div class="flex-row md:flex">
+        <p class="text-base break-words mb-1 md:mb-0 md:mr-4">
           Data vencimento: {{ dataVencimentoFormatada }}
         </p>
-        <p class="text-base break-words mb-2">
+        <p class="text-base break-words">
           Próximo vencimento: {{ dataProximoVencimentoFormatada }}
         </p>
       </div>
     </div>
 
-    <div v-show="authStore.user.isAdministrador" class="flex flex-wrap">
+    <div v-show="authStore.user.isAdministrador" class="flex flex-wrap mt-2">
       <RouterLink :to="{
         name: 'assinatura',
         params: {

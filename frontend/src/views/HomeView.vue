@@ -96,6 +96,14 @@ const doCloseMenu = () => {
             {{ dashInfo.tickets.quantidade }} tickets de suporte foram respondidos
           </div>
         </HomeInfo>
+        <HomeInfo :to="{ name: 'contas' }" @closeMenu="doCloseMenu"
+          :customColor="dashInfo.contas.quantidade > 0 ? 'amber' : 'teal'">
+          <div class="flex items-center">
+            <ContaReceberIcon class="w-10 h-10 fill-slate-100 mr-2" />
+            {{ dashInfo.contas.quantidade }} contas a receber vencidas ({{ vueNumberFormat(dashInfo.contas.valor, {})
+            }})
+          </div>
+        </HomeInfo>
       </div>
 
       <div class="mt-4" v-if="authStore.user.idAdministrador">
