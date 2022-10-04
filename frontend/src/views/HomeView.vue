@@ -29,13 +29,15 @@ onMounted(() => {
     .then(response => {
       dashInfo.value = response.data;
 
-      const quantidadePorData = dashInfo.value.tickets.quantidadePorData;
-      chartData.labels = quantidadePorData.map((dia) => {
-        return new Date(dia.data).getUTCDate();
-      });
-      chartData.datasets[0].data = quantidadePorData.map((dia) => {
-        return dia.count;
-      });
+      if (dashInfo.value.tickets.quantidadePorData) {
+        const quantidadePorData = dashInfo.value.tickets.quantidadePorData;
+        chartData.labels = quantidadePorData.map((dia) => {
+          return new Date(dia.data).getUTCDate();
+        });
+        chartData.datasets[0].data = quantidadePorData.map((dia) => {
+          return dia.count;
+        });
+      }
 
       isLoading.value = false;
     });
@@ -87,7 +89,8 @@ const doCloseMenu = () => {
         </HomeInfo>
       </div>
       <div v-else>
-        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu">
+        <HomeInfo :to="{ name: 'tickets' }" @closeMenu="doCloseMenu"
+          :customColor="dashInfo.tickets.quantidade > 0 ? 'amber' : 'teal'">
           <div class="flex items-center">
             <TicketIcon class="w-10 h-10 fill-slate-100 mr-2" />
             {{ dashInfo.tickets.quantidade }} tickets de suporte foram respondidos
@@ -95,7 +98,7 @@ const doCloseMenu = () => {
         </HomeInfo>
       </div>
 
-      <div class="mt-4">
+      <div class="mt-4" v-if="authStore.user.idAdministrador">
         <h2 class="text-xl font-extrabold mb-4">Tickets de suporte respondidos por dia</h2>
         <HomeChart :chartData="chartData" :height="100" />
       </div>

@@ -1,11 +1,12 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useContasStore, useClientesStore } from '@/stores';
+import { useAuthStore, useContasStore, useClientesStore } from '@/stores';
 import SpinLoading from '@/components/layout/SpinLoading.vue';
 import Conta from '@/components/Conta/Conta.vue';
 
 defineEmits(['closeMenu']);
 
+const authStore = useAuthStore();
 const contasStore = useContasStore();
 const clientesStore = useClientesStore();
 
@@ -14,7 +15,7 @@ function carregarContas() {
 }
 
 onMounted(() => {
-  carregarClientes();
+  if (authStore.user.idAdministrador) carregarClientes();
   carregarContas();
 })
 
