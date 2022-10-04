@@ -15,21 +15,6 @@ function authBasic(url) {
   }
 }
 
-// function handleResponse(response) {
-//   if (!(response.status >= 200 && response.status < 300)) {
-//     const { user, logout } = useAuthStore();
-//       if ([401, 403].includes(response.status) && user) {
-//         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-//         logout();
-//       }
-
-//       const error = response.data || response.statusText;
-//       return Promise.reject(error);
-//   }
-
-//   return response.data;
-// }
-
 const base = async (method, url, data, params) => {
   const CancelToken = axios.CancelToken;
   let source = CancelToken.source();
@@ -58,6 +43,12 @@ const base = async (method, url, data, params) => {
       return Promise.resolve(res);
     })
     .catch(err => {
+      if ([401].includes(err.response.status)) {
+        // auto logout if 401 Unauthorized
+        const { user, logout } = useAuthStore();
+        if (user) logout();
+      }
+
       if (err.response) {
         if (err.response.data) {
           if (err.response.data.message) {

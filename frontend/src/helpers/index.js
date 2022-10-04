@@ -1,3 +1,3 @@
 export * from './dateUtils';
-export * from './get-text-initials';
-export * from './request-wrapper';
+export * from './getTextInitials';
+export * from './requestWrapper';

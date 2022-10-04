@@ -15,7 +15,8 @@ export const useUsuariosStore = defineStore('usuariosStore', {
 
       return requestData.get(`${baseUrl}/usuarios/${authStore.user.idUsuario}/dash-info`)
         .then(response => {
-          response.data.contas.valor = parseFloat(response.data.contas.valor);
+          if (response.data.contas)
+            response.data.contas.valor = parseFloat(response.data.contas.valor);
           return response;
         })
         .catch(err => {
