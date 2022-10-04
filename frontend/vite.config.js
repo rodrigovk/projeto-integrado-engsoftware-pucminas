@@ -28,5 +28,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'D:/Dev/projeto-integrado-engsoftware-pucminas-frontend-dist',
+    emptyOutDir: true,
   }
 })
