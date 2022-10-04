@@ -33,8 +33,8 @@ const getCores = computed(() => {
 <template>
   <div class="block mb-3 rounded-lg shadow-lg text-slate-100" :class="[getCores]">
     <RouterLink :to="to" @click="doCloseMenu">
-      <div class="mx-0 my-0 p-3">
-        <h3 class="text-2xl font-extrabold leading-9 tracking-tight">
+      <div class="mx-0 my-0 p-2">
+        <h3 class="text-xl font-medium leading-9 tracking-tight">
           <slot />
         </h3>
       </div>
