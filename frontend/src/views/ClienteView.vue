@@ -60,7 +60,7 @@ let isSubmitting = ref(false);
 
 function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   setErrors({});
-  
+
   const store = useClientesStore();
 
   const { nome, tipo, cnpjCpf, email, senha } = values;
@@ -92,9 +92,11 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   if (errors > 0)
     return;
 
+  const _tipo = parseInt(tipo);
+
   isSubmitting.value = true;
   if (isCreating.value) {
-    return store.postCliente(nome, tipo, cnpjCpfLimpo, email, senha)
+    return store.postCliente(nome, _tipo, cnpjCpfLimpo, email, senha)
       .then(response => {
         notify({
           group: 'ok',
@@ -105,7 +107,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       .catch(error => setErrors({ apiError: error }))
       .finally(() => isSubmitting.value = false);
   } else {
-    return store.putCliente(cliente.value.idCliente, nome, tipo, cnpjCpfLimpo, email, senha)
+    return store.putCliente(cliente.value.idCliente, nome, _tipo, cnpjCpfLimpo, email, senha)
       .then(data => {
         notify({
           group: 'ok',
@@ -134,7 +136,6 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       </RouterLink>
     </div>
 
-    <!-- :validation-schema="isCreating ? schemaCreate : schemaAlter" -->
     <Form @submit="onSubmit" v-slot="{ errors }" :initial-values="cliente" ref="form">
       <TextInput name="nome" type="text" label="Nome" placeholder="Nome" class="mb-2" />
 
@@ -148,13 +149,14 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       </div>
 
       <TextInput name="email" type="email" label="E-mail" placeholder="Endereço de e-mail" class="mb-2" />
-      
+
       <SelectInput name="tipo" label="Tipo" class="mb-2">
         <option value="0">Físico</option>
         <option value="1">Jurídico</option>
       </SelectInput>
-      
-      <TextInput name="cnpjCpf" type="text" label="CNPJ/CPF" placeholder="CNPJ/CPF" v-mask="['###.###.###-##', '##.###.###/####-##']" class="mb-2" />
+
+      <TextInput name="cnpjCpf" type="text" label="CNPJ/CPF" placeholder="CNPJ/CPF"
+        v-mask="['###.###.###-##', '##.###.###/####-##']" class="mb-2" />
 
       <TextInput name="senha" type="password"
         :label="isCreating ? 'Senha' : 'Senha (preencher apenas caso deseje trocar a senha)'"
