@@ -41,7 +41,7 @@ const modals = reactive({
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <div class="block p-6 shadow-lg bg-white">
       <RouterLink to="/tickets">
         <Button class="mb-5">
@@ -70,7 +70,6 @@ const modals = reactive({
       <Button v-if="ticket.situacao === 0" @click.prevent="modals.createResposta = true" class="mb-2">
         Responder
       </Button>
-
     </div>
 
     <div v-if="modals.createResposta" class="flex flex-col justify-center p-6 pb-0">
@@ -79,10 +78,10 @@ const modals = reactive({
     </div>
 
     <div class="flex flex-col justify-center p-6">
-      <TransitionGroup name="resposta">
+      <!-- <TransitionGroup name="resposta"> -->
         <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta"
           :id="'ticket-resposta-'+resposta.idResposta" />
-      </TransitionGroup>
+      <!-- </TransitionGroup> -->
     </div>
   </div>
 </template>

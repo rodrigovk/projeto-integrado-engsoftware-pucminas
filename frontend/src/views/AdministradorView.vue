@@ -3,7 +3,6 @@ import { ref, nextTick, onMounted } from 'vue';
 import { computed } from '@vue/reactivity';
 import { useRoute, useRouter } from 'vue-router'
 import { useAdministradoresStore } from '@/stores';
-// import * as Yup from 'yup';
 import { notify } from 'notiwind';
 import { Form } from 'vee-validate';
 import Button from '@/components/Layout/Button.vue';
@@ -49,41 +48,22 @@ async function load() {
     administrador.value = { usuario: {} };
     nextTick(() => {
       if (form.value) {
-        //form.value.handleReset();
         form.value.resetForm();
-        //form.value.setFieldError('nome', '');
-        //form.value.setErrors([]);
       }
     });
     isLoading.value = false;
   }
 }
 
-// const schemaCreate = Yup.object().shape({
-//   nome: Yup.string().required('Nome não informado'),
-//   email: Yup.string().required('E-mail não informado'),
-//   senha: Yup.string().required('Senha não informada').min(8, 'Senha deve ter pelo menos 8 caracteres.'),
-// });
-
-// const schemaAlter = Yup.object().shape({
-//   nome: Yup.string().required('Nome não informado'),
-//   email: Yup.string().required('E-mail não informado'),
-//   senha: Yup.string().test("senha-alter-check", "Senha deve ter pelo menos 8 caractéres", (value) => {
-//     if (value === '')
-//       return true;
-//     return (value.length >= 8);
-//   }),
-// });
-
 let isSubmitting = ref(false);
 
 function onSubmit(values, { setFieldError, setErrors, resetForm }) {
   setErrors({});
-  
+
   const store = useAdministradoresStore();
 
   const { nome, email, senha } = values;
-  
+
   let errors = 0;
   if (nome.length === 0) {
     setFieldError('nome', 'Nome não informado.');
@@ -137,7 +117,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 </script>
 
 <template>
-  <div v-if="!isLoading" class="block p-6 shadow-lg bg-white">
+  <div v-if="!isLoading" class="h-full block p-6 shadow-lg bg-white">
     <div class="mb-5">
       <RouterLink to="/administradores">
         <Button class="mr-2">
@@ -152,7 +132,6 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       </RouterLink>
     </div>
 
-    <!-- :validation-schema="isCreating ? schemaCreate : schemaAlter" -->
     <Form @submit="onSubmit" v-slot="{ errors }" :initial-values="administrador" ref="form">
       <TextInput name="nome" type="text" label="Nome" placeholder="Nome" class="mb-2" />
 

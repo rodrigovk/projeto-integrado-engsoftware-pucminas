@@ -119,7 +119,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 </script>
   
 <template>
-  <div v-if="!isLoading" class="block p-6 shadow-lg bg-white">
+  <div v-if="!isLoading" class="h-full block p-6 shadow-lg bg-white">
     <div class="mb-5">
       <RouterLink to="/clientes">
         <Button class="mr-2">

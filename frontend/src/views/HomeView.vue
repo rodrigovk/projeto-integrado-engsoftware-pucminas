@@ -58,7 +58,7 @@ const doCloseMenu = () => {
     </div>
   </div>
 
-  <div v-else class="">
+  <div v-else class="h-full">
     <div class="mx-auto max-w-screen-xl px-4 py-4 sm:px-6 sm:py-6 flex flex-col">
       <h2 class="text-2xl font-extrabold leading-9 tracking-tight mb-4">
         Olá, {{ authStore.user.nome }}.
