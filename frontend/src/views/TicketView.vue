@@ -78,10 +78,10 @@ const modals = reactive({
     </div>
 
     <div class="flex flex-col justify-center p-6">
-      <!-- <TransitionGroup name="resposta"> -->
+      <TransitionGroup name="resposta">
         <TicketResposta v-for="resposta in ticket.respostas" :key="resposta.idResposta" :resposta="resposta"
           :id="'ticket-resposta-'+resposta.idResposta" />
-      <!-- </TransitionGroup> -->
+      </TransitionGroup>
     </div>
   </div>
 </template>

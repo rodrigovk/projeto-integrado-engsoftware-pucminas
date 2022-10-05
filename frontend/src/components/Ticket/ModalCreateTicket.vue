@@ -42,7 +42,7 @@ let isSubmitting = ref(false);
 
 async function onSubmit(values, { resetForm, setErrors }) {
   setErrors({});
-  
+
   isSubmitting.value = true;
 
   try {
@@ -73,7 +73,8 @@ async function onSubmit(values, { resetForm, setErrors }) {
 </script>
 
 <template>
-  <div class="block p-6 shadow-lg bg-white">
+  <div class="block rounded-lg shadow-lg bg-white">
+    <h2 class="text-xl font-bold mb-2">Criar ticket</h2>
     <div class="">
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors }">
         <TextInput name="assunto" type="text" label="Assunto" placeholder="Assunto" class="mb-2" />

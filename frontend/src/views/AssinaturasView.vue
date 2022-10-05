@@ -194,43 +194,45 @@ function gerarContasAssinatura() {
   
 <template>
   <div class="h-full">
-    <div class="flex flex-col h-full">
-      <div class="flex items-center text-2xl font-semibold pt-6 pl-6">
-        Assinaturas
-      </div>
-
-      <div v-if="!assinaturasStore.assinaturasLoaded" class="flex-1 flex flex-row justify-center items-center">
-        <div class="flex items-center">
-          <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
-          <p class="text-xl text-teal-600">
-            Carregando...
-          </p>
+    <div class="p-6">
+      <div class="flex flex-col h-full">
+        <div class="flex items-center text-2xl font-semibold">
+          Assinaturas
         </div>
-      </div>
 
-      <template v-else>
-        <div class="flex flex-wrap gap-2 mt-2 ml-6" v-show="authStore.user.isAdministrador">
-          <RouterLink :to="{ name: 'assinatura_novo' }">
-            <Button>
-              Criar assinatura
+        <div v-if="!assinaturasStore.assinaturasLoaded" class="flex-1 flex flex-row justify-center items-center">
+          <div class="flex items-center">
+            <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
+            <p class="text-xl text-teal-600">
+              Carregando...
+            </p>
+          </div>
+        </div>
+
+        <template v-else>
+          <div class="flex flex-wrap gap-2 mt-2" v-show="authStore.user.isAdministrador">
+            <RouterLink :to="{ name: 'assinatura_novo' }">
+              <Button>
+                Criar assinatura
+              </Button>
+            </RouterLink>
+
+            <Button @click="toggleGerarContasModal">
+              <SpinLoading v-show="isGerandoContas" class="mr-3" />
+              Gerar contas
             </Button>
-          </RouterLink>
+          </div>
 
-          <Button @click="toggleGerarContasModal">
-            <SpinLoading v-show="isGerandoContas" class="mr-3" />
-            Gerar contas
-          </Button>
-        </div>
+          <div class="flex flex-col justify-center pt-6">
+            <Assinatura v-for="assinatura in assinaturasStore.assinaturas" :key="assinatura.idAssinatura"
+              :assinatura="assinatura" @removerAssinatura="removerAssinatura" />
+          </div>
 
-        <div class="flex flex-col justify-center p-6">
-          <Assinatura v-for="assinatura in assinaturasStore.assinaturas" :key="assinatura.idAssinatura"
-            :assinatura="assinatura" @removerAssinatura="removerAssinatura" />
-        </div>
-
-        <div v-if="!assinaturasStore.assinaturas.length" class="text-xl px-6">
-          Não há nenhuma assinatura.
-        </div>
-      </template>
+          <div v-if="!assinaturasStore.assinaturas.length" class="text-xl px-6">
+            Não há nenhuma assinatura.
+          </div>
+        </template>
+      </div>
     </div>
 
     <BaseModal :modalActive="recordModalActive" :closeButtonVisible="false" @close-modal="toggleRecordModal"

@@ -123,8 +123,8 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
 <template>
   <div v-if="!isLoading" class="h-full block p-6 shadow-lg bg-white">
     <div class="mb-5">
-      <RouterLink to="/clientes">
-        <Button class="mr-2">
+      <RouterLink to="/clientes" class="mr-2">
+        <Button>
           &lt; Voltar
         </Button>
       </RouterLink>

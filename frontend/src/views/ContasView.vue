@@ -59,43 +59,46 @@ async function onChangeFiltroSituacao(event) {
     
 <template>
   <div class="flex flex-col h-full">
-    <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6">
-      <div class="mr-4 text-2xl font-semibold">
-        Contas
-      </div>
-      <div class="flex flex-wrap sm:flex-nowrap sm:ml-auto">
-        <SelectInput name="idCliente" label="Cliente" v-show="clientes.length > 0" @change="onChangeFiltroCliente"
-          initialValue="todos" class="mb-2 mr-4">
-          <option value="todos">Todos</option>
-          <option v-for="cliente in clientes" :value="cliente.idCliente">{{ cliente.nome }}</option>
-        </SelectInput>
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row">
+        <div class="mr-4 text-2xl font-semibold">
+          Contas
+        </div>
 
-        <SelectInput :disabled="!contasStore.contasLoaded" name="filtroSituacao" label="Situação" initialValue="abertas"
-          @change="onChangeFiltroSituacao">
-          <option value="todas">Todas</option>
-          <option value="abertas">Abertas</option>
-          <option value="pagas">Pagas</option>
-        </SelectInput>
+        <div class="flex flex-wrap gap-x-4 gap-y-2 sm:flex-nowrap sm:ml-auto">
+          <SelectInput name="idCliente" label="Cliente" v-show="clientes.length > 0" @change="onChangeFiltroCliente"
+            initialValue="todos">
+            <option value="todos">Todos</option>
+            <option v-for="cliente in clientes" :value="cliente.idCliente">{{ cliente.nome }}</option>
+          </SelectInput>
+
+          <SelectInput :disabled="!contasStore.contasLoaded" name="filtroSituacao" label="Situação"
+            initialValue="abertas" @change="onChangeFiltroSituacao">
+            <option value="todas">Todas</option>
+            <option value="abertas">Abertas</option>
+            <option value="pagas">Pagas</option>
+          </SelectInput>
+        </div>
       </div>
+
+      <div v-if="!contasStore.contasLoaded" class="flex-1 flex flex-row justify-center items-center">
+        <div class="flex items-center">
+          <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
+          <p class="text-xl text-teal-600">
+            Carregando...
+          </p>
+        </div>
+      </div>
+
+      <template v-else>
+        <div class="flex flex-col justify-center pt-6">
+          <Conta v-for="conta in contasStore.contas" :key="conta.idConta" :conta="conta" />
+        </div>
+
+        <div v-if="!contasStore.contas.length" class="text-xl px-6">
+          Não há nenhuma conta.
+        </div>
+      </template>
     </div>
-
-    <div v-if="!contasStore.contasLoaded" class="flex-1 flex flex-row justify-center items-center">
-      <div class="flex items-center">
-        <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
-        <p class="text-xl text-teal-600">
-          Carregando...
-        </p>
-      </div>
-    </div>
-
-    <template v-else>
-      <div class="flex flex-col justify-center p-6">
-        <Conta v-for="conta in contasStore.contas" :key="conta.idConta" :conta="conta" />
-      </div>
-
-      <div v-if="!contasStore.contas.length" class="text-xl px-6">
-        Não há nenhuma conta.
-      </div>
-    </template>
   </div>
 </template>

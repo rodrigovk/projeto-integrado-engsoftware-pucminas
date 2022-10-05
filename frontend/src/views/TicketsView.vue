@@ -47,47 +47,50 @@ const modals = reactive({
 
 <template>
   <div class="flex flex-col h-full">
-    <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6" :class="{'bg-white': !authStore.user.isAdministrador}">
-      <div class="mr-4 text-2xl font-semibold">
-        Tickets de suporte
-      </div>
-      <div class="flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2 sm:ml-auto">
-        <TextInput :disabled="!ticketsStore.ticketsLoaded" name="filtroAssunto" label="Filtrar por assunto"
-          @change="onChangeFiltroAssunto" class="shrink" />
+    <div class="p-6">
+      <div class="flex flex-col sm:flex-row">
+        <div class="mr-4 text-2xl font-semibold">
+          Tickets de suporte
+        </div>
 
-        <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos"
-          @change="onChangeFiltroSituacao">
-          <option value="todos">Todos</option>
-          <option value="abertos">Abertos</option>
-          <option value="encerrados">Encerrados</option>
-        </SelectInput>
+        <div class="flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2 sm:ml-auto">
+          <TextInput :disabled="!ticketsStore.ticketsLoaded" name="filtroAssunto" label="Filtrar por assunto"
+            @change="onChangeFiltroAssunto" class="shrink" />
+
+          <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação"
+            initialValue="todos" @change="onChangeFiltroSituacao">
+            <option value="todos">Todos</option>
+            <option value="abertos">Abertos</option>
+            <option value="encerrados">Encerrados</option>
+          </SelectInput>
+        </div>
       </div>
+
+      <div v-if="!ticketsStore.ticketsLoaded" class="flex-1 flex flex-row justify-center items-center">
+        <div class="flex items-center">
+          <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
+          <p class="text-xl text-teal-600">
+            Carregando...
+          </p>
+        </div>
+      </div>
+
+      <template v-else>
+        <div class="mb-0 mt-4" v-if="!authStore.user.isAdministrador">
+          <ModalCreateTicket v-if="modals.createTicket" v-model="modals.createTicket" class="p-6" />
+        </div>
+
+        <div class="flex flex-col justify-center pt-6">
+          <TransitionGroup name="ticket">
+            <Ticket v-for="ticket in ticketsStore.tickets" :key="ticket.idTicket" :ticket="ticket" />
+          </TransitionGroup>
+        </div>
+
+        <div v-if="!ticketsStore.tickets.length" class="text-xl px-6">
+          Não há nenhum ticket de suporte.
+        </div>
+      </template>
     </div>
-
-    <div v-if="!ticketsStore.ticketsLoaded" class="flex-1 flex flex-row justify-center items-center">
-      <div class="flex items-center">
-        <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
-        <p class="text-xl text-teal-600">
-          Carregando...
-        </p>
-      </div>
-    </div>
-
-    <template v-else>
-      <div class="mb-0" v-if="!authStore.user.isAdministrador">
-        <ModalCreateTicket v-if="modals.createTicket" v-model="modals.createTicket" />
-      </div>
-
-      <div class="flex flex-col justify-center p-6">
-        <TransitionGroup name="ticket">
-          <Ticket v-for="ticket in ticketsStore.tickets" :key="ticket.idTicket" :ticket="ticket" />
-        </TransitionGroup>
-      </div>
-
-      <div v-if="!ticketsStore.tickets.length" class="text-xl px-6">
-        Não há nenhum ticket de suporte.
-      </div>
-    </template>
   </div>
 </template>
 
