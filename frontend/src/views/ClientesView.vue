@@ -19,12 +19,12 @@
   </script>
   
   <template>
-    <div class="h-full">
+    <div class="flex flex-col h-full">
       <div class="flex items-center text-2xl font-semibold pt-6 pl-6">
         Clientes
       </div>
       
-      <div v-if="!clientesStore.clientesLoaded" class="h-full flex flex-row justify-center items-center">
+      <div v-if="!clientesStore.clientesLoaded" class="flex-1 flex flex-row justify-center items-center">
         <div class="flex items-center">
           <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
           <p class="text-xl text-teal-600">
@@ -45,7 +45,7 @@
             :key="cliente.idCliente" :cliente="cliente" @removerCliente="removerCliente" />
         </div>
   
-        <div v-if="!clientesStore.clientes.length" class="text-xl px-6 py-6">
+        <div v-if="!clientesStore.clientes.length" class="text-xl px-6">
           Não há nenhum cliente.
         </div>
       </template>

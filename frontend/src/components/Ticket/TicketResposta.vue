@@ -1,5 +1,6 @@
 <script setup>
 import Tag from '@/components/layout/Tag.vue';
+import { useDateFormat } from '@vueuse/core';
 
 const props = defineProps({
   resposta: {
@@ -7,6 +8,15 @@ const props = defineProps({
     required: true
   }
 })
+
+const dataCriacaoFormatada = computed(() => {
+  if (!props.resposta) {
+    return '';
+  }
+
+  let formattedDate = useDateFormat(props.resposta.dataCriacao, 'DD/MM/YYYY HH:mm')
+  return formattedDate.value;
+});
 </script>
 
 <template>
@@ -20,6 +30,9 @@ const props = defineProps({
         Cliente
       </Tag>
     </h5>
+    <p class="text-sm">
+      {{ dataCriacaoFormatada }}
+    </p>
     <p class="text-gray-700 text-base break-words">
       {{ resposta.mensagem }}
     </p>

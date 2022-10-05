@@ -120,7 +120,7 @@ const dataProximoVencimentoFormatada = computed(() => {
         Valor: {{ vueNumberFormat(assinatura.valor, {}) }}
       </p>
 
-      <div class="flex-row md:flex">
+      <div class="flex md:flex-row flex-col">
         <p class="text-base break-words mb-1 md:mb-0 md:mr-4">
           Data vencimento: {{ dataVencimentoFormatada }}
         </p>

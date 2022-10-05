@@ -193,13 +193,13 @@ function gerarContasAssinatura() {
 </script>
   
 <template>
-  <div>
-    <div class="h-full">
+  <div class="h-full">
+    <div class="flex flex-col h-full">
       <div class="flex items-center text-2xl font-semibold pt-6 pl-6">
         Assinaturas
       </div>
 
-      <div v-if="!assinaturasStore.assinaturasLoaded" class="h-full flex flex-row justify-center items-center">
+      <div v-if="!assinaturasStore.assinaturasLoaded" class="flex-1 flex flex-row justify-center items-center">
         <div class="flex items-center">
           <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
           <p class="text-xl text-teal-600">
@@ -227,8 +227,8 @@ function gerarContasAssinatura() {
             :assinatura="assinatura" @removerAssinatura="removerAssinatura" />
         </div>
 
-        <div v-if="!assinaturasStore.assinaturas.length" class="text-xl px-6 py-6">
-          Não há nenhum assinatura.
+        <div v-if="!assinaturasStore.assinaturas.length" class="text-xl px-6">
+          Não há nenhuma assinatura.
         </div>
       </template>
     </div>

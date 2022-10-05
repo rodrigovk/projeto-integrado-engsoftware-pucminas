@@ -58,7 +58,7 @@ async function onChangeFiltroSituacao(event) {
 </script>
     
 <template>
-  <div class="h-full">
+  <div class="flex flex-col h-full">
     <div class="flex flex-col sm:flex-row pt-6 pl-6 pr-6">
       <div class="mr-4 text-2xl font-semibold">
         Contas
@@ -79,7 +79,7 @@ async function onChangeFiltroSituacao(event) {
       </div>
     </div>
 
-    <div v-if="!contasStore.contasLoaded" class="h-full flex flex-row justify-center items-center">
+    <div v-if="!contasStore.contasLoaded" class="flex-1 flex flex-row justify-center items-center">
       <div class="flex items-center">
         <SpinLoading :height="8" :width="8" color="text-teal-600" class="mr-3" />
         <p class="text-xl text-teal-600">
@@ -93,8 +93,8 @@ async function onChangeFiltroSituacao(event) {
         <Conta v-for="conta in contasStore.contas" :key="conta.idConta" :conta="conta" />
       </div>
 
-      <div v-if="!contasStore.contas.length" class="text-xl px-6 py-6">
-        Não há nenhum conta.
+      <div v-if="!contasStore.contas.length" class="text-xl px-6">
+        Não há nenhuma conta.
       </div>
     </template>
   </div>
