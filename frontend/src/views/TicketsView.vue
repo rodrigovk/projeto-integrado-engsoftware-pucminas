@@ -51,9 +51,9 @@ const modals = reactive({
       <div class="mr-4 text-2xl font-semibold">
         Tickets de suporte
       </div>
-      <div class="flex sm:ml-auto">
+      <div class="flex flex-wrap sm:flex-nowrap gap-x-4 gap-y-2 sm:ml-auto">
         <TextInput :disabled="!ticketsStore.ticketsLoaded" name="filtroAssunto" label="Filtrar por assunto"
-          @change="onChangeFiltroAssunto" class="mr-4" />
+          @change="onChangeFiltroAssunto" class="shrink" />
 
         <SelectInput :disabled="!ticketsStore.ticketsLoaded" name="filtroSituacao" label="Situação" initialValue="todos"
           @change="onChangeFiltroSituacao">

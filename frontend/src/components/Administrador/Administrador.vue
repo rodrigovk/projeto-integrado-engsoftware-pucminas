@@ -81,26 +81,26 @@ const excluir = () => {
       {{ administrador.usuario.email }}
     </p>
 
-    <div class="flex">
+    <div class="flex flex-wrap gap-2">
       <RouterLink :to="{
         name: 'administrador',
         params: {
           id: administrador.idAdministrador
         }
       }" class="card-footer-item">
-        <Button class="mr-2">
+        <Button>
           Visualizar
         </Button>
       </RouterLink>
 
-      <Button customColor="green" v-if="administrador.situacao === 0" @click="ativar" class="mr-2">
+      <Button customColor="green" v-if="administrador.situacao === 0" @click="ativar">
         <div class="flex items-center">
           <SpinLoading v-show="isAtivando" class="mr-3" />
           Ativar
         </div>
       </Button>
 
-      <Button v-if="administrador.situacao === 1" customColor="orange" @click="inativar" class="mr-2">
+      <Button v-if="administrador.situacao === 1" customColor="orange" @click="inativar">
         <div class="flex items-center">
           <SpinLoading v-show="isInativando" class="mr-3" />
           Inativar
@@ -108,7 +108,7 @@ const excluir = () => {
       </Button>
 
       <!-- @click="excluir" -->
-      <Button customColor="red" @click="toggleModal" class="ml-auto">
+      <Button customColor="red" @click="toggleModal" class="sm:ml-auto">
         <div class="flex items-center">
           <SpinLoading v-show="isExcluindo" class="mr-3" />
           Excluir

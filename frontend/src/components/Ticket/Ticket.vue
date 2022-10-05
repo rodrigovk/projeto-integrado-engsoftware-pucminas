@@ -63,18 +63,18 @@ const reabrir = () => {
       {{ dataCriacaoFormatada }}
     </p>
 
-    <p class="text-gray-700 text-base break-words mb-4">
+    <p class="text-gray-700 text-base break-words">
       {{ ticket.descricao }}
     </p>
 
-    <div class="flex">
+    <div class="flex flex-wrap gap-2 mt-2">
       <RouterLink :to="{
         name: 'ticket',
         params: {
           id: ticket.idTicket
         }
       }" class="card-footer-item">
-        <Button class="mr-2">
+        <Button>
           Visualizar
         </Button>
       </RouterLink>

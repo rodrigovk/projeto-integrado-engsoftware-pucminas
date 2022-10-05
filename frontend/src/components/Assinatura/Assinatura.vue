@@ -130,33 +130,33 @@ const dataProximoVencimentoFormatada = computed(() => {
       </div>
     </div>
 
-    <div v-show="authStore.user.isAdministrador" class="flex flex-wrap mt-2">
+    <div v-show="authStore.user.isAdministrador" class="flex flex-wrap mt-2 gap-2">
       <RouterLink :to="{
         name: 'assinatura',
         params: {
           id: assinatura.idAssinatura
         }
-      }" class="mr-2">
+      }">
         <Button>
           Editar
         </Button>
       </RouterLink>
 
-      <Button v-if="assinatura.situacao === 1" customColor="teal" @click="toggleGerarContaModal" class="mr-2">
+      <Button v-if="assinatura.situacao === 1" customColor="teal" @click="toggleGerarContaModal">
         <div class="flex items-center">
           <SpinLoading v-show="isGerandoConta" class="mr-3" />
           Gerar conta
         </div>
       </Button>
 
-      <Button customColor="green" v-if="assinatura.situacao === 0" @click="ativar" class="mr-2">
+      <Button customColor="green" v-if="assinatura.situacao === 0" @click="ativar">
         <div class="flex items-center">
           <SpinLoading v-show="isAtivando" class="mr-3" />
           Ativar
         </div>
       </Button>
 
-      <Button v-if="assinatura.situacao === 1" customColor="orange" @click="inativar" class="mr-2">
+      <Button v-if="assinatura.situacao === 1" customColor="orange" @click="inativar">
         <div class="flex items-center">
           <SpinLoading v-show="isInativando" class="mr-3" />
           Inativar

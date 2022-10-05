@@ -209,9 +209,9 @@ function gerarContasAssinatura() {
       </div>
 
       <template v-else>
-        <div class="mt-2 ml-6" v-show="authStore.user.isAdministrador">
+        <div class="flex flex-wrap gap-2 mt-2 ml-6" v-show="authStore.user.isAdministrador">
           <RouterLink :to="{ name: 'assinatura_novo' }">
-            <Button class="mr-2">
+            <Button>
               Criar assinatura
             </Button>
           </RouterLink>

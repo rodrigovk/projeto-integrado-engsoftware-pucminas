@@ -63,15 +63,15 @@ async function onChangeFiltroSituacao(event) {
       <div class="mr-4 text-2xl font-semibold">
         Contas
       </div>
-      <div class="flex sm:ml-auto">
+      <div class="flex flex-wrap sm:flex-nowrap sm:ml-auto">
         <SelectInput name="idCliente" label="Cliente" v-show="clientes.length > 0" @change="onChangeFiltroCliente"
-          initialValue="todos" class="mb-2">
+          initialValue="todos" class="mb-2 mr-4">
           <option value="todos">Todos</option>
           <option v-for="cliente in clientes" :value="cliente.idCliente">{{ cliente.nome }}</option>
         </SelectInput>
 
         <SelectInput :disabled="!contasStore.contasLoaded" name="filtroSituacao" label="Situação" initialValue="abertas"
-          @change="onChangeFiltroSituacao" class="ml-4">
+          @change="onChangeFiltroSituacao">
           <option value="todas">Todas</option>
           <option value="abertas">Abertas</option>
           <option value="pagas">Pagas</option>
