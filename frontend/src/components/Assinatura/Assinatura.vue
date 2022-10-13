@@ -50,7 +50,13 @@ const isExcluindo = ref(false);
 const excluir = () => {
   isExcluindo.value = true;
   assinaturasStore.deleteAssinatura(props.assinatura.idAssinatura)
-    .then(data => emit('removerAssinatura', props.assinatura.idAssinatura))
+    .then(data => {
+      emit('removerAssinatura', props.assinatura.idAssinatura);
+      notify({
+        group: 'ok',
+        title: 'Assinatura excluída com sucesso',
+      })
+    })
     .catch(error => notify({
       group: 'error',
       title: error.message || error,
@@ -73,7 +79,7 @@ const gerarConta = () => {
     .then(response => {
       notify({
         group: 'ok',
-        title: 'Conta gerada com sucesso.',
+        title: 'Conta gerada com sucesso',
       });
       assinaturasStore.init();
     })

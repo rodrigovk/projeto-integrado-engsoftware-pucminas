@@ -96,7 +96,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       .then(response => {
         notify({
           group: 'ok',
-          title: 'Administrador criado com sucesso.',
+          title: 'Administrador criado com sucesso',
         });
         router.push(`/administradores/${response.data.idAdministrador}`);
       })
@@ -107,7 +107,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       .then(data => {
         notify({
           group: 'ok',
-          title: 'Administrador alterado com sucesso.',
+          title: 'Administrador alterado com sucesso',
         })
       })
       .catch(error => setErrors({ apiError: error }))

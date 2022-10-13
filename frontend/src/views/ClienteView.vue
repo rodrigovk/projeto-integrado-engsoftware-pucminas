@@ -100,7 +100,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       .then(response => {
         notify({
           group: 'ok',
-          title: 'Cliente criado com sucesso.',
+          title: 'Cliente criado com sucesso',
         });
         router.push(`/clientes/${response.data.idCliente}`);
       })
@@ -111,7 +111,7 @@ function onSubmit(values, { setFieldError, setErrors, resetForm }) {
       .then(data => {
         notify({
           group: 'ok',
-          title: 'Cliente alterado com sucesso.',
+          title: 'Cliente alterado com sucesso',
         })
       })
       .catch(error => setErrors({ apiError: error }))

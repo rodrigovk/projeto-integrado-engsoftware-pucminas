@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { useDateFormat } from '@vueuse/core';
 import { useAuthStore, useTicketsStore } from '@/stores';
+import { notify } from 'notiwind';
 import Button from '@/components/layout/Button.vue';
 import Tag from '@/components/layout/Tag.vue';
 import SpinLoading from '../Layout/SpinLoading.vue';
@@ -79,7 +80,8 @@ const reabrir = () => {
         </Button>
       </RouterLink>
 
-      <Button customColor="green" v-if="ticket.situacao === 0 && authStore.user.isAdministrador" @click="encerrar">
+      <!--  && authStore.user.isAdministrador -->
+      <Button customColor="green" v-if="ticket.situacao === 0" @click="encerrar">
         <div class="flex items-center">
           <SpinLoading v-show="isEncerrando" class="mr-3" />
           Encerrar

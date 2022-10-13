@@ -1,11 +1,12 @@
 <script setup>
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useAuthStore, useUsuariosStore } from '@/stores';
 import HomeChart from '@/components/HomeChart.vue'
 import HomeInfo from '@/components/layout/HomeInfo.vue';
 import AssinaturaIcon from '@/Components/Icons/AssinaturaIcon.vue';
 import ContaReceberIcon from '@/Components/Icons/ContaReceberIcon.vue';
 import TicketIcon from '@/Components/Icons/TicketIcon.vue';
+import { teal } from 'tailwindcss/colors';
 
 const emit = defineEmits(['closeMenu']);
 const authStore = useAuthStore();
@@ -18,7 +19,7 @@ const chartData = {
   datasets: [
     {
       label: 'Tickets respondidos',
-      backgroundColor: '#0ea5e9',
+      backgroundColor: teal[500],
       data: [],
     }
   ]

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useClientesStore } from '@/stores';
+import { notify } from 'notiwind';
 import Button from '@/components/layout/Button.vue';
 import Tag from '@/components/layout/Tag.vue';
 import SpinLoading from '../Layout/SpinLoading.vue';

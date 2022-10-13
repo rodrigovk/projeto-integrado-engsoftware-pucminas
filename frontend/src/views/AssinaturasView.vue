@@ -137,7 +137,7 @@ function gravarAssinatura(values, { setFieldError, setErrors, resetForm }) {
       .then(response => {
         notify({
           group: 'ok',
-          title: 'Assinatura criada com sucesso.',
+          title: 'Assinatura criada com sucesso',
         });
         assinaturasStore.init();
         router.push(`/assinaturas/${response.data.idAssinatura}`);
@@ -149,7 +149,7 @@ function gravarAssinatura(values, { setFieldError, setErrors, resetForm }) {
       .then(data => {
         notify({
           group: 'ok',
-          title: 'Assinatura alterada com sucesso.',
+          title: 'Assinatura alterada com sucesso',
         });
         assinaturasStore.init();
       })
@@ -170,13 +170,13 @@ function gerarContasAssinatura() {
       if (response.data.length > 0) {
         notify({
           group: 'ok',
-          title: 'Contas geradas com sucesso.',
+          title: 'Contas geradas com sucesso',
         });
         assinaturasStore.init();
       } else {
         notify({
           group: 'info',
-          title: 'Nenhuma assinatura está próxima do vencimento.',
+          title: 'Nenhuma assinatura está próxima do vencimento',
         });
       }
     })
