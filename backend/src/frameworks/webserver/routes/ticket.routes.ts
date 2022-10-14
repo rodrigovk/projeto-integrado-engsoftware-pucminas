@@ -1,16 +1,20 @@
 import { Router } from "express";
-import { findTicketByIdTicketController, findManyTicketController, findManyTicketByIdClienteController, createTicketController, alterTicketSituacaoController,
-  createTicketRespostaController, } from "@controllers/ticket";
+import basicAuth from "@frameworks/webserver/middlewares/basicAuth";
+import {
+  findTicketByIdTicketController, findManyTicketController, createTicketController, alterTicketSituacaoController,
+  createTicketRespostaController,
+} from "@controllers/ticket";
 
 const router = Router();
 
-router.get("/clientes/:id/tickets", (request, response) => { return findManyTicketByIdClienteController.handle(request, response) }); //?
-router.get("/tickets", (request, response) => { return findManyTicketController.handle(request, response) });
-router.get("/tickets/:id", (request, response) => { return findTicketByIdTicketController.handle(request, response) });
-router.post("/tickets", (request, response) => { return createTicketController.handle(request, response) });
-router.put("/tickets/:id/situacao", (request, response) => { return alterTicketSituacaoController.handle(request, response) });
+router
+  .get("/tickets", basicAuth(false), (request, response) => { return findManyTicketController.handle(request, response) })
+  .get("/tickets/:id", basicAuth(false), (request, response) => { return findTicketByIdTicketController.handle(request, response) })
+  .post("/tickets", basicAuth(false), (request, response) => { return createTicketController.handle(request, response) })
+  .put("/tickets/:id/situacao", basicAuth(false), (request, response) => { return alterTicketSituacaoController.handle(request, response) });
 
 // resposta
-router.post("/tickets/:id/respostas", (request, response) => { return createTicketRespostaController.handle(request, response) });
+router
+  .post("/tickets/:id/respostas", (request, response) => { return createTicketRespostaController.handle(request, response) });
 
 export default router;

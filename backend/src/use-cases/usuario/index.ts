@@ -1,8 +1,12 @@
-import { ValidateUsuarioUseCase } from "./validate-usuario.use-case";
-import { FindUsuarioByIdUsuarioUseCase } from "./find-usuario.use-case";
-import { FindManyUsuarioByIdUsuarioUseCase } from "./find-many-usuario.use-case";
-import { CreateUsuarioUseCase } from "./create-usuario.use-case";
-import { DeleteUsuarioUseCase } from "./delete-usuario.use-case";
-import { CheckUsuarioIsAdministradorUseCase } from "./check-usuario-is-administrador.use-case";
+import { ValidateUsuarioCreateUseCase } from "./validateUsuarioCreate.useCase";
+import { FindUsuarioByIdUsuarioUseCase } from "./findUsuario.useCase";
+import { FindManyUsuarioUseCase } from "./findManyUsuario.useCase";
+import { CreateUsuarioUseCase } from "./createUsuario.useCase";
+import { AlterUsuarioUseCase } from "./alterUsuario.useCase";
+import { DeleteUsuarioUseCase } from "./deleteUsuario.useCase";
+import { CheckUsuarioIsAdministradorUseCase } from "./checkUsuarioIsAdministrador.useCase";
 
-export { ValidateUsuarioUseCase, FindUsuarioByIdUsuarioUseCase, FindManyUsuarioByIdUsuarioUseCase, CreateUsuarioUseCase, DeleteUsuarioUseCase, CheckUsuarioIsAdministradorUseCase };
+export {
+  ValidateUsuarioCreateUseCase, FindUsuarioByIdUsuarioUseCase, FindManyUsuarioUseCase,
+  CreateUsuarioUseCase, AlterUsuarioUseCase, DeleteUsuarioUseCase, CheckUsuarioIsAdministradorUseCase
+};

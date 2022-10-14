@@ -1,3 +1,3 @@
-import { SendEmailUseCase } from "./send-email.use-case";
+import { SendEmailUseCase } from "./sendEmail.useCase";
 
 export { SendEmailUseCase }

@@ -4,16 +4,18 @@ import usuario from "./usuario.routes";
 import administrador from "./administrador.routes";
 import cliente from "./cliente.routes";
 import ticket from "./ticket.routes";
+import assinatura from "./assinatura.routes";
+import conta from "./conta.routes";
 
 const router = express.Router();
 
-router.use(auth);
+router
+  .use(auth)
+  .use(usuario)
+  .use(administrador)
+  .use(cliente)
+  .use(ticket)
+  .use(assinatura)
+  .use(conta);
 
-const routerAuth = express.Router();
-
-routerAuth.use(usuario);
-routerAuth.use(administrador);
-routerAuth.use(cliente);
-routerAuth.use(ticket);
-
-export { router, routerAuth };
+export { router };

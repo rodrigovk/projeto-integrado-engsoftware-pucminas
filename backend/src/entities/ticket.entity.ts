@@ -5,4 +5,9 @@ enum TicketSituacao {
   encerrado = 1,
 }
 
-export { Ticket, TicketResposta, TicketSituacao };
+type TicketRespostaCountByData = {
+  count: number
+  data: Date
+}
+
+export { Ticket, TicketResposta, TicketSituacao, TicketRespostaCountByData };

@@ -67,6 +67,7 @@ model TicketResposta {
   idCliente       Int?           @map("id_cliente")
   cliente         Cliente?       @relation(fields: [idCliente], references: [idCliente])
   mensagem        String
+  dataCriacao     DateTime       @default(now()) @map("data_criacao")
 
   @@id([idTicket, idResposta])
   @@map("ticket_resposta")
@@ -76,6 +77,7 @@ model Assinatura {
   idAssinatura          Int      @id @default(autoincrement()) @map("id_assinatura")
   idCliente             Int      @map("id_cliente")
   cliente               Cliente  @relation(fields: [idCliente], references: [idCliente])
+  contas                Conta[]
   situacao              Int
   descricao             String
   dataVencimento        DateTime @map("data_vencimento")
@@ -89,9 +91,11 @@ model Conta {
   idConta        Int      @id @default(autoincrement()) @map("id_conta")
   idCliente      Int      @map("id_cliente")
   cliente        Cliente  @relation(fields: [idCliente], references: [idCliente])
+  idAssinatura   Int @map("id_assinatura")
+  assinatura     Assinatura @relation(fields: [idAssinatura], references: [idAssinatura])
   situacao       Int
   dataVencimento DateTime @map("data_vencimento")
-  dataPagamento  DateTime @map("data_pagamento")
+  dataPagamento  DateTime? @map("data_pagamento")
   valor          Decimal
 
   @@map("conta")

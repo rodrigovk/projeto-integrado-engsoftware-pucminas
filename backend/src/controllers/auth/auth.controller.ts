@@ -1,22 +1,27 @@
 import { Request, Response } from "express";
-import validateRequestBodyJson from "@frameworks/webserver/validate-request-body-json";
-import { Usuario } from "@prisma/client";
+import validateRequestBodyJson from "@frameworks/webserver/validateRequestBodyJson";
+import { UsuarioCompleto } from "@entities";
 import { AuthUseCase } from "@use-cases/auth";
-//import { CheckUsuarioIsAdministradorUseCase } from "@use-cases/usuario";
-import { FindAdministradorByIdUsuarioUseCase } from "@use-cases/administrador/find-administrador-id-usuario.use-case";
-import { FindClienteByIdUsuarioUseCase } from "@use-cases/cliente/find-cliente-id-usuario.use-case";
-import { InternalServerErrorException } from "@shared/exceptions/http-exception";
+import { FindAdministradorByIdUsuarioUseCase } from "@use-cases/administrador/findAdministradorIdUsuario.useCase";
+import { FindClienteByIdUsuarioUseCase } from "@use-cases/cliente/findClienteIdUsuario.useCase";
+import { InternalServerErrorException, ForbiddenException } from "@shared/exceptions/httpException";
 
 export class AuthController {
   constructor(
     private authUseCase: AuthUseCase,
-    //private checkUsuarioIsAdministradorUseCase: CheckUsuarioIsAdministradorUseCase,
     private findAdministradorByIdUsuarioUseCase: FindAdministradorByIdUsuarioUseCase,
     private findClienteByIdUsuarioUseCase: FindClienteByIdUsuarioUseCase,
   ) { }
 
-  async executeUseCase(email: string, senha: string): Promise<Usuario> {
+  async executeUseCase(email: string, senha: string): Promise<UsuarioCompleto> {
     return await this.authUseCase.execute(email, senha);
+  }
+
+  async executeUseCaseAdmin(email: string, senha: string): Promise<UsuarioCompleto> {
+    const usuario = await this.authUseCase.execute(email, senha);
+    if (!usuario.administrador)
+      throw new ForbiddenException("Usuário não é administrador");
+    return usuario;
   }
 
   async handle(request: Request, response: Response): Promise<Response> {
@@ -25,9 +30,8 @@ export class AuthController {
 
     const usuario = await this.executeUseCase(credenciais.email, credenciais.senha);
 
-    //const isAdministrador = await this.checkUsuarioIsAdministradorUseCase.execute(usuario.idUsuario);
     const administrador = await this.findAdministradorByIdUsuarioUseCase.execute(usuario.idUsuario);
-    const isAdministrador = (!!administrador);
+    const isAdministrador = !!administrador;
     let idAdministrador = null;
     let idCliente = null;
     let nome = null;

@@ -1,7 +1,7 @@
 import { Prisma, prismaClient } from "@frameworks/database/prisma/client";
-import { Usuario } from "@entities";
+import { Usuario, UsuarioCompleto, UsuarioCreate, UsuarioAlter } from "@entities";
 import { IUsuarioRepository } from "../usuario.repository";
-import { BadRequestException } from "@shared/exceptions/http-exception";
+import { BadRequestException } from "@shared/exceptions/httpException";
 
 export class PrismaUsuarioRepository implements IUsuarioRepository { 
 
@@ -21,12 +21,43 @@ export class PrismaUsuarioRepository implements IUsuarioRepository {
     })
   }
 
-  async findMany(): Promise<Usuario[]> {
-    return await prismaClient.usuario.findMany({});
+  async findCompletoByEmail(email: string): Promise<UsuarioCompleto | null> {
+    return await prismaClient.usuario.findFirst({
+      include: {
+        administrador: true,
+        cliente: true,
+      },
+      where: {
+        email
+      }
+    })
   }
 
-  async create(usuario: Usuario): Promise<Usuario> {
-    return await prismaClient.usuario.create({ data: usuario });
+  async findMany(): Promise<Usuario[]> {
+    return await prismaClient.usuario.findMany({
+      orderBy: {
+        email: "asc",
+      }
+    });
+  }
+
+  async create(usuario: UsuarioCreate): Promise<Usuario> {
+    return await prismaClient.usuario.create({ data: {
+      email: usuario.email,
+      senha: usuario.senha,
+    } });
+  }
+
+  async alter(usuario: UsuarioAlter): Promise<Usuario> {
+    return await prismaClient.usuario.update({
+      where: {
+        idUsuario: usuario.idUsuario,
+      },
+      data: {
+        email: usuario.email ? usuario.email : undefined,
+        senha: usuario.senha ? usuario.senha : undefined,
+      }
+    })
   }
 
   async delete(idUsuario: number): Promise<void> {

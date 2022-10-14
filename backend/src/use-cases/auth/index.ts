@@ -1,3 +1,3 @@
-import { AuthUseCase } from "./auth.use-case";
+import { AuthUseCase } from "./auth.useCase";
 
 export { AuthUseCase };

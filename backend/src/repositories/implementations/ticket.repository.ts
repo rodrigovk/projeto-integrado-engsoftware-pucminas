@@ -1,7 +1,8 @@
 import { Prisma, prismaClient } from "@frameworks/database/prisma/client";
 import { Ticket, TicketResposta, TicketSituacao } from "@entities";
 import { ITicketRepository } from "../ticket.repository";
-import { BadRequestException } from "@shared/exceptions/http-exception";
+import { BadRequestException } from "@shared/exceptions/httpException";
+import { TicketRespostaCountByData } from "@entities/ticket.entity";
 
 export class PrismaTicketRepository implements ITicketRepository {
 
@@ -34,23 +35,47 @@ export class PrismaTicketRepository implements ITicketRepository {
     });
   }
 
-  async findManyByIdCliente(idCliente: number): Promise<Ticket[]> {
+  async findManyByIdCliente(idCliente: number, situacao: TicketSituacao | null): Promise<Ticket[]> {
+    const where: Prisma.TicketWhereInput = {
+      idCliente,
+    };
+    if (situacao != null)
+      where.situacao = situacao;
+
     return await prismaClient.ticket.findMany({
-      where: {
-        idCliente
-      },
+      where: where,
       orderBy: {
         dataCriacao: 'desc',
       }
     });
   }
 
-  async findMany(): Promise<Ticket[]> {
+  async findMany(idCliente: number, situacao: TicketSituacao | null, assuntoContem: string | null): Promise<Ticket[]> {
+    let where: Prisma.TicketWhereInput;
+    //if (situacao != null)
+    where = {
+      idCliente: idCliente || undefined,
+      situacao: situacao != null ? situacao : undefined,
+      assunto: {
+        contains: assuntoContem || undefined,
+        mode: 'insensitive',
+      }
+    };
+
     return await prismaClient.ticket.findMany({
+      where: where,
       orderBy: {
         dataCriacao: 'desc',
       }
     });
+  }
+
+  async findCountByIdCliente(idCliente: number): Promise<number> {
+    return await prismaClient.ticket.count({
+      where: {
+        idCliente,
+      }
+    })
   }
 
   async findCountAguardandoResposta(): Promise<number> {
@@ -145,6 +170,20 @@ export class PrismaTicketRepository implements ITicketRepository {
     return count;
   }
 
+  async findCountRespondidoByDate(): Promise<TicketRespostaCountByData[]> {
+    let data = new Date();
+    data.setUTCDate(data.getUTCDate() - 15);
+
+    const resultado: TicketRespostaCountByData[] = await prismaClient.$queryRaw`
+      SELECT COUNT(*)::int, "ticket_resposta"."data_criacao"::date as "data" 
+      FROM "ticket_resposta" 
+      WHERE "ticket_resposta"."id_administrador" IS NOT NULL AND "ticket_resposta"."data_criacao" >= ${data}
+      GROUP BY "ticket_resposta"."data_criacao"::date 
+      ORDER BY "ticket_resposta"."data_criacao"::date ASC`
+
+    return resultado;
+  }
+
   async create(ticket: Ticket): Promise<Ticket> {
     return await prismaClient.ticket.create({ data: ticket });
   }
@@ -200,6 +239,22 @@ export class PrismaTicketRepository implements ITicketRepository {
         }
       }
     });
+  }
+
+  async findCountRespostaByIdCliente(idCliente: number): Promise<number> {
+    return await prismaClient.ticketResposta.count({
+      where: {
+        idCliente,
+      }
+    })
+  }
+
+  async findCountRespostaByIdAdministrador(idAdministrador: number): Promise<number> {
+    return await prismaClient.ticketResposta.count({
+      where: {
+        idAdministrador,
+      }
+    })
   }
 
   async createResposta(ticketResposta: TicketResposta): Promise<TicketResposta> {
